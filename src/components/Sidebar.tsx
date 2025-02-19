@@ -15,27 +15,122 @@ interface Categories {
 
 const categories: Categories = {
   main: [
-    { name: "Introduction", active: true },
-    { name: "T-shirt", highlight: true },
-    { name: "Demographics", color: "text-blue-400" },
-    { name: "Features", color: "text-pink-400" },
+    {
+      name: "Introduction",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Purpose" },
+        { name: "Scope" },
+        { name: "Background" }
+      ]
+    },
+    {
+      name: "T-shirt",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Design" },
+        { name: "Materials" },
+        { name: "Sizing" }
+      ]
+    },
+    {
+      name: "Demographics",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Age Groups" },
+        { name: "Gender" },
+        { name: "Location" }
+      ]
+    },
+    {
+      name: "Features",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Comfort" },
+        { name: "Durability" },
+        { name: "Style" }
+      ]
+    },
     {
       name: "Libraries",
-      color: "text-blue-400",
-      subItems: [{ name: "React" }, { name: "Vue" }, { name: "Angular" }],
+      color: "text-pink-400",
+      subItems: [
+        { name: "React" },
+        { name: "Vue" },
+        { name: "Angular" }
+      ]
     },
-    { name: "Other Tools", color: "text-blue-400" },
-    { name: "Usage", color: "text-blue-400" },
-    { name: "Resources", color: "text-blue-400" },
-    { name: "Awards", color: "text-blue-400" },
-    { name: "Conclusion", color: "text-blue-400" },
-    { name: "Metadata", color: "text-blue-400" },
-    { name: "About", color: "text-blue-400" },
+    {
+      name: "Other Tools",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Version Control" },
+        { name: "Build Tools" },
+        { name: "Testing Frameworks" }
+      ]
+    },
+    {
+      name: "Usage",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Installation" },
+        { name: "Configuration" },
+        { name: "Best Practices" }
+      ]
+    },
+    {
+      name: "Resources",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Documentation" },
+        { name: "Tutorials" },
+        { name: "Community" }
+      ]
+    },
+    {
+      name: "Awards",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Industry Recognition" },
+        { name: "User Choice" },
+        { name: "Innovation" }
+      ]
+    },
+    {
+      name: "Conclusion",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Summary" },
+        { name: "Future Directions" },
+        { name: "Call to Action" }
+      ]
+    },
+    {
+      name: "Metadata",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Version" },
+        { name: "Last Updated" },
+        { name: "Contributors" }
+      ]
+    },
+    {
+      name: "About",
+      color: "text-pink-400",
+      subItems: [
+        { name: "Company" },
+        { name: "Team" },
+        { name: "Contact" }
+      ]
+    },
   ],
 };
 
+
 const Sidebar = () => {
-  const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
+  const [expandedCategories, setExpandedCategories] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const toggleCategory = (category: string) => {
     setExpandedCategories((prev) => ({
@@ -45,36 +140,52 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="sidebar w-64 h-screen border-r border-dashed border-gray-700 flex flex-col fixed top-0 left-0 z-20 bg-neutral-900 sm:w-48 md:w-64">
-      <div className="sidebar p-5 border-b border-dashed border-gray-700">
-      <div className="text-xl text-center font-light tracking-wider">zerg.dev</div>
+    <aside className="h-screen w-64 border-r border-dashed border-white-700 bg-neutral-900 flex flex-col">
+      {/* Sidebar Header */}
+      <div className="sidebar-header flex items-center justify-center h-20 px-6 border-b border-dashed border-white-700 flex-shrink-0">
+        <div className="text-xl font-light tracking-wider">title</div>
       </div>
+      {/* Sidebar Content */}
 
-      <nav className="sidebar p-4 pt-6 space-y-3 overflow-y-auto text-sm sm:text-xs md:text-sm">
-        {categories.main.map((item) => (
-          <div key={item.name}>
-            <button
-              className="flex items-center justify-between w-full text-gray-300 hover:text-white"
-              onClick={() => item.subItems && toggleCategory(item.name)}
+      <nav className="flex-grow overflow-y-auto p-4 pt-6 space-y-3 text-sm sm:text-xs md:text-sm">
+  {categories.main.map((item) => (
+    <div key={item.name}>
+      <div
+        className={`flex items-center justify-between w-full cursor-pointer
+                    ${item.active 
+                      ? 'text-white bg-neutral-800' 
+                      : 'text-gray-300 hover:text-white hover:bg-neutral-800'}
+                    transition-colors duration-200 ease-in-out rounded px-2 py-1`}
+        onClick={() => item.subItems && toggleCategory(item.name)}
+      >
+        <span className={`text-sm sm:text-xs md:text-sm ${item.color || ''}`}>
+          {item.name}
+        </span>
+        {item.subItems && (
+          expandedCategories[item.name] ? <ChevronDown size={16} /> : <ChevronRight size={16} />
+        )}
+      </div>
+      {item.subItems && expandedCategories[item.name] && (
+        <div className="ml-4 mt-2 space-y-2">
+          {item.subItems.map((subItem) => (
+            <div
+              key={subItem.name}
+              className="cursor-pointer text-gray-400 hover:text-white hover:bg-neutral-800
+                         transition-colors duration-200 ease-in-out rounded px-2 py-1
+                         text-sm sm:text-xs md:text-sm"
             >
-              <span className="text-sm sm:text-xs md:text-sm">{item.name}</span>
-              {item.subItems &&
-                (expandedCategories[item.name] ? <ChevronDown size={16} /> : <ChevronRight size={16} />)}
-            </button>
-            {item.subItems && expandedCategories[item.name] && (
-              <div className="ml-4 space-y-2">
-                {item.subItems.map((subItem) => (
-                  <div key={subItem.name} className="cursor-pointer text-gray-400 hover:text-white text-sm sm:text-xs md:text-sm">
-                    {subItem.name}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </nav>
+              {subItem.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+</nav>
 
-      <div className="p-3.5 border-t border-dashed border-gray-700 mt-auto">
+
+      {/* Sidebar Footer */}
+      <div className="sidebar-footer flex items-center justify-start h-20 px-6 border-t border-dashed border-white-700 flex-shrink-0">
         <button className="text-gray-400 hover:text-white">
           <Mail size={20} />
         </button>

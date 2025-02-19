@@ -7,8 +7,8 @@ const Header: React.FC<{ language: string; setLanguage: (lang: string) => void }
   const [showLanguages, setShowLanguages] = useState(false);
 
   return (
-    <header className="border-b border-dashed border-gray-700 flex justify-between items-center px-6 py-3 w-full z-10">
-      <div className="text-xl font-light tracking-wider"></div>
+<header className="border-b border-dashed border-white-700 flex justify-between items-center px-6 h-20 w-full z-10">
+  <div className="text-xl font-light tracking-wider"></div>
       <div className="relative">
         <button
           onClick={() => setShowLanguages(!showLanguages)}
