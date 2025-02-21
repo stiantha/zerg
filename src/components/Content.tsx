@@ -1,5 +1,3 @@
-import zergLogo from "../assets/image.png";
-
 const MainContent = () => {
   return (
     <main className="p-4 md:p-12">
@@ -9,13 +7,13 @@ const MainContent = () => {
             {/*               <div className="w-30 h-30 bg-pink-500 rotate-15 opacity-90"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-white text-4xl font-mono">____</div> */}
-            <div className="zergs-coding w-100 h-100 flex-shrink-0 overflow-hidden">
+{/*             <div className="zergs-coding w-100 h-100 flex-shrink-0 overflow-hidden">
               <img
                 src={zergLogo}
                 alt="Zerg Dev Logo"
                 className="w-full h-full object-cover"
               />
-            </div>
+            </div> */}
           </div>
         </div>
 

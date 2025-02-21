@@ -7,7 +7,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: 	#202427;
+  background-color: 	#1d2429;
+/*   background-color: 	#202427; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -45,7 +46,6 @@ h1 {
 }
 
 button {
-  border: 1px dashed rgb(255, 255, 255);
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
