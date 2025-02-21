@@ -140,11 +140,14 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="h-screen w-64 border-r border-dashed border-white-700 bg-neutral-900 flex flex-col">
-      {/* Sidebar Header */}
-      <div className="sidebar-header flex items-center justify-center h-20 px-6 border-b border-dashed border-white-700 flex-shrink-0">
-        <div className="text-xl font-light tracking-wider">title</div>
-      </div>
+    <aside className="h-screen w-64 border-r border-dashed border-white-700 flex flex-col">
+{/* Sidebar Header */}
+<div className="sidebar-header flex items-center justify-center h-20 border-b border-dashed border-white-700 flex-shrink-0">
+  <div className="text-4xl font-extrabold tracking-widest text-transparent bg-clip-text bg-white">
+    ZERG.DEV
+  </div>
+</div>
+
       {/* Sidebar Content */}
 
       <nav className="flex-grow overflow-y-auto p-4 pt-6 space-y-3 text-sm sm:text-xs md:text-sm">
@@ -185,9 +188,9 @@ const Sidebar = () => {
 
 
       {/* Sidebar Footer */}
-      <div className="sidebar-footer flex items-center justify-start h-20 px-6 border-t border-dashed border-white-700 flex-shrink-0">
-        <button className="text-gray-400 hover:text-white">
-          <Mail size={20} />
+      <div className="sidebar-footer flex items-center justify-start h-20 px-3 border-t border-dashed border-white-700 flex-shrink-0">
+        <button className="text-gray-400 hover:text-white color-background-color">
+          <Mail size={25} />
         </button>
       </div>
     </aside>

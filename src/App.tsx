@@ -3,9 +3,9 @@ import { Menu } from "lucide-react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MainContent from "./components/Content";
+import Footer from "./components/Footer";
 
 const App = () => {
-  const [language, setLanguage] = useState("English");
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -21,7 +21,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen min-w-screen bg-neutral-900 text-gray-300 font-mono">
+    <div className="min-h-screen min-w-screen bg-background-color text-gray-300 font-mono">
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-20 flex items-center border-b border-dashed border-gray-700 px-4 bg-neutral-900 z-40">
         <button
@@ -37,7 +37,7 @@ const App = () => {
 
       {/* Desktop Header - Only visible on desktop and when sidebar is not covering it */}
       <div className="hidden md:block" style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}>
-          <Header language={language} setLanguage={setLanguage} />
+          <Header />
         </div>
 
 
@@ -54,7 +54,7 @@ const App = () => {
         {/* Overlay for mobile */}
         {isMobile && isSidebarOpen && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-20"
+            className="fixed inset-0 bg-background-color"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -66,7 +66,11 @@ const App = () => {
         >
           <MainContent />
         </div>
+              {/* Desktop Header - Only visible on desktop and when sidebar is not covering it */}
       </div>
+      <div className="hidden md:block" style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}>
+          <Footer />
+        </div>
     </div>
   );
 };
