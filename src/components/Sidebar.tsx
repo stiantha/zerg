@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Mail, ChevronDown, ChevronRight } from "lucide-react";
 
+interface SidebarProps {
+  expandedCategory: string | null;
+  setExpandedCategory: (category: string | null) => void;
+}
 interface CategoryItem {
   name: string;
   active?: boolean;
@@ -148,8 +152,7 @@ const categories: Categories = {
   ],
 };
 
-const Sidebar = () => {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+const Sidebar: React.FC<SidebarProps> = ({ expandedCategory, setExpandedCategory }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleCategory = (category: string) => {
@@ -249,3 +252,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+export { categories };

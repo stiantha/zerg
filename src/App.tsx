@@ -5,9 +5,21 @@ import Sidebar from "./components/Sidebar";
 import MainContent from "./components/Content";
 import Footer from "./components/Footer";
 
+// Import the categories data
+import { categories } from "./components/Sidebar"; // Assuming this is where your categories are defined
+
 const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  
+  const handleNavigate = (categoryName: string) => {
+    setExpandedCategory(categoryName);
+    // Ensure sidebar is open when navigating on mobile
+    if (isMobile) {
+      setSidebarOpen(true);
+    }
+  };
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -31,15 +43,17 @@ const App = () => {
           <Menu size={24} />
         </button>
         <div className="ml-4 text-pink-500">
-          &#171; Features
+          {expandedCategory || "Menu"}
         </div>
       </div>
 
       {/* Desktop Header - Only visible on desktop and when sidebar is not covering it */}
       <div className="hidden md:block" style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}>
-          <Header />
-        </div>
-
+        <Header 
+          categories={categories} 
+          onNavigate={handleNavigate}
+        />
+      </div>
 
       <div className="flex relative pt-20 md:pt-0">
         {/* Sidebar */}
@@ -48,13 +62,16 @@ const App = () => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform duration-300 fixed top-0 left-0 h-full z-30 md:translate-x-0`}
         >
-          <Sidebar />
+          <Sidebar 
+            expandedCategory={expandedCategory}
+            setExpandedCategory={setExpandedCategory}
+          />
         </div>
 
         {/* Overlay for mobile */}
         {isMobile && isSidebarOpen && (
           <div
-            className="fixed inset-0 bg-background-color"
+            className="fixed inset-0 bg-background-color opacity-50"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -66,11 +83,12 @@ const App = () => {
         >
           <MainContent />
         </div>
-              {/* Desktop Header - Only visible on desktop and when sidebar is not covering it */}
       </div>
+
+      {/* Footer */}
       <div className="hidden md:block" style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}>
-          <Footer />
-        </div>
+        <Footer />
+      </div>
     </div>
   );
 };
