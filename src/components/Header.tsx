@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-const CircledOne: React.FC = () => (
-  <span
-    className="circled-one"
-    role="img"
-    aria-label="key one"
-    aria-hidden="false"
-    style={{ fontWeight: 'bold' }}
-  >
-    ①
-  </span>
-);
+function Key({ children }) {
+  return (
+    <span
+      style={{
+        backgroundColor: "text-pink-400",
+        padding: "2px 6px",
+        borderRadius: "4px",
+        border: "1px solid #ccc",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
 
 interface HeaderProps {
   categories: {
@@ -34,44 +37,64 @@ const Header: React.FC<HeaderProps> = ({ categories, onNavigate }) => {
   };
 
   const getPreviousItem = () => {
-    const prevIndex = currentIndex > 0 ? currentIndex - 1 : categories.main.length - 1;
-    return categories.main[prevIndex]?.name || 'Previous';
+    const prevIndex =
+      currentIndex > 0 ? currentIndex - 1 : categories.main.length - 1;
+    return categories.main[prevIndex]?.name || "Previous";
   };
 
   const getNextItem = () => {
     const nextIndex = (currentIndex + 1) % categories.main.length;
-    return categories.main[nextIndex]?.name || 'Next';
+    return categories.main[nextIndex]?.name || "Next";
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'ArrowLeft') {
+    if (event.key === "ArrowLeft") {
       navigateToIndex(currentIndex - 1);
-    } else if (event.key === 'ArrowRight') {
+    } else if (event.key === "ArrowRight") {
       navigateToIndex(currentIndex + 1);
     }
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [currentIndex]);
 
   return (
     <header className="border-b border-dashed border-white-700 flex flex-col sm:flex-row justify-between items-center h-auto sm:h-20 w-full z-10 p-2 sm:p-0">
-      <div className="text-xl font-light tracking-wider mb-2 sm:mb-0"></div>
-      <div className="w-full text-center mt-2 sm:mt-0 sm:ml-4 p-2 text-sm text-gray-400">
-        <p>Keybinds: Press <CircledOne /> to select a category | Use arrow keys for previous & next category</p>
+      <div className="w-1/3 text-center p-2 text-sm text-gray-400">
+      <p className="font-bold mb-1 text-left pl-10 pt-2">
+          <Key>CTRL</Key> - <Key>S</Key> Search
+        </p>
+        <p className="font-bold mb-1 text-left pl-10 pt-2">
+          <Key>CTRL</Key> - <Key>C</Key> Console
+        </p>
       </div>
+      <div className="w-1/3 text-center mt-2 sm:mt-0 sm:ml-4 p-2 text-sm text-gray-400">
+        <p className="font-bold mb-1 text-left">
+          <Key>1</Key> - <Key>9</Key> Select Category
+        </p>
+      </div>
+
+      <div className="w-2/3 text-center mt-2 sm:mt-0 sm:ml-4 p-2 text-sm text-gray-400">
+        <p className="font-bold mb-1 text-left pt-2">
+          <Key>&#8592;</Key> - <Key>&#8594;</Key> Previous & Next Category
+        </p>
+        <p className="font-bold mb-1 text-left pt-2">
+          <Key>&#8593;</Key> - <Key>&#8595;</Key> Previous & Next Sub-Category
+        </p>
+      </div>
+
       <div className="flex w-full h-auto sm:h-full">
-        <div 
+        <div
           className="flex-1 border-dashed sm:border-t-0 sm:border-l border-white-700 text-center cursor-pointer hover:bg-gray-700 flex items-center justify-center p-4 sm:p-2"
           onClick={() => navigateToIndex(currentIndex - 1)}
         >
           <span className="text-pink-400 text-base sm:text-lg">{`<< ${getPreviousItem()}`}</span>
         </div>
-        <div 
+        <div
           className="flex-1 border-dashed sm:border-t-0 sm:border-l border-white-700 text-center cursor-pointer hover:bg-gray-700 flex items-center justify-center p-4 sm:p-2"
           onClick={() => navigateToIndex(currentIndex + 1)}
         >
