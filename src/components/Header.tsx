@@ -74,10 +74,10 @@ const Header: React.FC<HeaderProps> = ({ categories, onNavigate }) => {
       </div>
       <div className="w-1/2 text-center mt-2 sm:mt-0 sm:ml-4 p-2 pl-5 text-sm text-gray-400">
       <p className="font-bold mb-1 text-left pl-10 pt-2">
-          <Key>ALT</Key> - <Key>S</Key> Search
+          <Key>S</Key> Search
         </p>
         <p className="font-bold mb-1 text-left pl-10 pt-2">
-          <Key>ALT</Key> - <Key>C</Key> Console
+          <Key>C</Key> Console
         </p>
       </div>
 
