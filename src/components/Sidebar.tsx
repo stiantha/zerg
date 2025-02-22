@@ -178,7 +178,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expandedCategory, setExpandedCategory
   }, [expandedCategory]);
 
   return (
-    <aside className="h-screen w-70 border-r border-dashed border-white-700 flex flex-col">
+    <aside className="h-screen w-70 border-r border-dashed border-white-700 flex flex-col m-0">
       {/* Sidebar Header */}
       <div className="sidebar-header flex items-center justify-center h-20 border-b border-dashed border-white-700 flex-shrink-0">
         <div className="text-4xl font-extrabold tracking-widest text-transparent bg-clip-text bg-white">
@@ -242,7 +242,7 @@ const Sidebar: React.FC<SidebarProps> = ({ expandedCategory, setExpandedCategory
       </div>
 
       {/* Sidebar Footer */}
-      <div className="sidebar-footer flex items-center justify-start h-20 px-3 border-t border-dashed border-white-700 flex-shrink-0">
+      <div className="sidebar-footer flex items-center justify-start h-13 px-3 border-t border-dashed border-white-700 flex-shrink-0">
         <button className="text-gray-400 hover:text-white color-background-color">
           <Mail size={25} />
         </button>

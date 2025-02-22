@@ -63,27 +63,21 @@ const Header: React.FC<HeaderProps> = ({ categories, onNavigate }) => {
   }, [currentIndex]);
 
   return (
-    <header className="border-b border-dashed border-white-700 flex flex-col sm:flex-row justify-between items-center h-auto sm:h-20 w-full z-10 p-2 sm:p-0">
-      <div className="w-1/3 text-center p-2 text-sm text-gray-400">
-      <p className="font-bold mb-1 text-left pl-10 pt-2">
-          <Key>CTRL</Key> - <Key>S</Key> Search
-        </p>
-        <p className="font-bold mb-1 text-left pl-10 pt-2">
-          <Key>CTRL</Key> - <Key>C</Key> Console
-        </p>
-      </div>
-      <div className="w-1/3 text-center mt-2 sm:mt-0 sm:ml-4 p-2 text-sm text-gray-400">
-        <p className="font-bold mb-1 text-left">
+    <header className="border-b border-dashed border-white-700 flex flex-col sm:flex-row justify-between items-center h-auto sm:h-20 w-full sm:p-0 ">
+      <div className="w-1/2 text-center mt-2 sm:mt-0 sm:ml-4 p-2 pl-5 text-sm text-gray-400">
+        <p className="font-bold mb-1 text-left pl-5 pt-2">
           <Key>1</Key> - <Key>9</Key> Select Category
         </p>
-      </div>
-
-      <div className="w-2/3 text-center mt-2 sm:mt-0 sm:ml-4 p-2 text-sm text-gray-400">
-        <p className="font-bold mb-1 text-left pt-2">
-          <Key>&#8592;</Key> - <Key>&#8594;</Key> Previous & Next Category
+        <p className="font-bold mb-1 text-left pl-5 pt-2">
+          <Key>&#8592;</Key> - <Key>&#8594;</Key> Next / Previous Category
         </p>
-        <p className="font-bold mb-1 text-left pt-2">
-          <Key>&#8593;</Key> - <Key>&#8595;</Key> Previous & Next Sub-Category
+      </div>
+      <div className="w-1/2 text-center mt-2 sm:mt-0 sm:ml-4 p-2 pl-5 text-sm text-gray-400">
+      <p className="font-bold mb-1 text-left pl-10 pt-2">
+          <Key>ALT</Key> - <Key>S</Key> Search
+        </p>
+        <p className="font-bold mb-1 text-left pl-10 pt-2">
+          <Key>ALT</Key> - <Key>C</Key> Console
         </p>
       </div>
 

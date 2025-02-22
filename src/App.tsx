@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -6,16 +6,15 @@ import MainContent from "./components/Content";
 import Footer from "./components/Footer";
 
 // Import the categories data
-import { categories } from "./components/Sidebar"; // Assuming this is where your categories are defined
+import { categories } from "./components/Sidebar";
 
 const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  
+
   const handleNavigate = (categoryName: string) => {
     setExpandedCategory(categoryName);
-    // Ensure sidebar is open when navigating on mobile
     if (isMobile) {
       setSidebarOpen(true);
     }
@@ -48,11 +47,14 @@ const App = () => {
       </div>
 
       {/* Desktop Header - Only visible on desktop and when sidebar is not covering it */}
-      <div className="hidden md:block" style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}>
-        <Header 
-          categories={categories} 
-          onNavigate={handleNavigate}
-        />
+      <div
+        className="hidden md:block "
+        style={{
+          marginLeft: isSidebarOpen ? "17.6rem" : "0",
+          width: "calc(100% - " + (isSidebarOpen ? "18rem" : "0") + ")", // Dynamic width
+        }}
+      >
+        <Header categories={categories} onNavigate={handleNavigate} />
       </div>
 
       <div className="flex relative pt-20 md:pt-0">
@@ -62,7 +64,7 @@ const App = () => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform duration-300 fixed top-0 left-0 h-full z-30 md:translate-x-0`}
         >
-          <Sidebar 
+          <Sidebar
             expandedCategory={expandedCategory}
             setExpandedCategory={setExpandedCategory}
           />
@@ -79,14 +81,17 @@ const App = () => {
         {/* Main content */}
         <div
           className={`flex-grow transition-all duration-300`}
-          style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}
+          style={{ marginLeft: isSidebarOpen ? "17rem" : "0" }}
         >
           <MainContent />
         </div>
       </div>
 
       {/* Footer */}
-      <div className="hidden md:block" style={{ marginLeft: isSidebarOpen ? '16rem' : '0' }}>
+      <div
+        className="hidden md:block"
+        style={{ marginLeft: isSidebarOpen ? "17.6rem" : "0" }}
+      >
         <Footer />
       </div>
     </div>
