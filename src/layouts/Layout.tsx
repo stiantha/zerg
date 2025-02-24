@@ -1,14 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
-import Header from "../components/Header.tsx";
-import Sidebar from "../components/Sidebar";
+import { useNavigate, useLocation } from "react-router-dom";
+// import Header from "../components/Header.tsx";
+import Sidebar, { categories } from "../components/Sidebar";
+import ContentHeader from "../components/ContentHeader";
 import MainContent from "../components/Content";
 import Footer from "../components/Footer";
 
 const Layout: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  const currentSubcategory = decodeURIComponent(location.pathname.split("/category/")[1] || "");
+
+  useEffect(() => {
+    const foundCategory = categories.main.find(category =>
+      category.subItems?.some(sub => sub.name === currentSubcategory)
+    );
+
+    if (foundCategory) {
+      setExpandedCategory(foundCategory.name);
+    }
+  }, [currentSubcategory]);
+
+  const handleSubcategoryChange = (subcategory: string) => {
+    navigate(`/category/${encodeURIComponent(subcategory)}`);
+  };
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -31,7 +52,7 @@ const Layout: React.FC = () => {
         >
           <Menu size={24} />
         </button>
-        <div className="ml-4 text-pink-500">{expandedCategory || "Menu"}</div>
+        <div className="ml-4 text-pink-500">{currentSubcategory || "Menu"}</div>
       </div>
 
       {/* Desktop Header */}
@@ -42,7 +63,11 @@ const Layout: React.FC = () => {
           width: `calc(100% - ${isSidebarOpen ? "18rem" : "0"})`, // Dynamic width
         }}
       >
-        <Header />
+        <ContentHeader
+          categories={categories}
+          onNavigate={handleSubcategoryChange}
+          currentCategory={currentSubcategory}
+        />
       </div>
 
       <div className="flex relative pt-20 md:pt-0">
@@ -55,6 +80,8 @@ const Layout: React.FC = () => {
           <Sidebar
             expandedCategory={expandedCategory}
             setExpandedCategory={setExpandedCategory}
+            onSelectCategory={handleSubcategoryChange}
+            setIsSidebarOpen={setSidebarOpen}
           />
         </div>
 
@@ -71,7 +98,7 @@ const Layout: React.FC = () => {
           className="flex-grow transition-all duration-300"
           style={{ marginLeft: isSidebarOpen ? "17.6rem" : "0" }}
         >
-          <MainContent />
+          <MainContent currentCategory={currentSubcategory} />
         </div>
       </div>
 
