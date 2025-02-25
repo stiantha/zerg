@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-// import Header from "../components/Header.tsx";
 import Sidebar, { categories } from "../components/Sidebar";
 import ContentHeader from "../components/ContentHeader";
 import MainContent from "../components/Content";
@@ -15,22 +14,35 @@ const Layout: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
-  const currentSubcategory = decodeURIComponent(location.pathname.split("/category/")[1] || "");
+  // Extract the subcategory from the URL
+  const currentSubcategory = decodeURIComponent(
+    location.pathname.split("/category/")[1] || ""
+  );
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+    null
+  );
 
+  // Find which category contains this subcategory
   useEffect(() => {
-    const foundCategory = categories.main.find(category =>
-      category.subItems?.some(sub => sub.name === currentSubcategory)
-    );
+    if (currentSubcategory) {
+      const foundCategory = categories.main.find((category) =>
+        category.subItems?.some((sub) => sub.name === currentSubcategory)
+      );
 
-    if (foundCategory) {
-      setExpandedCategory(foundCategory.name);
+      if (foundCategory) {
+        setExpandedCategory(foundCategory.name);
+        setSelectedSubcategory(currentSubcategory);
+      }
     }
   }, [currentSubcategory]);
 
+  // Handle navigation to a new subcategory
   const handleSubcategoryChange = (subcategory: string) => {
+    setSelectedSubcategory(subcategory);
     navigate(`/category/${encodeURIComponent(subcategory)}`);
   };
 
+  // Check screen size for responsive layout
   useEffect(() => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -60,13 +72,14 @@ const Layout: React.FC = () => {
         className="hidden md:block"
         style={{
           marginLeft: isSidebarOpen ? "17.6rem" : "0",
-          width: `calc(100% - ${isSidebarOpen ? "18rem" : "0"})`, // Dynamic width
+          width: `calc(100% - ${isSidebarOpen ? "17.6rem" : "0"})`, // Dynamic width
         }}
       >
         <ContentHeader
           categories={categories}
           onNavigate={handleSubcategoryChange}
-          currentCategory={currentSubcategory}
+          currentCategory={expandedCategory || ""}
+          currentSubCategory={currentSubcategory}
         />
       </div>
 
@@ -80,6 +93,7 @@ const Layout: React.FC = () => {
           <Sidebar
             expandedCategory={expandedCategory}
             setExpandedCategory={setExpandedCategory}
+            selectedSubcategory={selectedSubcategory}
             onSelectCategory={handleSubcategoryChange}
             setIsSidebarOpen={setSidebarOpen}
           />
@@ -88,7 +102,7 @@ const Layout: React.FC = () => {
         {/* Overlay for mobile */}
         {isMobile && isSidebarOpen && (
           <div
-            className="fixed inset-0 bg-background-color opacity-50"
+            className="fixed inset-0 bg-background-color opacity-50 z-20"
             onClick={() => setSidebarOpen(false)}
           />
         )}

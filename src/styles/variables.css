@@ -1,0 +1,12 @@
+:root {
+    --sidebar-border: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-tertiary: #999999;
+    --accent-color: #ff69b4;
+    --hover-bg: #2a2a2a;
+    --active-bg: #d41818;
+    --scrollbar-thumb: #4a4a4a;
+    --scrollbar-thumb-hover: #5a5a5a;
+  }
+  

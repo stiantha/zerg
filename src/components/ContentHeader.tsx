@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 interface HeaderProps {
   categories: {
@@ -8,131 +8,294 @@ interface HeaderProps {
       subItems?: Array<{ name: string }>;
     }>;
   };
-  onNavigate: (categoryName: string, subCategoryName: string) => void;
+  onNavigate: (categoryName: string) => void;
   currentCategory: string;
   currentSubCategory: string;
 }
 
-const ContentHeader: React.FC<HeaderProps> = ({ 
-  categories, 
+const ContentHeader: React.FC<HeaderProps> = ({
+  categories,
   onNavigate,
-  currentCategory,
-  currentSubCategory
+  currentSubCategory,
 }) => {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [currentSubCategoryIndex, setCurrentSubCategoryIndex] = useState(0);
 
   useEffect(() => {
-    const categoryIndex = categories.main.findIndex(item => item.name === currentCategory);
-    setCurrentCategoryIndex(categoryIndex);
+    // Find which category contains the current subcategory
+    let foundCategoryIndex = -1;
+    let foundSubCategoryIndex = -1;
 
-    if (categoryIndex !== -1) {
-      const subCategoryIndex = categories.main[categoryIndex].subItems?.findIndex(item => item.name === currentSubCategory) ?? -1;
-      setCurrentSubCategoryIndex(subCategoryIndex);
+    categories.main.forEach((category, catIndex) => {
+      if (category.subItems) {
+        const subIndex = category.subItems.findIndex(
+          (sub) => sub.name === currentSubCategory
+        );
+        if (subIndex !== -1) {
+          foundCategoryIndex = catIndex;
+          foundSubCategoryIndex = subIndex;
+        }
+      }
+    });
+
+    if (foundCategoryIndex !== -1) {
+      setCurrentCategoryIndex(foundCategoryIndex);
+      setCurrentSubCategoryIndex(foundSubCategoryIndex);
     }
-  }, [currentCategory, currentSubCategory, categories]);
+  }, [currentSubCategory, categories]);
 
-  const navigateToIndex = (newCategoryIndex: number, newSubCategoryIndex: number) => {
-    const totalCategories = categories.main.length;
-    const wrappedCategoryIndex = ((newCategoryIndex % totalCategories) + totalCategories) % totalCategories;
-    
-    const category = categories.main[wrappedCategoryIndex];
-    const totalSubCategories = category.subItems?.length ?? 0;
-    const wrappedSubCategoryIndex = totalSubCategories > 0 ? 
-      ((newSubCategoryIndex % totalSubCategories) + totalSubCategories) % totalSubCategories : 
-      -1;
+  const navigateToIndex = useCallback(
+    (newCategoryIndex: number, newSubCategoryIndex: number) => {
+      const totalCategories = categories.main.length;
+      const wrappedCategoryIndex =
+        ((newCategoryIndex % totalCategories) + totalCategories) %
+        totalCategories;
 
-    setCurrentCategoryIndex(wrappedCategoryIndex);
-    setCurrentSubCategoryIndex(wrappedSubCategoryIndex);
+      const category = categories.main[wrappedCategoryIndex];
+      const totalSubCategories = category.subItems?.length ?? 0;
 
-    const newCategory = category.name;
-    const newSubCategory = wrappedSubCategoryIndex !== -1 ? category.subItems?.[wrappedSubCategoryIndex].name ?? '' : '';
-    onNavigate(newCategory, newSubCategory);
-  };
+      if (totalSubCategories === 0) {
+        // If the category has no subcategories, move to the next category that has subcategories
+        let nextCatIndex = wrappedCategoryIndex;
+        let foundSubcategories = false;
+
+        // Look through all categories (maximum one full loop)
+        for (let i = 0; i < totalCategories; i++) {
+          nextCatIndex = (nextCatIndex + 1) % totalCategories;
+          if (categories.main[nextCatIndex].subItems?.length) {
+            foundSubcategories = true;
+            break;
+          }
+        }
+
+        if (foundSubcategories) {
+          setCurrentCategoryIndex(nextCatIndex);
+          setCurrentSubCategoryIndex(0);
+          const newSubCategory =
+            categories.main[nextCatIndex].subItems?.[0].name ?? "";
+          onNavigate(newSubCategory);
+        }
+        return;
+      }
+
+      const wrappedSubCategoryIndex =
+        totalSubCategories > 0
+          ? ((newSubCategoryIndex % totalSubCategories) + totalSubCategories) %
+            totalSubCategories
+          : 0;
+
+      setCurrentCategoryIndex(wrappedCategoryIndex);
+      setCurrentSubCategoryIndex(wrappedSubCategoryIndex);
+
+      const newSubCategory =
+        category.subItems?.[wrappedSubCategoryIndex].name ?? "";
+      onNavigate(newSubCategory);
+    },
+    [
+      categories,
+      setCurrentCategoryIndex,
+      setCurrentSubCategoryIndex,
+      onNavigate,
+    ]
+  );
 
   const getPreviousItem = () => {
     if (currentSubCategoryIndex > 0) {
-      return categories.main[currentCategoryIndex].subItems?.[currentSubCategoryIndex - 1].name ?? "Previous";
+      return (
+        categories.main[currentCategoryIndex].subItems?.[
+          currentSubCategoryIndex - 1
+        ].name ?? "Previous"
+      );
     } else {
-      const prevCategoryIndex = currentCategoryIndex > 0 ? currentCategoryIndex - 1 : categories.main.length - 1;
-      const prevCategory = categories.main[prevCategoryIndex];
-      return prevCategory.subItems && prevCategory.subItems.length > 0 
-        ? prevCategory.subItems[prevCategory.subItems.length - 1].name 
-        : prevCategory.name;
+      // Find the previous category that has subcategories
+      let prevCategoryIndex = currentCategoryIndex;
+      let prevCategory;
+
+      do {
+        prevCategoryIndex =
+          prevCategoryIndex > 0
+            ? prevCategoryIndex - 1
+            : categories.main.length - 1;
+        prevCategory = categories.main[prevCategoryIndex];
+      } while (
+        prevCategoryIndex !== currentCategoryIndex &&
+        !prevCategory.subItems?.length
+      );
+
+      return prevCategory.subItems && prevCategory.subItems.length > 0
+        ? prevCategory.subItems[prevCategory.subItems.length - 1].name
+        : "Previous";
     }
   };
 
   const getNextItem = () => {
     const currentCategory = categories.main[currentCategoryIndex];
     if (currentSubCategoryIndex < (currentCategory.subItems?.length ?? 0) - 1) {
-      return currentCategory.subItems?.[currentSubCategoryIndex + 1].name ?? "Next";
+      return (
+        currentCategory.subItems?.[currentSubCategoryIndex + 1].name ?? "Next"
+      );
     } else {
-      const nextCategoryIndex = (currentCategoryIndex + 1) % categories.main.length;
-      const nextCategory = categories.main[nextCategoryIndex];
-      return nextCategory.subItems && nextCategory.subItems.length > 0 
-        ? nextCategory.subItems[0].name 
-        : nextCategory.name;
+      // Find the next category that has subcategories
+      let nextCategoryIndex = currentCategoryIndex;
+      let nextCategory;
+
+      do {
+        nextCategoryIndex = (nextCategoryIndex + 1) % categories.main.length;
+        nextCategory = categories.main[nextCategoryIndex];
+      } while (
+        nextCategoryIndex !== currentCategoryIndex &&
+        !nextCategory.subItems?.length
+      );
+
+      return nextCategory.subItems && nextCategory.subItems.length > 0
+        ? nextCategory.subItems[0].name
+        : "Next";
     }
   };
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "ArrowLeft") {
-      if (currentSubCategoryIndex > 0) {
-        navigateToIndex(currentCategoryIndex, currentSubCategoryIndex - 1);
-      } else {
-        const prevCategoryIndex = currentCategoryIndex > 0 ? currentCategoryIndex - 1 : categories.main.length - 1;
-        const prevSubCategoryIndex = categories.main[prevCategoryIndex].subItems?.length ?? 0;
-        navigateToIndex(prevCategoryIndex, prevSubCategoryIndex - 1);
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        if (currentSubCategoryIndex > 0) {
+          navigateToIndex(currentCategoryIndex, currentSubCategoryIndex - 1);
+        } else {
+          let prevCategoryIndex = currentCategoryIndex;
+          let foundCategory = false;
+
+          for (let i = 0; i < categories.main.length; i++) {
+            prevCategoryIndex =
+              prevCategoryIndex > 0
+                ? prevCategoryIndex - 1
+                : categories.main.length - 1;
+            if (categories.main[prevCategoryIndex].subItems?.length) {
+              foundCategory = true;
+              break;
+            }
+          }
+
+          if (foundCategory) {
+            const prevSubCategoryIndex =
+              (categories.main[prevCategoryIndex].subItems?.length ?? 1) - 1;
+            navigateToIndex(prevCategoryIndex, prevSubCategoryIndex);
+          }
+        }
+      } else if (event.key === "ArrowRight") {
+        if (
+          currentSubCategoryIndex <
+          (categories.main[currentCategoryIndex].subItems?.length ?? 0) - 1
+        ) {
+          navigateToIndex(currentCategoryIndex, currentSubCategoryIndex + 1);
+        } else {
+          let nextCategoryIndex = currentCategoryIndex;
+          let foundCategory = false;
+
+          for (let i = 0; i < categories.main.length; i++) {
+            nextCategoryIndex =
+              (nextCategoryIndex + 1) % categories.main.length;
+            if (categories.main[nextCategoryIndex].subItems?.length) {
+              foundCategory = true;
+              break;
+            }
+          }
+
+          if (foundCategory) {
+            navigateToIndex(nextCategoryIndex, 0);
+          }
+        }
       }
-    } else if (event.key === "ArrowRight") {
-      if (currentSubCategoryIndex < (categories.main[currentCategoryIndex].subItems?.length ?? 0) - 1) {
-        navigateToIndex(currentCategoryIndex, currentSubCategoryIndex + 1);
-      } else {
-        navigateToIndex(currentCategoryIndex + 1, 0);
-      }
-    }
-  };
+    },
+    [currentCategoryIndex, currentSubCategoryIndex, categories, navigateToIndex]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [currentCategoryIndex, currentSubCategoryIndex]);
+  }, [handleKeyDown]);
+
+  // Get the current category name based on which category contains the current subcategory
+  const getCurrentCategoryName = () => {
+    const category = categories.main.find((cat) =>
+      cat.subItems?.some((sub) => sub.name === currentSubCategory)
+    );
+    return category?.name || "Category";
+  };
 
   return (
-    <header className="border-b border-dashed border-white-700 flex flex-col sm:flex-row justify-between items-center h-auto sm:h-15 w-full sm:p-0 ">
+    <header className="border-b border-dashed border-white-700 flex flex-col sm:flex-row justify-between items-center h-auto sm:h-15 w-full">
       <div className="flex w-full h-10">
+        {/* Previous Button */}
         <div
-          className="flex-1 border-r border-dashed border-white-700 text-center cursor-pointer hover:bg-neutral-800 transition-colors duration-200 flex items-center justify-center"
+          className="flex-1 border-r border-dashed border-white text-center cursor-pointer transition-colors duration-200 flex items-center justify-center min-h-[40px] whitespace-nowrap hover:text-white select-none text-pink-400 [&:hover]:border-white-700"
           onClick={() => {
             if (currentSubCategoryIndex > 0) {
-              navigateToIndex(currentCategoryIndex, currentSubCategoryIndex - 1);
+              navigateToIndex(
+                currentCategoryIndex,
+                currentSubCategoryIndex - 1
+              );
             } else {
-              const prevCategoryIndex = currentCategoryIndex > 0 ? currentCategoryIndex - 1 : categories.main.length - 1;
-              const prevSubCategoryIndex = categories.main[prevCategoryIndex].subItems?.length ?? 0;
-              navigateToIndex(prevCategoryIndex, prevSubCategoryIndex - 1);
+              let prevCategoryIndex = currentCategoryIndex;
+              let foundCategory = false;
+              for (let i = 0; i < categories.main.length; i++) {
+                prevCategoryIndex =
+                  prevCategoryIndex > 0
+                    ? prevCategoryIndex - 1
+                    : categories.main.length - 1;
+                if (categories.main[prevCategoryIndex].subItems?.length) {
+                  foundCategory = true;
+                  break;
+                }
+              }
+              if (foundCategory) {
+                const prevSubCategoryIndex =
+                  (categories.main[prevCategoryIndex].subItems?.length ?? 1) -
+                  1;
+                navigateToIndex(prevCategoryIndex, prevSubCategoryIndex);
+              }
             }
           }}
         >
-          <span className="text-pink-400 text-lg font-medium">{`← ${getPreviousItem()}`}</span>
+          <span className=" text-lg font-medium ">{`← ${getPreviousItem()}`}</span>
         </div>
-        <div className="flex-1 flex items-center justify-center">
-          <h2 className="text-white text-xl font-bold">
-            {`${currentCategory} / ${currentSubCategory}`}
+
+        {/* Center Title */}
+        <div className="flex-1 flex items-center text-left justify-center min-h-[40px] px-4">
+          <h2 className="text-white text-lg font-bold text-center whitespace-nowrap">
+            {`${getCurrentCategoryName()} | ${currentSubCategory}`}
           </h2>
         </div>
+
+        {/* Next Button */}
         <div
-          className="flex-1 border-l border-dashed border-white-700 text-center cursor-pointer hover:bg-neutral-800 transition-colors duration-200 flex items-center justify-center"
+          className="flex-1 border-l border-dashed border-white text-center cursor-pointer transition-colors duration-200 flex items-center justify-center min-h-[40px] whitespace-nowrap hover:text-white select-none text-pink-400 hover:border-white-700"
           onClick={() => {
-            if (currentSubCategoryIndex < (categories.main[currentCategoryIndex].subItems?.length ?? 0) - 1) {
-              navigateToIndex(currentCategoryIndex, currentSubCategoryIndex + 1);
+            if (
+              currentSubCategoryIndex <
+              (categories.main[currentCategoryIndex].subItems?.length ?? 0) - 1
+            ) {
+              navigateToIndex(
+                currentCategoryIndex,
+                currentSubCategoryIndex + 1
+              );
             } else {
-              navigateToIndex(currentCategoryIndex + 1, 0);
+              let nextCategoryIndex = currentCategoryIndex;
+              let foundCategory = false;
+              for (let i = 0; i < categories.main.length; i++) {
+                nextCategoryIndex =
+                  (nextCategoryIndex + 1) % categories.main.length;
+                if (categories.main[nextCategoryIndex].subItems?.length) {
+                  foundCategory = true;
+                  break;
+                }
+              }
+              if (foundCategory) {
+                navigateToIndex(nextCategoryIndex, 0);
+              }
             }
           }}
         >
-          <span className="text-pink-400 text-lg font-medium">{`${getNextItem()} →`}</span>
+          <span className=" text-lg font-medium hover:text-white">{`${getNextItem()} →`}</span>
         </div>
       </div>
     </header>
