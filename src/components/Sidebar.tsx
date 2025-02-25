@@ -94,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           {/* Pages Section */}
           <div className="mb-4">
-            <div className="text-gray-400 text-xs uppercase font-semibold mb-2 ml-2">Pages</div>
+            <div className="text-gray-400 text-xs uppercase font-semibold mb-2 ml-2">/</div>
             {categories.pages.map((page) => (
               <div
                 key={page.name}
@@ -124,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Categories Section */}
-          <div className="text-gray-400 text-xs uppercase font-semibold mb-2 ml-2">Categories</div>
+          <div className="text-gray-400 text-xs uppercase font-semibold mb-2 ml-2">/ subjects</div>
           {categories.main.map((item, index) => (
             <div key={item.name}>
               <div

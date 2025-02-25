@@ -21,7 +21,7 @@ const Layout: React.FC = () => {
     const pathParts = location.pathname.split('/').filter(part => part);
     
     // Handle paths with format /category/subcategory
-    if (pathParts.length === 2) {
+    if (pathParts.length === 2 && pathParts[0] !== 'page') {
       const [categoryPath, subcategoryPath] = pathParts;
       const categoryName = decodeURIComponent(categoryPath);
       const subcategoryName = decodeURIComponent(subcategoryPath);
@@ -60,11 +60,6 @@ const Layout: React.FC = () => {
       }
     }
   }, [location.pathname]);
-
-  const handleSelectCategory = (category: string) => {
-    setSelectedSubcategory(category);
-    setSelectedPage(null); // Reset selected page when a category is selected
-  };
 
   const handleSelectPage = (page: string) => {
     setSelectedPage(page);
@@ -184,7 +179,7 @@ const Layout: React.FC = () => {
           className="flex-grow transition-all duration-300"
           style={{ marginLeft: isSidebarOpen ? "17.6rem" : "0" }}
         >
-          <MainContent currentCategory={selectedSubcategory} />
+          <MainContent currentCategory={selectedSubcategory || ''} />
         </div>
       </div>
 

@@ -22,7 +22,6 @@ interface HeaderProps {
 const ContentHeader: React.FC<HeaderProps> = ({
   categories,
   onNavigate,
-  currentCategory,
   currentSubCategory,
   currentPage,
 }) => {
@@ -62,15 +61,6 @@ const ContentHeader: React.FC<HeaderProps> = ({
   };
 
   // Find parent category for a subcategory
-  const findParentCategory = (subcategoryName: string) => {
-    for (const category of categories.main) {
-      const subItem = category.subItems?.find(sub => sub.name === subcategoryName);
-      if (subItem) {
-        return category.name;
-      }
-    }
-    return null;
-  };
 
   const navigateToPage = useCallback(
     (pageIndex: number) => {
@@ -226,7 +216,7 @@ const ContentHeader: React.FC<HeaderProps> = ({
         // Find the last category with subcategories and navigate to its last subcategory
         for (let i = categories.main.length - 1; i >= 0; i--) {
           if (categories.main[i].subItems?.length) {
-            const lastSubCategoryIndex = categories.main[i].subItems.length - 1;
+            const lastSubCategoryIndex = (categories.main[i].subItems?.length ?? 1) - 1;
             navigateToIndex(i, lastSubCategoryIndex);
             return;
           }
