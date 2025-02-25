@@ -3,10 +3,6 @@ import { Categories } from '../types/index';
 export const categories: Categories = {
     main: [
       {
-        name: "Home",
-        color: "text-pink-400",
-      },
-      {
         name: "Programming Languages",
         color: "text-pink-400",
         subItems: [
@@ -64,16 +60,6 @@ export const categories: Categories = {
         ]
       },
       {
-        name: "Machine Learning",
-        color: "text-pink-400",
-        subItems: [
-          { name: "Supervised Learning" },
-          { name: "Unsupervised Learning" },
-          { name: "Neural Networks" },
-          { name: "Deep Learning" }
-        ]
-      },
-      {
         name: "Software Architecture",
         color: "text-pink-400",
         subItems: [
@@ -91,26 +77,6 @@ export const categories: Categories = {
           { name: "Integration Testing" },
           { name: "E2E Testing" },
           { name: "TDD" }
-        ]
-      },
-      {
-        name: "Version Control",
-        color: "text-pink-400",
-        subItems: [
-          { name: "Git" },
-          { name: "GitHub" },
-          { name: "GitLab" },
-          { name: "Branching Strategies" }
-        ]
-      },
-      {
-        name: "Security",
-        color: "text-pink-400",
-        subItems: [
-          { name: "Authentication" },
-          { name: "Authorization" },
-          { name: "Encryption" },
-          { name: "OWASP Top 10" }
         ]
       },
       {
