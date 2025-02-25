@@ -7,6 +7,15 @@ export interface CategoryItem {
   subItems?: CategoryItem[];
 }
 
+// types/index.ts
 export interface Categories {
-  main: CategoryItem[];
+  pages: Array<{
+    name: string;
+    keybind: string;
+  }>;
+  main: Array<{
+    name: string;
+    color?: string;
+    subItems?: Array<{ name: string }>;
+  }>;
 }

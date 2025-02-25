@@ -13,33 +13,102 @@ const Layout: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [selectedPage, setSelectedPage] = useState<string | null>("Home"); // Default to Home
 
-  // Extract the subcategory from the URL
-  const currentSubcategory = decodeURIComponent(
-    location.pathname.split("/category/")[1] || ""
-  );
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
-    null
-  );
-
-  // Find which category contains this subcategory
+  // Extract the category and subcategory from the URL
   useEffect(() => {
-    if (currentSubcategory) {
-      const foundCategory = categories.main.find((category) =>
-        category.subItems?.some((sub) => sub.name === currentSubcategory)
-      );
-
-      if (foundCategory) {
-        setExpandedCategory(foundCategory.name);
-        setSelectedSubcategory(currentSubcategory);
+    const pathParts = location.pathname.split('/').filter(part => part);
+    
+    // Handle paths with format /category/subcategory
+    if (pathParts.length === 2) {
+      const [categoryPath, subcategoryPath] = pathParts;
+      const categoryName = decodeURIComponent(categoryPath);
+      const subcategoryName = decodeURIComponent(subcategoryPath);
+      
+      // Find the category object that matches this path
+      const category = categories.main.find(cat => {
+        const normalizedCatName = cat.name.toLowerCase().replace(/\s+/g, '_');
+        return normalizedCatName === categoryName;
+      });
+      
+      if (category) {
+        setExpandedCategory(category.name);
+        
+        // Find the subcategory that matches
+        const subcategory = category.subItems?.find(sub => {
+          const normalizedSubName = sub.name.toLowerCase().replace(/\s+/g, '_');
+          return normalizedSubName === subcategoryName;
+        });
+        
+        if (subcategory) {
+          setSelectedSubcategory(subcategory.name);
+        }
       }
     }
-  }, [currentSubcategory]);
+    // Handle paths with format /page/pageName
+    else if (pathParts.length === 2 && pathParts[0] === 'page') {
+      const pageName = decodeURIComponent(pathParts[1]);
+      const foundPage = categories.pages.find(p => 
+        p.name.toLowerCase().replace(/\s+/g, '_') === pageName
+      );
+      
+      if (foundPage) {
+        setSelectedPage(foundPage.name);
+        setSelectedSubcategory(null);
+        setExpandedCategory(null);
+      }
+    }
+  }, [location.pathname]);
 
-  // Handle navigation to a new subcategory
-  const handleSubcategoryChange = (subcategory: string) => {
-    setSelectedSubcategory(subcategory);
-    navigate(`/category/${encodeURIComponent(subcategory)}`);
+  const handleSelectCategory = (category: string) => {
+    setSelectedSubcategory(category);
+    setSelectedPage(null); // Reset selected page when a category is selected
+  };
+
+  const handleSelectPage = (page: string) => {
+    setSelectedPage(page);
+    setSelectedSubcategory(null); // Reset selected subcategory when a page is selected
+    setExpandedCategory(null); // Close any expanded category
+    
+    // Update the URL for page navigation
+    const normalizedPageName = page.toLowerCase().replace(/\s+/g, '_');
+    navigate(`/page/${normalizedPageName}`);
+  };
+
+  // Find the parent category of a subcategory
+  const findParentCategory = (subcategoryName: string) => {
+    for (const category of categories.main) {
+      if (category.subItems?.some(sub => sub.name === subcategoryName)) {
+        return category.name;
+      }
+    }
+    return null;
+  };
+
+  // Handle navigation to a subcategory - used by sidebar
+  const handleSubcategoryClick = (subcategoryName: string) => {
+    const parentCategoryName = findParentCategory(subcategoryName);
+    
+    if (parentCategoryName) {
+      const normalizedCategoryName = parentCategoryName.toLowerCase().replace(/\s+/g, '_');
+      const normalizedSubcategoryName = subcategoryName.toLowerCase().replace(/\s+/g, '_');
+      
+      setSelectedSubcategory(subcategoryName);
+      setExpandedCategory(parentCategoryName);
+      setSelectedPage(null);
+      
+      // Update the URL with the proper category/subcategory structure
+      navigate(`/${normalizedCategoryName}/${normalizedSubcategoryName}`);
+    }
+  };
+
+  const handleNavigate = (itemName: string, isPage = false) => {
+    if (isPage) {
+      handleSelectPage(itemName);
+    } else {
+      handleSubcategoryClick(itemName);
+    }
   };
 
   // Check screen size for responsive layout
@@ -64,7 +133,7 @@ const Layout: React.FC = () => {
         >
           <Menu size={24} />
         </button>
-        <div className="ml-4 text-pink-500">{currentSubcategory || "Menu"}</div>
+        <div className="ml-4 text-pink-500">{selectedSubcategory || selectedPage || "Menu"}</div>
       </div>
 
       {/* Desktop Header */}
@@ -75,11 +144,12 @@ const Layout: React.FC = () => {
           width: `calc(100% - ${isSidebarOpen ? "17.6rem" : "0"})`, // Dynamic width
         }}
       >
-        <ContentHeader
+       <ContentHeader
           categories={categories}
-          onNavigate={handleSubcategoryChange}
-          currentCategory={expandedCategory || ""}
-          currentSubCategory={currentSubcategory}
+          onNavigate={handleNavigate}
+          currentCategory={expandedCategory}
+          currentSubCategory={selectedSubcategory}
+          currentPage={selectedPage}
         />
       </div>
 
@@ -90,13 +160,15 @@ const Layout: React.FC = () => {
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } transition-transform duration-300 fixed top-0 left-0 h-full z-30 md:translate-x-0`}
         >
-          <Sidebar
-            expandedCategory={expandedCategory}
-            setExpandedCategory={setExpandedCategory}
-            selectedSubcategory={selectedSubcategory}
-            onSelectCategory={handleSubcategoryChange}
-            setIsSidebarOpen={setSidebarOpen}
-          />
+       <Sidebar
+          expandedCategory={expandedCategory}
+          setExpandedCategory={setExpandedCategory}
+          selectedSubcategory={selectedSubcategory}
+          selectedPage={selectedPage}
+          onSelectCategory={handleSubcategoryClick}
+          onSelectPage={handleSelectPage}
+          setIsSidebarOpen={setSidebarOpen}
+        />
         </div>
 
         {/* Overlay for mobile */}
@@ -112,7 +184,7 @@ const Layout: React.FC = () => {
           className="flex-grow transition-all duration-300"
           style={{ marginLeft: isSidebarOpen ? "17.6rem" : "0" }}
         >
-          <MainContent currentCategory={currentSubcategory} />
+          <MainContent currentCategory={selectedSubcategory} />
         </div>
       </div>
 
