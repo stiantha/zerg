@@ -126,18 +126,15 @@ const Terminal: React.FC<TerminalProps> = ({
   }, [initialContent]);
 
   return (
-    <div className="flex-1 font-mono">
-      {/* Terminal header */}
-      <div className="bg-[#0d0e0f] rounded-t-md p-2 flex items-center">
-        <div className="flex space-x-2 ml-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-        </div>
-        <div className="text-center flex-1 text-gray-400 text-sm">
-          {title} - fish
-        </div>
-      </div>
+
+      <div className="flex-1 font-mono">
+  {/* Terminal header - Linux style */}
+  <div className="bg-[#0d0e0f] rounded-t-md p-2 flex items-center">
+    <div className="flex-1 text-white items-center justify-center text-center text-sm font-bold px-2">
+      {title}
+    </div>
+  </div>
+
 
       {/* Terminal content */}
       <div
