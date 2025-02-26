@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
+
 
 interface HeaderProps {
   categories: {
@@ -298,30 +300,18 @@ const ContentHeader: React.FC<HeaderProps> = ({
     findNextCategoryWithSubcategories
   ]);
 
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      // Don't handle navigation keys if we're in an input field
-      if (event.target instanceof HTMLInputElement || 
-          event.target instanceof HTMLTextAreaElement) {
-        return;
-      }
-      
-      if (event.key === "ArrowLeft") {
-        handlePreviousNav();
-      } else if (event.key === "ArrowRight") {
-        handleNextNav();
-      }
-    },
-    [handlePreviousNav, handleNextNav]
-  );
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleKeyDown]);
-
+  const keyBindings: Record<string, () => void> = {
+    'arrowleft': handlePreviousNav,
+    'arrowright': handleNextNav
+  };
+  
+  // Use the keyboard shortcuts hook with arrow keys as always active
+  useKeyboardShortcuts(keyBindings, {
+    ignoreInputs: true,
+    ignoreTerminal: true,
+    alwaysActiveKeys: ['arrowleft', 'arrowright'],
+    preventDefault: true
+  });
   // Get the current title based on whether we're viewing a page or subcategory
   const getCurrentTitle = () => {
     if (currentPage) {
@@ -331,7 +321,7 @@ const ContentHeader: React.FC<HeaderProps> = ({
     const category = categories.main.find((cat) =>
       cat.subItems?.some((sub) => sub.name === currentSubCategory)
     );
-    return `${category?.name || "Category"} | ${currentSubCategory}`;
+    return `${category?.name || "Category"}`;
   };
 
   return (

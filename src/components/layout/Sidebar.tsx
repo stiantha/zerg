@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { Mail, ChevronDown, ChevronRight} from "lucide-react";
-import { categories } from "../data/categories";
+import React from "react";
+import { Mail, ChevronDown, ChevronRight } from "lucide-react";
+import { categories } from "../../data/categories";
 import { useNavigate } from 'react-router-dom';
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 
 interface SidebarProps {
   expandedCategory: string | null;
@@ -22,12 +23,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   onSelectPage,
   setIsSidebarOpen,
 }) => {
-
   const navigate = useNavigate();
+
   const toggleCategory = (category: string) => {
     setExpandedCategory(expandedCategory === category ? null : category);
 
-    // If the category has subcategories, select the first one
     const categoryData = categories.main.find((c) => c.name === category);
     if (categoryData?.subItems?.length) {
       onSelectCategory(categoryData.subItems[0].name);
@@ -44,39 +44,37 @@ const Sidebar: React.FC<SidebarProps> = ({
     onSelectPage(page);
   };
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    const key = event.key.toLowerCase();
-    
-    // Check for number keys (1-9) for main categories
-    if (/^[1-9]$/.test(key)) {
-      const index = parseInt(key, 10) - 1;
-      if (categories.main[index]) {
-        toggleCategory(categories.main[index].name);
-        setIsSidebarOpen(true);
-      }
-      return;
-    }
-    
-    // Check for keybinds for pages
-    const pageMatch = categories.pages.find(page => page.keybind === key);
-    if (pageMatch) {
-      handlePageClick(pageMatch.name);
+  // Define keybindings
+  const keyBindings: Record<string, () => void> = {};
+  
+  // Add number keys (1-9) for categories
+  categories.main.forEach((category, index) => {
+    const key = `${index + 1}`;
+    keyBindings[key] = () => {
+      toggleCategory(category.name);
       setIsSidebarOpen(true);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expandedCategory]);
+  });
+  
+  // Add page keybinds
+  categories.pages.forEach(page => {
+    keyBindings[page.keybind] = () => {
+      handlePageClick(page.name);
+      setIsSidebarOpen(true);
+    };
+  });
+  
+  // Use the custom hook
+  useKeyboardShortcuts(keyBindings, { 
+    ignoreTerminal: true,
+    ignoreInputs: true,
+    preventDefault: true
+  });
 
   return (
     <aside className="h-screen w-70 border-r border-dashed border-white-700 flex flex-col m-0">
       {/* Sidebar Header */}
-      <div onClick={() => navigate('/')} className="sidebar-header flex items-center justify-center h-15 border-b border-dashed border-white-700 flex-shrink-0 cursor-pointer">
+      <div onClick={() => navigate('/page/home')} className="sidebar-header flex items-center justify-center h-15 border-b border-dashed border-white-700 flex-shrink-0 cursor-pointer">
       <div className="text-4xl font-extrabold tracking-widest text-transparent bg-clip-text bg-white">
         ZERG.DEV
       </div>
@@ -124,7 +122,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Categories Section */}
-          <div className="text-gray-400 text-xs uppercase font-semibold mb-2 ml-2">/ subjects</div>
+          <div className="text-gray-400 text-xs uppercase font-semibold mb-2 ml-2">/ categories</div>
           {categories.main.map((item, index) => (
             <div key={item.name}>
               <div
