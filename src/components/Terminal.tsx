@@ -128,7 +128,7 @@ const Terminal: React.FC<TerminalProps> = ({
   return (
     <div className="flex-1 font-mono">
       {/* Terminal header */}
-      <div className="bg-gray-900 rounded-t-md p-2 flex items-center">
+      <div className="bg-[#0d0e0f] rounded-t-md p-2 flex items-center">
         <div className="flex space-x-2 ml-2">
           <div className="w-3 h-3 rounded-full bg-red-500"></div>
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -141,7 +141,7 @@ const Terminal: React.FC<TerminalProps> = ({
 
       {/* Terminal content */}
       <div
-        className="bg-slate-800 p-4 rounded-b-md border border-gray-700 h-full min-h-[70vh] text-green-400 overflow-auto terminal-container"
+        className="bg-[#14181b] p-4 rounded-b-md border border-gray-900 h-full min-h-[70vh] text-green-400 overflow-auto terminal-container"
         onClick={focusInput}
       >
         <div className="flex">
