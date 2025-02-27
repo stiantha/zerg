@@ -78,6 +78,7 @@ const Layout: React.FC = () => {
           style={{ marginLeft: isSidebarOpen ? "17.6rem" : "0" }}
         >
           <MainContent currentCategory={selectedSubcategory || ''} />
+          
         </div>
       </div>
 
