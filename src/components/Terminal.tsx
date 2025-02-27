@@ -9,6 +9,7 @@ interface TerminalProps {
   isMainTerminal?: boolean;
   isInputTerminal?: boolean;
   isMetricsTerminal?: boolean;
+  isStatsTerminal?: boolean; // Add this new prop
   showInputField?: boolean;
   commandOutput?: string[];
   onCommandEntered?: (command: string) => void;
@@ -20,6 +21,7 @@ const Terminal: React.FC<TerminalProps> = ({
   isMainTerminal = false,
   isInputTerminal = false,
   isMetricsTerminal = false,
+  isStatsTerminal = false,
   showInputField = true, // Changed from "boolean" to true
   commandOutput = [], // Changed semicolon to comma
   onCommandEntered, // Removed semicolon
@@ -37,6 +39,18 @@ const Terminal: React.FC<TerminalProps> = ({
     cpu: "2%",
     memory: "124 MB",
   });
+
+  // Render stats content for the stats terminal
+const renderStatsContent = () => {
+  return (
+    <div className="mt-2">
+      <div className="text-green-700">Last Commit: 11 hours ago</div>
+      <div className="text-teal-700">Last Deploy: 18 hours ago</div>
+      <div className="text-green-500">Code Lines : 3,245</div>
+    </div>
+  );
+};
+
 
   // Generate ASCII art for the title when it changes
   useEffect(() => {
@@ -202,6 +216,9 @@ const Terminal: React.FC<TerminalProps> = ({
         {/* Metrics terminal content */}
 
           {isMetricsTerminal && !isTyping && renderMetricsContent()}
+
+        {/* Stats terminal content */}
+        {isStatsTerminal && !isTyping && renderStatsContent()}
 
         {/* Input terminal is focused on command input */}
         {isInputTerminal && !isTyping && (

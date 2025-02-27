@@ -32,7 +32,7 @@ const MainContent: React.FC<MainContentProps> = ({ currentCategory }) => {
     <main className="flex flex-col h-screen">
       <div className="p-4 flex flex-col h-[93%]">
         {/* Main terminal (current) for display only - takes 70% of height */}
-        <div className="flex-grow h-[70%] mb-1">
+        <div className="flex-grow h-[100%] mb-1">
           <Terminal 
             initialContent={getInitialContent()}
             fileName={getFileName()}
@@ -43,7 +43,7 @@ const MainContent: React.FC<MainContentProps> = ({ currentCategory }) => {
           />
         </div>
         
-        {/* Two smaller terminals in a row - takes 30% of height */}
+        {/* Bottom row with input terminal and two stacked terminals */}
         <div className="flex gap-1 h-[30%]">
           {/* Left terminal for user input */}
           <div className="w-2/3 h-full">
@@ -58,19 +58,32 @@ const MainContent: React.FC<MainContentProps> = ({ currentCategory }) => {
             />
           </div>
           
-          {/* Right terminal for side data */}
-          <div className="w-1/3 h-full">
-            <Terminal 
-              initialContent=""
-              fileName="metrics.md"
-              title="System Metrics"
-              isMainTerminal={false}
-              isMetricsTerminal={true}
-              showInputField={false}
-            />
+
+            {/* Top right - System Metrics */}
+            <div className="w-1/4">
+              <Terminal 
+                initialContent=""
+                fileName="metrics.md"
+                title="System Metrics"
+                isMainTerminal={false}
+                isMetricsTerminal={true}
+                showInputField={false}
+              />
+            </div>
+            
+            {/* Bottom right - Page Stats */}
+            <div className="w-1/4">
+              <Terminal 
+                initialContent=""
+                fileName="stats.md"
+                title="Page Stats"
+                isMainTerminal={false}
+                isStatsTerminal={true}
+                showInputField={false}
+              />
+            </div>
           </div>
         </div>
-      </div>
     </main>
   );
 };
