@@ -1,6 +1,6 @@
 # Zerg.dev
 
-## React best practise project structure
+## React best practise project structure ddd
 
 my-vite-react-app/
 ├── public/
