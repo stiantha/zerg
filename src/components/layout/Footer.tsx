@@ -18,27 +18,15 @@ function Key({ children }: KeyProps) {
 }
 const Footer = () => {
   return (
-    <footer className="border-t border-dashed border-white-700 flex flex-col sm:flex-row justify-between items-center h-auto sm:h-13 w-full sm:p-0 ">
-
-      <div className="w-1/4 mt-2 sm:mt-0 sm:ml-4 p-2 pl-5 text-sm text-gray-400">
+    <footer className="flex items-center justify-start h-13 px-3 border-t border-dashed border-white-700 flex-shrink-0">
+      <div className="flex-2 text-sm text-gray-400 text-center">
         <Key>1</Key> - <Key>9</Key> Select Category
       </div>
 
-      <div className="w-1/3 mt-2 sm:mt-0 sm:ml-4 p-0 pl-5 text-sm text-gray-400">
-        <p className="font-bold mb-1 text-left pl-5 pt-2">
-          <Key>&#8592;</Key> - <Key>&#8594;</Key> Next / Previous Category
-        </p>
-      </div>
+      <div className="flex-2 text-sm text-gray-400 text-center">
 
-      <div className="w-1/6 mt-2 sm:mt-0 sm:ml-4 p-0 pl-5 text-sm text-gray-400">
-        <p className="font-bold mb-1 text-left pl-10 pt-2">
-          <Key>S</Key> Search
-        </p>
-      </div>
-      <div className="w-1/6 mt-2 sm:mt-0 sm:ml-4 p-2 pl-5 text-sm text-gray-400">
-        <p className="font-bold mb-1 text-left pl-10 pt-2">
-          <Key>C</Key> Console
-        </p>
+          <Key>&#8592;</Key> - <Key>&#8594;</Key> Next / Previous Category
+  
       </div>
     </footer>
   );

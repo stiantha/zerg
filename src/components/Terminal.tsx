@@ -1,6 +1,7 @@
 // src/components/Terminal/Terminal.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { generateAsciiArt } from "../utils/asciiArt";
+import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 
 interface TerminalProps {
   initialContent: string;
@@ -9,11 +10,12 @@ interface TerminalProps {
   isMainTerminal?: boolean;
   isInputTerminal?: boolean;
   isMetricsTerminal?: boolean;
-  isStatsTerminal?: boolean; // Add this new prop
+  isStatsTerminal?: boolean;
   showInputField?: boolean;
   commandOutput?: string[];
   onCommandEntered?: (command: string) => void;
 }
+
 const Terminal: React.FC<TerminalProps> = ({
   initialContent,
   fileName,
@@ -22,58 +24,34 @@ const Terminal: React.FC<TerminalProps> = ({
   isInputTerminal = false,
   isMetricsTerminal = false,
   isStatsTerminal = false,
-  showInputField = true, // Changed from "boolean" to true
-  commandOutput = [], // Changed semicolon to comma
-  onCommandEntered, // Removed semicolon
+  showInputField = true,
+
+  onCommandEntered,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [, setContent] = useState<string>("");
   const [isTyping, setIsTyping] = useState<boolean>(true);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
   const [currentCommand, setCurrentCommand] = useState<string>("");
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
   const fullContentRef = useRef<string>("");
   const [asciiTitle, setAsciiTitle] = useState<string>("");
-  const [metrics, setMetrics] = useState({
-    network: "0 KB/s",
-    cpu: "2%",
-    memory: "124 MB",
-  });
-
-  // Render stats content for the stats terminal
-const renderStatsContent = () => {
-  return (
-    <div className="mt-2">
-      <div className="text-green-700">Last Commit: 11 hours ago</div>
-      <div className="text-teal-700">Last Deploy: 18 hours ago</div>
-      <div className="text-green-500">Code Lines : 3,245</div>
-    </div>
-  );
-};
-
+  // Virtual filesystem
+  const fileSystem = {
+    "README.md": "# Project Documentation\nWelcome to the project documentation.",
+    "architecture.md": "## System Architecture\nThis document describes the system architecture.",
+    "design_patterns.md": "## Design Patterns\nThis document outlines the design patterns used."
+  };
 
   // Generate ASCII art for the title when it changes
   useEffect(() => {
     if (isMainTerminal) {
-      const categoryName = title === "Terminal" ? "" : title.toUpperCase();
+      const categoryName = title === "/" ? "" : title.toUpperCase();
       setAsciiTitle(generateAsciiArt(categoryName));
     }
   }, [title, isMainTerminal]);
 
-  // Update metrics periodically if this is the metrics terminal
-  useEffect(() => {
-    if (isMetricsTerminal) {
-      const interval = setInterval(() => {
-        setMetrics({
-          network: `${Math.floor(Math.random() * 100)} KB/s`,
-          cpu: `${Math.floor(Math.random() * 10)}%`,
-          memory: `${124 + Math.floor(Math.random() * 50)} MB`,
-        });
-      }, 2000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isMetricsTerminal]);
 
   // Simulate terminal typing effect
   useEffect(() => {
@@ -95,7 +73,7 @@ const renderStatsContent = () => {
         }
       },
       isMainTerminal ? 10 : 5
-    ); // Speed up typing for smaller terminals
+    );
 
     return () => clearInterval(typingInterval);
   }, [initialContent, asciiTitle, isMainTerminal]);
@@ -106,40 +84,105 @@ const renderStatsContent = () => {
     }
   };
 
-  const contentMap: Record<string, string> = {
-    help: "Available commands:\n- ls: List files\n- cat [filename]: Display file contents\n- clear: Clear terminal",
+  const commands: Record<string, string> = {
+    help: "Available commands:\n- ls: List files\n- cat [filename]: Display file contents\n- clear: Clear terminal\n- pwd: Print working directory\n- cd [dir]: Change directory",
     ls: "README.md\narchitecture.md\ndesign_patterns.md",
     clear: "",
-    // Add more commands
+    pwd: "/home/user",
   };
+  useKeyboardShortcuts(
+    {
+      'arrowup': () => {
+        if (commandHistory.length > 0 && inputRef.current === document.activeElement) {
+          const newIndex = historyIndex < commandHistory.length - 1 ? historyIndex + 1 : historyIndex;
+          setHistoryIndex(newIndex);
+          setCurrentCommand(commandHistory[commandHistory.length - 1 - newIndex]);
+        }
+      },
+      'arrowdown': () => {
+        if (inputRef.current === document.activeElement) {
+          if (historyIndex > 0) {
+            const newIndex = historyIndex - 1;
+            setHistoryIndex(newIndex);
+            setCurrentCommand(commandHistory[commandHistory.length - 1 - newIndex]);
+          } else if (historyIndex === 0) {
+            setHistoryIndex(-1);
+            setCurrentCommand('');
+          }
+        }
+      },
+      'tab': () => {
+        if (inputRef.current === document.activeElement && currentCommand) {
+          // Simple tab completion
+          const commands = ['help', 'ls', 'cat', 'clear', 'pwd', 'cd'];
+          const files = ['README.md', 'architecture.md', 'design_patterns.md'];
+          
+          if (currentCommand.startsWith('cat ')) {
+            const partial = currentCommand.substring(4).trim();
+            const matches = files.filter(file => file.startsWith(partial));
+            if (matches.length === 1) {
+              setCurrentCommand(`cat ${matches[0]}`);
+            }
+          } else {
+            const matches = commands.filter(cmd => cmd.startsWith(currentCommand));
+            if (matches.length === 1) {
+              setCurrentCommand(matches[0]);
+            }
+          }
+        }
+      }
+    },
+    {
+      preventDefault: true,
+      ignoreInputs: false,
+      ignoreTerminal: false,
+      alwaysActiveKeys: []
+    }
+  );
 
-  // Handle command input
   // Handle command input
   const handleCommand = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && currentCommand.trim()) {
-      const newHistory = [...commandHistory, currentCommand];
+      const newHistory = [currentCommand, ...commandHistory].slice(0, 50); // Limit history size
       setCommandHistory(newHistory);
+      setHistoryIndex(-1);
 
       // Process command logic
       let output = "";
-      const cmd = currentCommand.trim().toLowerCase();
-      const cmdFileName = cmd.substring(4).trim();
+      const cmdParts = currentCommand.trim().split(/\s+/);
+      const cmd = cmdParts[0].toLowerCase();
+      const args = cmdParts.slice(1);
 
-      switch (true) {
-        case cmd === "help":
-          output = contentMap.help;
+      switch (cmd) {
+        case "help":
+          output = commands.help;
           break;
-        case cmd === "ls":
-          output = contentMap.ls;
+        case "ls":
+          output = commands.ls;
           break;
-        case cmd === "clear":
+        case "clear":
           setTerminalOutput([]);
           break;
-        case cmd.startsWith("cat "):
-          output = `Reading file: ${cmdFileName}\nFile not found or access denied.`;
+        case "pwd":
+          output = commands.pwd;
+          break;
+        case "cd":
+          output = `Directory changed to: ${args[0] || "~"}`;
+          break;
+        case "cat":
+          if (args.length === 0) {
+            output = "Usage: cat <filename>";
+          } else {
+            const filename = args[0];
+            if (fileSystem[filename]) {
+              output = fileSystem[filename];
+            } else {
+              output = `cat: ${filename}: No such file or directory`;
+            }
+          }
           break;
         default:
-          output = `Command not found: ${currentCommand}`;
+          output = `Command not found: ${cmd}`;
       }
 
       if (cmd !== "clear") {
@@ -159,31 +202,50 @@ const renderStatsContent = () => {
     }
   };
 
-  // Render metrics content for the metrics terminal
-  const renderMetricsContent = () => {
-    return (
-      <div className="mt-2">
-        <div className="text-yellow-400">
-          Network Traffic: {metrics.network}
-        </div>
-        <div className="text-blue-400">CPU Load: {metrics.cpu}</div>
-        <div className="text-purple-400">Memory Usage: {metrics.memory}</div>
-      </div>
-    );
+  // Handle special keyboard shortcuts
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Handle Enter key
+    if (e.key === "Enter") {
+      handleCommand(e);
+    }
+    
+    // Handle Ctrl+C
+    if (e.ctrlKey && e.key === 'c') {
+      e.preventDefault();
+      setTerminalOutput([
+        ...terminalOutput,
+        `user@zergs:~$ ${currentCommand}`,
+        "^C"
+      ]);
+      setCurrentCommand('');
+      setHistoryIndex(-1);
+    }
+    
+    // Handle Ctrl+L (clear screen)
+    if (e.ctrlKey && e.key === 'l') {
+      e.preventDefault();
+      setTerminalOutput([]);
+    }
+    
+    // Tab is handled by the useKeyboardShortcuts hook
+    if (e.key === 'Tab') {
+      e.preventDefault();
+    }
   };
+
 
   return (
     <div className="font-mono h-full flex flex-col">
-      {/* Terminal header - Linux style */}
-      <div className="bg-[#0d0e0f] rounded-t-md p-2 flex items-center">
+      {/* Terminal header - Linux style, bg-[#0d0e0f] */}
+      <div className="rounded-t-md p-2 flex items-center">
         <div className="flex-1 text-white items-center justify-center text-center text-sm font-bold px-2">
           {title}
         </div>
       </div>
 
-      {/* Terminal content */}
+      {/* Terminal content bg-[#14181b] */}
       <div
-        className="bg-[#14181b] p-4 rounded-b-md border border-gray-900 text-green-400 overflow-y-auto terminal-container flex-grow"
+        className="p-4 rounded-b-md border border-transparent text-green-400 overflow-y-auto terminal-container flex-grow"
         onClick={focusInput}
       >
         {/* Only show file info in main terminal */}
@@ -214,18 +276,14 @@ const renderStatsContent = () => {
         )}
 
         {/* Metrics terminal content */}
-
-          {isMetricsTerminal && !isTyping && renderMetricsContent()}
+        {isMetricsTerminal && !isTyping && renderMetricsContent()}
 
         {/* Stats terminal content */}
         {isStatsTerminal && !isTyping && renderStatsContent()}
 
         {/* Input terminal is focused on command input */}
         {isInputTerminal && !isTyping && (
-
-
-            <p className="mt-1">Type 'help' for more commands.</p>
-
+          <p className="mt-1">Type 'help' for more commands.</p>
         )}
 
         {/* Display terminal output from commands */}
@@ -240,7 +298,7 @@ const renderStatsContent = () => {
               {line.startsWith("user@zergs") ? (
                 <>
                   <span className="text-pink-500 mr-2">user@zergs:~$</span>
-                  <span className="text-white">{line.substring(12)}</span>
+                  <span className="text-white">{line.substring(1)}</span>
                 </>
               ) : (
                 <span>{line}</span>
@@ -250,27 +308,36 @@ const renderStatsContent = () => {
 
         {/* Command input - only when showInputField is true */}
         {!isTyping && showInputField && (
-          <div className="mt-4 flex">
-            <span className="text-pink-500 mr-2">user@zergs:~$</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={currentCommand}
-              onChange={(e) => setCurrentCommand(e.target.value)}
-              onKeyDown={handleCommand}
-              className="bg-transparent border-none outline-none text-white w-full"
-              autoFocus={isInputTerminal}
-              onBlur={(e) => {
-                if (
-                  e.relatedTarget === null &&
-                  e.currentTarget
-                    .closest(".terminal-container")
-                    ?.contains(document.activeElement)
-                ) {
-                  e.target.focus();
-                }
-              }}
-            />
+          <div className="mt-4 flex items-center">
+            <span className="text-pink-500 mr-2">user@zerg.dev:~$</span>
+            <div className="relative flex-grow">
+              <input
+                ref={inputRef}
+                type="text"
+                value={currentCommand}
+                onChange={(e) => setCurrentCommand(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="bg-transparent border-none outline-none text-white w-full caret-transparent"
+                autoFocus={isInputTerminal}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null &&
+                    e.currentTarget
+                      .closest(".terminal-container")
+                      ?.contains(document.activeElement)
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              />
+              <span 
+                className="absolute left-0 text-white whitespace-pre"
+                style={{ pointerEvents: 'none' }}
+              >
+                {currentCommand}
+                <span className="animate-pulse bg-white opacity-70">|</span>
+              </span>
+            </div>
           </div>
         )}
 
@@ -280,7 +347,6 @@ const renderStatsContent = () => {
           !isMetricsTerminal &&
           !isTyping && <div className="text-white">{initialContent}</div>}
       </div>
-      
     </div>
   );
 };
