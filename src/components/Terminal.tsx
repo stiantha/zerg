@@ -310,7 +310,7 @@ const Terminal: React.FC<TerminalProps> = ({
     if (e.ctrlKey && e.key === "c") {
       e.preventDefault();
       setTerminalOutput([
-        {type: 'text', content: `user@zergs:~$ ${currentCommand}`},
+        {type: 'text', content: `user@zerg:~$ ${currentCommand}`},
         {type: 'text', content: "^C"}
       ]);
       setCurrentFile(null);
@@ -371,7 +371,7 @@ const Terminal: React.FC<TerminalProps> = ({
         {/* Command input with placeholder support */}
         {!isTyping && showInputField && (
           <div className="flex items-center">
-            <span className="text-pink-500 mr-2">user@zergs:~$</span>
+            <span className="text-pink-500 mr-2">user@zerg:~$</span>
             <div className="relative flex-grow">
               <input
                 ref={inputRef}
@@ -407,7 +407,7 @@ const Terminal: React.FC<TerminalProps> = ({
 
         {/* File content display - SEPARATE SECTION BELOW COMMAND INPUT */}
         {currentFile && (
-          <div className="mt-6 border-t border-gray-700 pt-4">
+          <div className="mt-6">
            {/*  <div className="text-pink-400 mb-2">File: {currentFile.name}</div> */}
             <div className="markdown-content text-white">
               <ReactMarkdown>{currentFile.content}</ReactMarkdown>
