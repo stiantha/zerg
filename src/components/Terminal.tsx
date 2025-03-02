@@ -1,12 +1,12 @@
 // src/components/Terminal/Terminal.tsx
 import React, { useState, useEffect, useRef } from "react";
-import { generateAsciiArt } from "../utils/asciiArt";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
+import { fileSystem } from "../utils/filesystem";
 
 interface TerminalProps {
   initialContent: string;
   fileName: string;
-  title: string;
+  title: React.ReactNode;
   isMainTerminal?: boolean;
   isInputTerminal?: boolean;
   isMetricsTerminal?: boolean;
@@ -23,7 +23,6 @@ const Terminal: React.FC<TerminalProps> = ({
   isMainTerminal = false,
   isInputTerminal = false,
   isMetricsTerminal = false,
-  isStatsTerminal = false,
   showInputField = true,
 
   onCommandEntered,
@@ -36,21 +35,7 @@ const Terminal: React.FC<TerminalProps> = ({
   const [currentCommand, setCurrentCommand] = useState<string>("");
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
   const fullContentRef = useRef<string>("");
-  const [asciiTitle, setAsciiTitle] = useState<string>("");
-  // Virtual filesystem
-  const fileSystem = {
-    "README.md": "# Project Documentation\nWelcome to the project documentation.",
-    "architecture.md": "## System Architecture\nThis document describes the system architecture.",
-    "design_patterns.md": "## Design Patterns\nThis document outlines the design patterns used."
-  };
-
-  // Generate ASCII art for the title when it changes
-  useEffect(() => {
-    if (isMainTerminal) {
-      const categoryName = title === "/" ? "" : title.toUpperCase();
-      setAsciiTitle(generateAsciiArt(categoryName));
-    }
-  }, [title, isMainTerminal]);
+  const [AsciiTitle] = useState<string>("");
 
 
   // Simulate terminal typing effect
@@ -76,7 +61,7 @@ const Terminal: React.FC<TerminalProps> = ({
     );
 
     return () => clearInterval(typingInterval);
-  }, [initialContent, asciiTitle, isMainTerminal]);
+  }, [initialContent, AsciiTitle, isMainTerminal]);
 
   const focusInput = () => {
     if (!isTyping && inputRef.current && (isMainTerminal || isInputTerminal)) {
@@ -92,58 +77,70 @@ const Terminal: React.FC<TerminalProps> = ({
   };
   useKeyboardShortcuts(
     {
-      'arrowup': () => {
-        if (commandHistory.length > 0 && inputRef.current === document.activeElement) {
-          const newIndex = historyIndex < commandHistory.length - 1 ? historyIndex + 1 : historyIndex;
+      arrowup: () => {
+        if (
+          commandHistory.length > 0 &&
+          inputRef.current === document.activeElement
+        ) {
+          const newIndex =
+            historyIndex < commandHistory.length - 1
+              ? historyIndex + 1
+              : historyIndex;
           setHistoryIndex(newIndex);
-          setCurrentCommand(commandHistory[commandHistory.length - 1 - newIndex]);
+          setCurrentCommand(
+            commandHistory[commandHistory.length - 1 - newIndex]
+          );
         }
       },
-      'arrowdown': () => {
+      arrowdown: () => {
         if (inputRef.current === document.activeElement) {
           if (historyIndex > 0) {
             const newIndex = historyIndex - 1;
             setHistoryIndex(newIndex);
-            setCurrentCommand(commandHistory[commandHistory.length - 1 - newIndex]);
+            setCurrentCommand(
+              commandHistory[commandHistory.length - 1 - newIndex]
+            );
           } else if (historyIndex === 0) {
             setHistoryIndex(-1);
-            setCurrentCommand('');
+            setCurrentCommand("");
           }
         }
       },
-      'tab': () => {
+      tab: () => {
         if (inputRef.current === document.activeElement && currentCommand) {
           // Simple tab completion
-          const commands = ['help', 'ls', 'cat', 'clear', 'pwd', 'cd'];
-          const files = ['README.md', 'architecture.md', 'design_patterns.md'];
-          
-          if (currentCommand.startsWith('cat ')) {
+          const commands = ["help", "ls", "cat", "clear", "pwd", "cd"];
+          const files = ["README.md", "architecture.md", "design_patterns.md"];
+
+          if (currentCommand.startsWith("cat ")) {
             const partial = currentCommand.substring(4).trim();
-            const matches = files.filter(file => file.startsWith(partial));
+            const matches = files.filter((file) => file.startsWith(partial));
             if (matches.length === 1) {
               setCurrentCommand(`cat ${matches[0]}`);
             }
           } else {
-            const matches = commands.filter(cmd => cmd.startsWith(currentCommand));
+            const matches = commands.filter((cmd) =>
+              cmd.startsWith(currentCommand)
+            );
             if (matches.length === 1) {
               setCurrentCommand(matches[0]);
             }
           }
         }
-      }
+      },
     },
     {
       preventDefault: true,
       ignoreInputs: false,
       ignoreTerminal: false,
-      alwaysActiveKeys: []
+      alwaysActiveKeys: [],
     }
   );
 
   // Handle command input
   const handleCommand = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && currentCommand.trim()) {
-      const newHistory = [currentCommand, ...commandHistory].slice(0, 50); // Limit history size
+      const newHistory = [currentCommand, ...commandHistory].slice(0, 50);
       setCommandHistory(newHistory);
       setHistoryIndex(-1);
 
@@ -208,31 +205,30 @@ const Terminal: React.FC<TerminalProps> = ({
     if (e.key === "Enter") {
       handleCommand(e);
     }
-    
+
     // Handle Ctrl+C
-    if (e.ctrlKey && e.key === 'c') {
+    if (e.ctrlKey && e.key === "c") {
       e.preventDefault();
       setTerminalOutput([
         ...terminalOutput,
         `user@zergs:~$ ${currentCommand}`,
-        "^C"
+        "^C",
       ]);
-      setCurrentCommand('');
+      setCurrentCommand("");
       setHistoryIndex(-1);
     }
-    
+
     // Handle Ctrl+L (clear screen)
-    if (e.ctrlKey && e.key === 'l') {
+    if (e.ctrlKey && e.key === "l") {
       e.preventDefault();
       setTerminalOutput([]);
     }
-    
+
     // Tab is handled by the useKeyboardShortcuts hook
-    if (e.key === 'Tab') {
+    if (e.key === "Tab") {
       e.preventDefault();
     }
   };
-
 
   return (
     <div className="font-mono h-full flex flex-col">
@@ -256,35 +252,8 @@ const Terminal: React.FC<TerminalProps> = ({
           </div>
         )}
 
-        {/* ASCII art only in main terminal */}
-        {isMainTerminal && (
-          <div className="mt-4 whitespace-pre">
-            <div
-              className="text-green-500 font-bold text-2xl whitespace-pre leading-tight tracking-tight"
-              style={{
-                transform: "scale(1, 1.2)",
-                transformOrigin: "left top",
-              }}
-            >
-              {asciiTitle}
-            </div>
-            <div className="text-white">
-              {initialContent}
-              {isTyping && <span className="animate-pulse">▋</span>}
-            </div>
-          </div>
-        )}
-
-        {/* Metrics terminal content */}
-        {isMetricsTerminal && !isTyping && renderMetricsContent()}
-
-        {/* Stats terminal content */}
-        {isStatsTerminal && !isTyping && renderStatsContent()}
-
         {/* Input terminal is focused on command input */}
-        {isInputTerminal && !isTyping && (
-          <p className="mt-1">Type 'help' for more commands.</p>
-        )}
+        {isInputTerminal && !isTyping && <p className="mt-1"></p>}
 
         {/* Display terminal output from commands */}
         {!isTyping &&
@@ -292,12 +261,12 @@ const Terminal: React.FC<TerminalProps> = ({
             <div
               key={index}
               className={`mt-2 ${
-                line.startsWith("user@zergs") ? "flex" : "ml-8"
+                line.startsWith("user@zerg") ? "flex" : "ml-8"
               }`}
             >
-              {line.startsWith("user@zergs") ? (
+              {line.startsWith("user@zerg") ? (
                 <>
-                  <span className="text-pink-500 mr-2">user@zergs:~$</span>
+                  <span className="text-pink-500 mr-2">user@zerg.dev:~$</span>
                   <span className="text-white">{line.substring(1)}</span>
                 </>
               ) : (
@@ -309,7 +278,7 @@ const Terminal: React.FC<TerminalProps> = ({
         {/* Command input - only when showInputField is true */}
         {!isTyping && showInputField && (
           <div className="mt-4 flex items-center">
-            <span className="text-pink-500 mr-2">user@zerg.dev:~$</span>
+            <span className="text-pink-500 mr-2">user@zerg:~$</span>
             <div className="relative flex-grow">
               <input
                 ref={inputRef}
@@ -330,9 +299,9 @@ const Terminal: React.FC<TerminalProps> = ({
                   }
                 }}
               />
-              <span 
+              <span
                 className="absolute left-0 text-white whitespace-pre"
-                style={{ pointerEvents: 'none' }}
+                style={{ pointerEvents: "none" }}
               >
                 {currentCommand}
                 <span className="animate-pulse bg-white opacity-70">|</span>

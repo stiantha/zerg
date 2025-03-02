@@ -1,7 +1,7 @@
 // src/components/layout/Content.tsx
 import React, { useState } from "react";
 import Terminal from "../Terminal";
-
+import AsciiArt from "../../components/asciiArt";
 interface MainContentProps {
   currentCategory: string;
 }
@@ -21,6 +21,15 @@ const MainContent: React.FC<MainContentProps> = ({ currentCategory }) => {
     return `\n<empty>`;
   };
 
+  const getTitle = () => {
+    return (
+      <AsciiArt
+      text={currentCategory}
+      fontSize="0.3em"
+      />
+    )
+  };
+
 
   return (
     <main className="flex flex-col h-screen">
@@ -30,7 +39,7 @@ const MainContent: React.FC<MainContentProps> = ({ currentCategory }) => {
           <Terminal
             initialContent={getInitialContent()}
             fileName={getFileName()}
-            title={currentCategory || ""}
+            title={getTitle()}
             isMainTerminal={true}
             isInputTerminal={true}
             showInputField={true}

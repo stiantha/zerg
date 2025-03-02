@@ -5,8 +5,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/category/:category?" element={<Layout />} />
-        <Route path="*" element={<Layout />} /> {/* Default Route */}
+        <Route path="*" element={<Layout />} />
       </Routes>
     </Router>
   );

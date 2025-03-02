@@ -24,13 +24,13 @@ export const categories: Categories = {
       color: "text-pink-400",
       subItems: [
         { name: "HTML/CSS" },
-        { name: "Frontend Frameworks" },
-        { name: "Backend Development" },
+        { name: "Frontend" },
+        { name: "Backend" },
         { name: "RESTful APIs" }
       ]
     },
     {
-      name: "Database Systems",
+      name: "Databases",
       color: "text-pink-400",
       subItems: [
         { name: "SQL" },
@@ -46,14 +46,15 @@ export const categories: Categories = {
         { name: "CI/CD" },
         { name: "Docker" },
         { name: "Kubernetes" },
-        { name: "Cloud Platforms" }
+        { name: "Cloud" }
       ]
     },
     {
       name: "Data Structures",
       color: "text-pink-400",
       subItems: [
-        { name: "Arrays and Strings" },
+        { name: "Arrays" },
+        { name: "Strings" },
         { name: "Linked Lists" },
         { name: "Trees and Graphs" },
       ]
@@ -62,7 +63,8 @@ export const categories: Categories = {
       name: "Algorithms",
       color: "text-pink-400",
       subItems: [
-        { name: "Sorting and Searching" },
+        { name: "Sorting" },
+        { name: "Searching" },
       ]
     },
     {
@@ -72,7 +74,6 @@ export const categories: Categories = {
         { name: "Design Patterns" },
         { name: "Microservices" },
         { name: "Serverless" },
-        { name: "Event-Driven Architecture" }
       ]
     },
     {
@@ -89,8 +90,8 @@ export const categories: Categories = {
       name: "Mobile Development",
       color: "text-pink-400",
       subItems: [
-        { name: "iOS (Swift)" },
-        { name: "Android (Kotlin)" },
+        { name: "Swift" },
+        { name: "Kotlin" },
         { name: "React Native" },
         { name: "Flutter" }
       ]
