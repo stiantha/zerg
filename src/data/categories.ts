@@ -87,7 +87,7 @@ export const categories: Categories = {
       ]
     },
     {
-      name: "Mobile Development",
+      name: "Mobile",
       color: "text-pink-400",
       subItems: [
         { name: "Swift" },

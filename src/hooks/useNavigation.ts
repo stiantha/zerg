@@ -1,7 +1,7 @@
 // hooks/useNavigation.ts
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { categories } from "../components/layout/Sidebar";
+import { categories } from "../layouts/Sidebar";
 
 export function useNavigation() {
   const navigate = useNavigate();

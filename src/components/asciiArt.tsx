@@ -13,9 +13,9 @@ interface AsciiArtProps {
 
 const AsciiArt: React.FC<AsciiArtProps> = ({ 
   text,
-  color = '#e9967a',
-  charSpacing = 1,
-  lineSpacing = 0,
+  color = '#FFC0CB',
+  charSpacing = 5,
+  lineSpacing = 5,
   fontSize, 
   scale = 1,
   className = ''

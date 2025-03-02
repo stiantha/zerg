@@ -1,9 +1,9 @@
 import React from "react";
-import Sidebar, { categories } from "../components/layout/Sidebar";
-import ContentHeader from "../components/layout/ContentHeader";
-import MainContent from "../components/layout/Content";
-import Footer from "../components/layout/Footer";
-import MobileHeader from "../components/layout/MobileHeader";
+import Sidebar, { categories } from "./Sidebar";
+import ContentHeader from "./ContentHeader";
+import MainContent from "./Content";
+import Footer from "./Footer";
+import MobileHeader from "./MobileHeader";
 import { useNavigation } from "../hooks/useNavigation";
 import { useResponsiveLayout } from "../hooks/useResponsiveLayout";
 

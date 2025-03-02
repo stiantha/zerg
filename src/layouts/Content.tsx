@@ -28,10 +28,8 @@ const MainContent: React.FC<MainContentProps> = ({ currentCategory }) => {
     );
   };
 
-  // Handle command execution
   const handleCommandEntered = (command: string) => {
     console.log("Command entered:", command);
-    // You can add custom logic here if needed
   };
 
   return (
