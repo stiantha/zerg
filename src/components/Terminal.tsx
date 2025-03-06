@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
-import { fileSystem } from "../utils/filesystem";
 import ReactMarkdown from "react-markdown";
-const markdownFiles = import.meta.glob("/src/pages/*.md", {
-  query: "?raw",
-  import: "default",
-});
+import { ContentLoader, Content } from "../utils/contentLoader";
 
 interface TerminalProps {
   initialContent: string;
@@ -37,6 +33,8 @@ const Terminal: React.FC<TerminalProps> = ({
     name: string;
     content: string;
   } | null>(null);
+  const [currentComponent, setCurrentComponent] = useState<React.ComponentType<unknown> | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Initialize terminal content
   useEffect(() => {
@@ -60,66 +58,59 @@ const Terminal: React.FC<TerminalProps> = ({
     return () => clearInterval(typingInterval);
   }, [initialContent]);
 
-  const fetchMarkdownFile = useCallback(async (filename: string) => {
-
-    if (fileSystem[filename]) {
-      console.log(`Found ${filename} in fileSystem`);
-      return fileSystem[filename];
-    }
-
-    const filePath = `/src/pages/${filename}`;
-
-    try {
-      if (markdownFiles[filePath]) {
-        console.log(`Found ${filePath} in markdownFiles`);
-        const content = await markdownFiles[filePath]();
-        console.log(`Content loaded:`, content ? "Yes" : "No");
-
-        if (typeof content === "string") {
-          return content;
-        } else if (content && typeof content === "object") {
-          console.log("Content is an object:", content);
-
-          return JSON.stringify(content);
-        }
-        return String(content || "");
-      }
-
-      return `Be nothin here mon`;
-    } catch (error) {
-      console.error("Error loading file:", error);
-      return `Error loading file: ${filename}`;
-    }
-  }, []);
-
   const loadFile = useCallback(
     async (filename: string) => {
       try {
-        const content = await fetchMarkdownFile(filename);
-        if (content) {
+        setLoading(true);
+        setTerminalOutput([
+          { type: "text", content: `Loading ${filename}...` },
+        ]);
+        
+        console.log(`Terminal requesting content: ${filename}`);
+        
+        const content = await ContentLoader.loadContent(filename);
+        
+        if (!content) {
+          setTerminalOutput([
+            { type: "text", content: `File or component not found: ${filename}` },
+          ]);
+          setLoading(false);
+          return;
+        }
+        
+        if (content.type === "markdown") {
+          console.log(`Loaded markdown for ${filename}`);
           setCurrentFile({
             name: filename,
-            content: content,
+            content: content.content as string,
           });
+          setCurrentComponent(null);
         } else {
+          console.log(`Loaded component for ${filename}`);
+          setCurrentComponent(content.content as React.ComponentType<unknown>);
           setCurrentFile(null);
-          setTerminalOutput([
-            { type: "text", content: `Empty ... for now (;´༎ຶД༎ຶ\`)` },
-          ]);
+          setTerminalOutput([]);
         }
+        
+        setLoading(false);
       } catch (error) {
         console.error("Error loading file:", error);
         setCurrentFile(null);
+        setCurrentComponent(null);
         setTerminalOutput([
-          { type: "text", content: `Error reading file: ${filename}` },
+          { type: "text", content: `Error loading file or component: ${filename}` },
+          { type: "text", content: `Details: ${error instanceof Error ? error.message : String(error)}` }
         ]);
+        setLoading(false);
       }
     },
-    [fetchMarkdownFile, setCurrentFile, setTerminalOutput]
+    [setTerminalOutput]
   );
+  
 
   useEffect(() => {
     if (fileName && !isTyping) {
+      console.log(`Initial load file triggered for: ${fileName}`);
       loadFile(fileName);
       setInputPlaceholder(`cat ${fileName}`);
     }
@@ -145,7 +136,7 @@ const Terminal: React.FC<TerminalProps> = ({
 
   const commands: Record<string, string> = {
     help: "Available commands:\n- ls: List files\n- cat [filename]: Display file contents\n- clear: Clear terminal\n- pwd: Print working directory\n- cd [dir]: Change directory",
-    ls: "README.md\narchitecture.md\ndesign_patterns.md",
+    ls: "README.md\nhome\nabout\nblog\ncontact\narchitecture.md\ndesign_patterns.md\njavascript.md\npython.md",
     clear: "",
     pwd: "/home/user",
   };
@@ -184,7 +175,17 @@ const Terminal: React.FC<TerminalProps> = ({
       tab: () => {
         if (inputRef.current === document.activeElement && currentCommand) {
           const commands = ["help", "ls", "cat", "clear", "pwd", "cd"];
-          const files = ["README.md", "architecture.md", "design_patterns.md"];
+          const files = [
+            "README.md", 
+            "home",
+            "about",
+            "blog",
+            "contact",
+            "architecture.md", 
+            "design_patterns.md",
+            "javascript.md",
+            "python.md"
+          ];
 
           if (currentCommand.startsWith("cat ")) {
             const partial = currentCommand.substring(4).trim();
@@ -230,33 +231,34 @@ const Terminal: React.FC<TerminalProps> = ({
           output = commands.help;
           setTerminalOutput([{ type: "text", content: output }]);
           setCurrentFile(null);
+          setCurrentComponent(null);
           break;
         case "ls":
           output = commands.ls;
           setTerminalOutput([{ type: "text", content: output }]);
           setCurrentFile(null);
+          setCurrentComponent(null);
           break;
         case "clear":
           setTerminalOutput([]);
           setCurrentFile(null);
+          setCurrentComponent(null);
           break;
         case "pwd":
           output = commands.pwd;
           setTerminalOutput([{ type: "text", content: output }]);
           setCurrentFile(null);
+          setCurrentComponent(null);
           break;
         case "cat":
           if (args.length === 0) {
             output = "Usage: cat <filename>";
             setTerminalOutput([{ type: "text", content: output }]);
             setCurrentFile(null);
+            setCurrentComponent(null);
           } else {
             const filename = args[0];
-
-            setTerminalOutput([
-              { type: "text", content: `Loading ${filename}...` },
-            ]);
-
+            console.log(`Cat command triggered for: ${filename}`);
             loadFile(filename);
 
             if (onCommandEntered) {
@@ -271,11 +273,13 @@ const Terminal: React.FC<TerminalProps> = ({
           setInputPlaceholder(`cd ${args[0] || "~"}`);
           setTerminalOutput([{ type: "text", content: output }]);
           setCurrentFile(null);
+          setCurrentComponent(null);
           break;
         default:
           output = `Command not found: ${cmd}`;
           setTerminalOutput([{ type: "text", content: output }]);
           setCurrentFile(null);
+          setCurrentComponent(null);
       }
 
       if (onCommandEntered) {
@@ -305,6 +309,7 @@ const Terminal: React.FC<TerminalProps> = ({
         { type: "text", content: "^C" },
       ]);
       setCurrentFile(null);
+      setCurrentComponent(null);
       setCurrentCommand("");
       setHistoryIndex(-1);
     }
@@ -314,12 +319,16 @@ const Terminal: React.FC<TerminalProps> = ({
       e.preventDefault();
       setTerminalOutput([]);
       setCurrentFile(null);
+      setCurrentComponent(null);
     }
 
     if (e.key === "Tab") {
       e.preventDefault();
     }
   };
+
+  // Force create a component key for re-mounting components when needed
+  const componentKey = currentComponent ? currentComponent.name || 'component' : 'no-component';
 
   return (
     <div className="font-mono h-full flex flex-col">
@@ -355,7 +364,7 @@ const Terminal: React.FC<TerminalProps> = ({
             ))
           ) : (
             <div className="text-gray-500 italic">
-              {terminalOutput.length === 0 && !currentFile
+              {terminalOutput.length === 0 && !currentFile && !currentComponent && !loading
                 ? "No output to display"
                 : ""}
             </div>
@@ -399,10 +408,23 @@ const Terminal: React.FC<TerminalProps> = ({
           </div>
         )}
 
+        {/* Display loading indicator */}
+        {loading && (
+          <div className="text-yellow-400 mt-4">
+            Loading content... Please wait...
+          </div>
+        )}
+
+        {/* Display React Component */}
+{currentComponent && !loading && (
+  <div className="mt-6 component-container text-white" key={componentKey}>
+    {React.createElement(currentComponent)}
+  </div>
+)}
+
         {/* File content display - SEPARATE SECTION BELOW COMMAND INPUT */}
-        {currentFile && (
+        {currentFile && !currentComponent && !loading && (
           <div className="mt-6">
-            {/*  <div className="text-pink-400 mb-2">File: {currentFile.name}</div> */}
             <div className="markdown-content text-white">
               <ReactMarkdown>{currentFile.content}</ReactMarkdown>
             </div>
@@ -413,7 +435,9 @@ const Terminal: React.FC<TerminalProps> = ({
         {!isTyping &&
           initialContent &&
           terminalOutput.length === 0 &&
-          !currentFile && (
+          !currentFile &&
+          !currentComponent &&
+          !loading && (
             <div className="text-white">
               <ReactMarkdown>{initialContent}</ReactMarkdown>
             </div>

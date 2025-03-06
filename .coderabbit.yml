@@ -1,0 +1,59 @@
+# .coderabbit.yml
+reviews:
+  repository_scan:
+    enabled: true
+    depth: full
+    include_patterns:
+      - "**/*.tsx"
+      - "**/*.ts"
+      - "**/*.js"
+      - "**/*.jsx"
+      - "**/*.md"
+      - "**/*.css"
+      - "**/*.html"
+      - "**/*.json"
+      - "**/*.svg"
+      - "**/*.flf"
+    exclude_patterns:
+      - "node_modules/**"
+      - "dist/**"
+      - "build/**"
+      - "**/*.png"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.gif"
+
+analysis:
+  focus:
+    - code_quality
+    - security
+    - performance
+    - best_practices
+  max_file_size: 1000000
+  ai_capabilities:
+    - deep_code_understanding
+    - pattern_recognition
+    - extended_reasoning
+
+model:
+  name: claude-3-7-sonnet
+  temperature: 0.1
+  extended_thinking: true
+  reasoning_depth: comprehensive
+
+review_comments:
+  inline: true
+  summary: true
+  actionable: true
+  include_code_snippets: true
+
+performance:
+  timeout: 600  
+  max_tokens_per_file: 64000 
+  
+specialized_analysis:
+  - react_patterns
+  - typescript_type_safety
+  - accessibility
+  - terminal_ui_patterns
+  - ascii_art_optimization

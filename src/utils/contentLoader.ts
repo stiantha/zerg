@@ -5,11 +5,11 @@ import React from "react";
 // Define a type for content that can be either markdown text or a React component
 export type Content = {
   type: "markdown" | "component";
-  content: string | React.ComponentType<any>;
+  content: string | React.ComponentType<unknown>;
 };
 
 // Maintain a cache of loaded components to avoid unnecessary dynamic imports
-const componentCache: Record<string, React.ComponentType<any>> = {};
+const componentCache: Record<string, React.ComponentType<unknown>> = {};
 
 // A list of available TSX pages
 const availableComponents = [
@@ -24,62 +24,65 @@ export const ContentLoader = {
    * Determine if the requested file is a TSX component or markdown file
    */
   isComponent(fileName: string): boolean {
-    // Remove extension if present
-    const baseName = fileName.replace(/\.(md|tsx)$/, "");
-    
-    // Check if this is a component name
-    return availableComponents.includes(baseName);
+    // Normalize fileName to lowercase for case-insensitive matching
+    const baseName = fileName.replace(/\.(md|tsx)$/, "").toLowerCase();
+  
+    // Check if this is a valid component name (case-insensitive match)
+    return availableComponents.some(
+      (component) => component.toLowerCase() === baseName
+    );
   },
 
   /**
    * Load content based on filename, detecting whether it's a component or markdown
    */
   async loadContent(fileName: string): Promise<Content | null> {
-    // Handle empty filename
+    console.log("Loading content:", fileName);
     if (!fileName || fileName.trim() === "") {
-      return {
-        type: "markdown",
-        content: "# Welcome\n\nPlease select a file to view its contents."
-      };
+      fileName = "Home"; // Default to Home component
     }
-
-    // Remove extension if present for consistency
-    const baseName = fileName.replace(/\.(md|tsx)$/, "");
-    
-    // Check if this is a component
+    console.log("Loading content:", fileName);
+  
+    const baseName = fileName.replace(/\.(md|tsx)$/, "").toLowerCase();
+  
     if (this.isComponent(baseName)) {
       try {
-        // If already cached, return from cache
-        if (componentCache[baseName]) {
-          return {
-            type: "component",
-            content: componentCache[baseName]
-          };
+        // Find the proper case-sensitive name from availableComponents
+        const properCaseName = availableComponents.find(
+          (component) => component.toLowerCase() === baseName
+        );
+  
+        if (!properCaseName) {
+          throw new Error(`Component ${baseName} not found in availableComponents`);
         }
-        
-        // Dynamically import the component
-        const module = await import(`../pages/${baseName}.tsx`);
+  
+        // Check cache first
+        if (componentCache[properCaseName]) {
+          return { type: "component", content: componentCache[properCaseName] };
+        }
+  
+        // Dynamically import the component based on its proper case-sensitive name
+        const module = await import(`../pages/${properCaseName}`);
         const Component = module.default;
-        
+  
+        if (!Component) {
+          throw new Error(`No default export in ${properCaseName}.tsx`);
+        }
+  
         // Cache for future use
-        componentCache[baseName] = Component;
-        
-        return {
-          type: "component",
-          content: Component
-        };
+        componentCache[properCaseName] = Component;
+  
+        return { type: "component", content: Component };
       } catch (error) {
-        console.error(`Error loading component ${baseName}:`, error);
-        return {
-          type: "markdown",
-          content: `# Error\n\nFailed to load component: ${baseName}`
-        };
+        console.error(`Error loading component ${fileName}:`, error);
+        return null;
       }
     } else {
-      // It's a markdown file
+      // Load markdown content for non-component files
       return this.loadMarkdownContent(`${baseName}.md`);
     }
   },
+  
   
   /**
    * Load markdown content from the filesystem
