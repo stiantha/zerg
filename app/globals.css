@@ -65,6 +65,8 @@ body {
   opacity: 0.1;
 }
 
+
+
 @layer components {
   .nav-link {
     @apply text-[var(--text-primary)] text-sm hover:text-[var(--accent-color)] transition-colors;
