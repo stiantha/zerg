@@ -3,28 +3,28 @@ import { Github, DiscIcon, Rss, Package } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-blue-950/50 border-t border-cyan-500/20 mt-16 py-12 z-10">
-      <div className="container mx-auto px-4">
+    <footer className="bg-footer-bg border-t border-border-subtle py-12 z-10 mt-auto">
+      <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Humans */}
           <div>
-            <h3 className="text-gray-400 uppercase text-sm font-medium mb-4">Humans</h3>
+            <h3 className="footer-heading">Humans</h3>
             <ul className="space-y-2">
-              <li className="text-white text-sm">
-                Vaxry <span className="text-cyan-400">[ Lead Developer ]</span>
+              <li className="footer-text">
+                Vaxry <span className="accent-text">[ Lead Developer ]</span>
               </li>
-              <li className="text-white text-sm">
-                Fufexan <span className="text-cyan-400">[ Supporting Developer ]</span>
+              <li className="footer-text">
+                Fufexan <span className="accent-text">[ Supporting Developer ]</span>
               </li>
-              <li className="text-white text-sm">
-                NotAShelf <span className="text-cyan-400">[ Community Manager ]</span>
+              <li className="footer-text">
+                NotAShelf <span className="accent-text">[ Community Manager ]</span>
               </li>
-              <li className="text-white text-sm">
-                VDawg <span className="text-cyan-400">[ Webdesign and dev ]</span>
+              <li className="footer-text">
+                VDawg <span className="accent-text">[ Webdesign and dev ]</span>
               </li>
-              <li className="text-white text-sm">
+              <li className="footer-text">
                 and our{" "}
-                <Link href="#" className="text-cyan-400 hover:underline">
+                <Link href="#" className="accent-text hover:underline">
                   fellow contributors
                 </Link>
               </li>
@@ -33,20 +33,20 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-gray-400 uppercase text-sm font-medium mb-4">Links</h3>
+            <h3 className="footer-heading">Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+                <Link href="#" className="footer-link">
                   Wiki
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+                <Link href="#" className="footer-link">
                   Get started
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+                <Link href="#" className="footer-link">
                   Hall of fame
                 </Link>
               </li>
@@ -55,25 +55,25 @@ export default function Footer() {
 
           {/* Socials */}
           <div>
-            <h3 className="text-gray-400 uppercase text-sm font-medium mb-4">Socials</h3>
+            <h3 className="footer-heading">Socials</h3>
             <div className="grid grid-cols-2 gap-4">
-              <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+              <Link href="#" className="social-icon">
                 <DiscIcon className="h-6 w-6" />
               </Link>
-              <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+              <Link href="#" className="social-icon">
                 <Github className="h-6 w-6" />
               </Link>
-              <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+              <Link href="#" className="social-icon">
                 <Rss className="h-6 w-6" />
               </Link>
-              <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+              <Link href="#" className="social-icon">
                 <Package className="h-6 w-6" />
               </Link>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-4 border-t border-cyan-500/20 text-center text-xs text-gray-400">
+        <div className="mt-12 pt-4 border-t border-border-subtle text-center text-xs text-text-secondary">
           <p>
             Hyprland is licensed under the BSD 3-Clause "New" or "Revised" License. © Hyprland Development 2023. Stay
             hydrated

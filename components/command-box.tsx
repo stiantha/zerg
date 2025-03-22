@@ -1,6 +1,7 @@
 "use client"
 
 import { Copy } from "lucide-react"
+import { useState } from "react"
 
 interface CommandBoxProps {
   command: string
@@ -8,21 +9,26 @@ interface CommandBoxProps {
 }
 
 export default function CommandBox({ command, note }: CommandBoxProps) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(command)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <div>
-      <div className="bg-blue-950 rounded border border-cyan-500/30 p-2 flex items-center justify-between">
+      <div className="command-box">
         <div className="flex items-center">
-          <span className="text-cyan-400 mr-2">$</span>
-          <code className="text-white text-sm">{command}</code>
+          <span className="command-prompt">$</span>
+          <code className="command-text">{command}</code>
         </div>
-        <button
-          className="text-gray-400 hover:text-white transition-colors"
-          onClick={() => navigator.clipboard.writeText(command)}
-        >
+        <button className="copy-button" onClick={handleCopy} title={copied ? "Copied!" : "Copy to clipboard"}>
           <Copy className="h-4 w-4" />
         </button>
       </div>
-      {note && <p className="text-xs text-gray-400 mt-1">{note}</p>}
+      {note && <p className="text-xs text-text-secondary mt-1">{note}</p>}
     </div>
   )
 }

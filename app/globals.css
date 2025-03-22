@@ -1,33 +1,120 @@
 @import "tailwindcss";
 
 :root {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+  /* Base colors */
+  --background-start: #042f3d;
+  --background-end: #051923;
+  --accent-color: #00cfff;
+  --accent-color-hover: #00b8e6;
+  --accent-color-transparent: rgba(0, 207, 255, 0.3);
+  --accent-border: rgba(0, 207, 255, 0.3);
+  --purple-accent: #9333ea;
+  --purple-accent-hover: rgba(147, 51, 234, 0.2);
 
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
+  /* UI Elements */
+  --card-bg: rgba(4, 47, 61, 0.3);
+  --command-bg: rgba(3, 31, 41, 0.95);
+  --footer-bg: rgba(3, 31, 41, 0.5);
+  --button-bg: white;
+  --button-text: black;
+  --button-hover: #f3f4f6;
 
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
+  /* Text colors */
+  --text-primary: white;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
 
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
+  /* Border colors */
+  --border-subtle: rgba(0, 207, 255, 0.2);
+  --border-accent: rgba(0, 207, 255, 0.3);
 
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
+  /* Container width */
+  --container-width: 1200px;
+  --section-spacing: 4rem;
 
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
+  /* Border radius */
+  --radius: 0.5rem;
 }
 
+body {
+  background: linear-gradient(to bottom right, var(--background-start), var(--background-end));
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.section {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
+
+.grid-background {
+  background-image: linear-gradient(to right, var(--accent-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--accent-border) 1px, transparent 1px);
+  background-size: 100px 100px;
+  opacity: 0.1;
+}
+
+@layer components {
+  .nav-link {
+    @apply text-[var(--text-primary)] text-sm hover:text-[var(--accent-color)] transition-colors;
+  }
+
+  .social-icon {
+    @apply text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors;
+  }
+
+  .primary-button {
+    @apply bg-[var(--button-bg)] text-[var(--button-text)] px-8 py-2.5 rounded hover:bg-[var(--button-hover)] transition-colors font-medium;
+  }
+
+  .secondary-button {
+    @apply bg-transparent border border-[var(--purple-accent)] text-[var(--text-primary)] px-8 py-2.5 rounded hover:bg-[var(--purple-accent-hover)] transition-colors font-medium;
+  }
+
+  .accent-button {
+    @apply bg-[var(--accent-color)] text-[var(--button-text)] text-xs font-medium px-4 py-1.5 rounded-full hover:bg-[var(--accent-color-hover)] transition-colors;
+  }
+
+  .command-box {
+    @apply bg-[var(--command-bg)] rounded border border-[var(--accent-border)] p-2 flex items-center justify-between;
+  }
+
+  .command-prompt {
+    @apply text-[var(--accent-color)] mr-2;
+  }
+
+  .command-text {
+    @apply text-[var(--text-primary)] text-sm;
+  }
+
+  .copy-button {
+    @apply text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors;
+  }
+
+  .footer-heading {
+    @apply text-[var(--text-secondary)] uppercase text-sm font-medium mb-4;
+  }
+
+  .footer-link {
+    @apply text-[var(--text-primary)] text-sm hover:text-[var(--accent-color)] transition-colors;
+  }
+
+  .footer-text {
+    @apply text-[var(--text-primary)] text-sm;
+  }
+
+  .accent-text {
+    @apply text-[var(--accent-color)];
+  }
+}

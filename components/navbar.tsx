@@ -17,49 +17,46 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-200 ${scrolled ? "bg-teal-950/80 backdrop-blur-md" : "bg-transparent"}`}
+      className={`sticky top-0 z-50 transition-all duration-200 ${scrolled ? "bg-background-start/80 backdrop-blur-md" : "bg-transparent"}`}
     >
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="container flex items-center justify-between py-3">
         <div className="flex items-center gap-2">
-          <Droplet className="h-6 w-6 text-cyan-400" />
-          <span className="text-white font-medium">Hyprland</span>
+          <Droplet className="h-6 w-6 text-accent-color" />
+          <span className="font-medium">Hyprland</span>
         </div>
 
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+          <Link href="#" className="nav-link">
             Get started
           </Link>
-          <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+          <Link href="#" className="nav-link">
             Wiki
           </Link>
-          <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+          <Link href="#" className="nav-link">
             Hall of fame
           </Link>
-          <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+          <Link href="#" className="nav-link">
             News
           </Link>
-          <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+          <Link href="#" className="nav-link">
             Plugins
           </Link>
-          <Link href="#" className="text-white text-sm hover:text-cyan-400 transition-colors">
+          <Link href="#" className="nav-link">
             Donate
           </Link>
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+          <Link href="#" className="social-icon">
             <DiscIcon className="h-5 w-5" />
           </Link>
-          <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+          <Link href="#" className="social-icon">
             <Github className="h-5 w-5" />
           </Link>
-          <Link href="#" className="text-white hover:text-cyan-400 transition-colors">
+          <Link href="#" className="social-icon">
             <Package className="h-5 w-5" />
           </Link>
-          <Link
-            href="#"
-            className="bg-cyan-400 text-black text-xs font-medium px-4 py-1.5 rounded-full hover:bg-cyan-300 transition-colors"
-          >
+          <Link href="#" className="accent-button">
             INSTALL
           </Link>
         </div>
