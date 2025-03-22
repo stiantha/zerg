@@ -2,8 +2,10 @@
 
 :root {
   /* Base colors */
-  --background-start: #042f3d;
+  --background-start: #202020;
   --background-end: #051923;
+/*   --background-start: #042f3d;
+  --background-end: #051923; */
   --accent-color: #00cfff;
   --accent-color-hover: #00b8e6;
   --accent-color-transparent: rgba(0, 207, 255, 0.3);
@@ -36,12 +38,24 @@
   --radius: 0.5rem;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 body {
   background: linear-gradient(to bottom right, var(--background-start), var(--background-end));
   color: var(--text-primary);
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
 }
 
 .container {
@@ -64,8 +78,6 @@ body {
   background-size: 100px 100px;
   opacity: 0.1;
 }
-
-
 
 @layer components {
   .nav-link {
@@ -119,4 +131,31 @@ body {
   .accent-text {
     @apply text-[var(--accent-color)];
   }
+}
+
+@layer base {
+  * {
+    @apply border-neutral-800;
+  }
+  body {
+    @apply bg-[var(--background-start)] text-[var(--text-primary)];
+  }
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 1rem));
+  }
+}
+
+.animate-scroll {
+  animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+}
+
+.scroller {
+  mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
 }

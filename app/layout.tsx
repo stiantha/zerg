@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { TracingBeam } from "@/components/ui/tracing-beam"
 
 const inter = Inter({ subsets: ["latin"], display: "swap" })
 
@@ -19,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <TracingBeam className="fixed right-0 top-0 h-full w-[2px] bg-accent-border z-50 opacity-100" />
+        {children}
+      </body>
     </html>
   )
 }

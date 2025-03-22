@@ -1,32 +1,26 @@
-import Link from "next/link"
-import { Github, DiscIcon, Rss, Package } from "lucide-react"
+import Link from "next/link";
+import { Github, DiscIcon, Rss, Package } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-footer-bg border-t border-border-subtle py-12 z-10 mt-auto">
+    <footer className="bg-footer-bg py-12 z-10 mt-auto">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Humans */}
           <div>
-            <h3 className="footer-heading">Humans</h3>
+            <h3 className="footer-heading">Team</h3>
             <ul className="space-y-2">
               <li className="footer-text">
-                Vaxry <span className="accent-text">[ Lead Developer ]</span>
+                stiantha{" "}
+                <span className="accent-text">
+                  [ Founder & Lead Developer ]
+                </span>
               </li>
               <li className="footer-text">
-                Fufexan <span className="accent-text">[ Supporting Developer ]</span>
+                claude <span className="accent-text">[ Content Creator]</span>
               </li>
               <li className="footer-text">
-                NotAShelf <span className="accent-text">[ Community Manager ]</span>
-              </li>
-              <li className="footer-text">
-                VDawg <span className="accent-text">[ Webdesign and dev ]</span>
-              </li>
-              <li className="footer-text">
-                and our{" "}
-                <Link href="#" className="accent-text hover:underline">
-                  fellow contributors
-                </Link>
+                perplexity <span className="accent-text">[ R&D ]</span>
               </li>
             </ul>
           </div>
@@ -73,14 +67,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-4 border-t border-border-subtle text-center text-xs text-text-secondary">
-          <p>
-            Hyprland is licensed under the BSD 3-Clause "New" or "Revised" License. © Hyprland Development 2023. Stay
-            hydrated
-          </p>
+        <div className="mt-12 pt-4 border-t border-[#0c7068] text-center text-xs text-text-secondary">
+          <p>© Zerg Development 2025.</p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
