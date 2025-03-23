@@ -8,42 +8,49 @@ const inter = Inter({
 
 export default function HeroSection() {
   return (
-    <div className={`${inter.className} container mx-auto px-4 text-center`}>
-      <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 uppercase">
-        Learn development
-      </h1>
-      <h2 className="text-4xl md:text-5xl font-bold text-[#00cfff] mb-15 uppercase">
-        The fast way
-      </h2>
-      <div className="mx-auto text-gray-300 mb-10 text-center">
-        <p className="leading-relaxed mb-2">
-          Master coding through our innovative game-based learning platform.
-        </p>
-        <p className="leading-relaxed mb-2">
-          Experience rapid skill acquisition inspired by the Zerg mentality.
-        </p>
-        <p className="leading-relaxed mb-2">
-          Evolve your development abilities faster than traditional methods.
-        </p>
-        <p className="leading-relaxed">
-          Join our growing hive of successful developers.
-        </p>
-      </div>
+    <section id="hero" className={`${inter.className} min-h-[80vh] flex items-center justify-center`}>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white uppercase">
+              Learn development
+            </h1>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00cfff] uppercase">
+              The fast way
+            </h2>
+          </div>
+          
+          <div className="max-w-2xl mx-auto space-y-2 text-gray-300 text-base sm:text-lg">
+            <p>
+              Master coding through our innovative game-based learning platform.
+            </p>
+            <p>
+              Experience rapid skill acquisition inspired by the Zerg mentality.
+            </p>
+            <p>
+              Evolve your development abilities faster than traditional methods.
+            </p>
+            <p>
+              Join our growing hive of successful developers.
+            </p>
+          </div>
 
-      <div className="flex gap-4 justify-center">
-        <Link
-          href="#"
-          className="bg-white text-black px-8 py-2.5 rounded hover:bg-gray-100 transition-colors font-medium"
-        >
-          Explore
-        </Link>
-        <Link
-          href="#"
-          className="bg-transparent border border-[#00cfff] text-white px-8 py-2.5 rounded hover:bg-[#00cfff]/10 transition-colors font-medium"
-        >
-          Get Started
-        </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+            <Link
+              href="#features"
+              className="w-full sm:w-auto bg-[white] text-black px-8 py-3 rounded-md hover:bg-[#00cfff]/90 transition-colors font-medium text-base"
+            >
+              Explore
+            </Link>
+            <Link
+              href="#get-started"
+              className="w-full sm:w-auto bg-transparent border-2 border-[#00cfff] text-[#00cfff] px-8 py-3 rounded-md hover:bg-[#00cfff]/10 transition-colors font-medium text-base"
+            >
+              Get Started
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

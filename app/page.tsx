@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar";
 import HeroSection from "@/components/sections/hero-section";
-import BentoGridSection from "@/components/sections/bento-section";
+import BentoGridSection from "@/components/sections/features-section";
 import TabletSection from "@/components/sections/tablet-section";
 import FAQSection from "@/components/sections/faq-section";
 import { InfiniteMovingCardsSection } from "@/components/infinite-moving-cards";
@@ -17,10 +17,10 @@ export default function Home() {
         <section className="h-screen flex items-center justify-center -mt-[30vh]">
           <TabletSection />
         </section>
-        <section className="h-screen flex items-center justify-center -mt-[45vh]">
+        {/* <section className="h-screen flex items-center justify-center -mt-[45vh]">
           <InfiniteMovingCardsSection />
-        </section>
-        <section className="h-screen flex items-center justify-center -mt-[30vh]">
+        </section> */}
+        <section className="h-screen flex items-center justify-center -mt-[10vh]">
           <BentoGridSection />
         </section>
         <section className="h-screen container mx-auto mt-[20vh]">

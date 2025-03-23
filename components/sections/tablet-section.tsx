@@ -3,7 +3,7 @@
 import { ContainerScroll } from "@/components/ui/tablet-scroll-animation";
 import { preload } from "react-dom";
 import Image, { getImageProps } from "next/image";
-import Zerg from "../../public/zerg-art.jpg";
+import Zerg from "../../public/zerg-splash.jpeg";
 
 export default function TabletSection() {
   // Preload the image manually
@@ -14,9 +14,9 @@ export default function TabletSection() {
     width: 1400,
     priority: true,
   };
-  
+
   const { props: transformedProps } = getImageProps(imageProps);
-  
+
   preload(transformedProps.src, {
     as: "image",
     imageSrcSet: transformedProps.srcSet,
@@ -25,10 +25,8 @@ export default function TabletSection() {
   });
 
   return (
-    <div className="flex flex-col overflow-hidden">
-      <ContainerScroll
-        titleComponent={<></>}
-      >
+    <section id="tablet" className="flex flex-col overflow-hidden">
+      <ContainerScroll titleComponent={<></>}>
         <div className="relative w-full h-full">
           <Image
             src={Zerg}
@@ -43,7 +41,6 @@ export default function TabletSection() {
           />
         </div>
       </ContainerScroll>
-    </div>
+    </section>
   );
 }
-

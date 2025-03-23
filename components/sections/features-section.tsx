@@ -4,13 +4,17 @@ import type React from "react";
 
 import { Box, Lock, Search, Settings, Sparkles } from "lucide-react";
 import { GlowingEffect } from "@/components/ui/bento-grid";
+import BoldCopy from "@/components/ui/bold-copy";
 
 export default function GlowingEffectDemo() {
   return (
-    <div className="w-5em">
-      <h1 className="text-5xl md:text-6xl font-bold text-white mb-20 uppercase text-center">
-        Features
-      </h1>
+    <section id="features">
+      <BoldCopy
+        text="FEATURES"
+        textClassName="leading-none text-white"
+        backgroundTextClassName="leading-none text-gray-800 dark:text-gray-700"
+        className="bg-transparent"
+      />
       <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
         <GridItem
           area="md:[grid-area:2/1/2/4] xl:[grid-area:1/3/3/5]"
@@ -39,10 +43,9 @@ export default function GlowingEffectDemo() {
           description="Bite-sized coding modules designed for maximum retention and rapid skill acquisition, allowing you to master complex concepts in minutes rather than hours."
         />
       </ul>
-    </div>
+    </section>
   );
 }
-
 
 interface GridItemProps {
   area: string;
