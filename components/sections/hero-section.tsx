@@ -16,7 +16,7 @@ export default function HeroSection() {
               Learn development
             </h1>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00cfff] uppercase">
-              The fast way
+              The fun way
             </h2>
           </div>
           
@@ -28,10 +28,7 @@ export default function HeroSection() {
               Experience rapid skill acquisition inspired by the Zerg mentality.
             </p>
             <p>
-              Evolve your development abilities faster than traditional methods.
-            </p>
-            <p>
-              Join our growing hive of successful developers.
+              Join our growing hive of successful zerg developers!
             </p>
           </div>
 

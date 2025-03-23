@@ -33,8 +33,10 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center justify-center gap-10">
           <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">Blog</Link>
           <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">News</Link>
-          <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">About</Link>
-          <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">Donate</Link>
+          <Link href="#features" className="text-white text-sm hover:text-[#00cfff] transition-colors">Features</Link>
+          <Link href="#faq" className="text-white text-sm hover:text-[#00cfff] transition-colors">FAQ</Link>
+          <Link href="#about" className="text-white text-sm hover:text-[#00cfff] transition-colors">About</Link>
+          <Link href="#contact" className="text-white text-sm hover:text-[#00cfff] transition-colors">Contact</Link>
         </nav>
 
         {/* Right column - Social links and CTA */}
