@@ -7,10 +7,8 @@ import { TracingBeam } from "@/components/ui/tracing-beam"
 const inter = Inter({ subsets: ["latin"], display: "swap" })
 
 export const metadata: Metadata = {
-  title: "Hyprland - Modern Compositor",
-  description:
-    "Hyprland provides the latest Wayland features, dynamic tiling, all the eyecandy, powerful plugins and much more, while still being lightweight and responsive",
-    generator: 'v0.dev'
+  title: "Zerg Development",
+  description: "Supercharge development learning speed",
 }
 
 export default function RootLayout({
@@ -20,6 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+      </head>
       <body className={inter.className}>
         <TracingBeam className="fixed right-0 top-0 h-full w-[2px] bg-accent-border z-50 opacity-100" />
         {children}
@@ -27,7 +28,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-
-import './globals.css'
