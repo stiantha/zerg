@@ -52,8 +52,8 @@ const faq = [
     
     return (
       <AccordionItem value={`question-${index}`} className="w-full border-b border-gray-800">
-        <AccordionTrigger className="w-full py-4 flex justify-between items-center text-left">
-          <span className="inline-block text-sm font-medium text-white md:text-base">
+        <AccordionTrigger className="w-full py-3 sm:py-4 flex justify-between items-center text-left">
+          <span className="inline-block text-sm sm:text-base font-medium text-white">
             {item.question}
           </span>
         </AccordionTrigger>
@@ -62,7 +62,7 @@ const faq = [
         >
           <div 
             ref={contentRef}
-            className="text-gray-400 py-4 text-sm"
+            className="text-gray-400 py-3 sm:py-4 text-sm sm:text-base"
           >
             {item.answer}
           </div>
@@ -82,7 +82,7 @@ export default function FAQSection() {
       }}
     >
       <div className="absolute inset-0 left-1/2 z-0 aspect-square h-[120%] -translate-x-1/2 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 blur-3xl dark:from-gray-900 dark:to-teal-900" />
-      <section id="faq" className="mx-auto flex max-w-xl flex-col gap-4 py-16">
+      <section id="faq" className="mx-auto flex max-w-xl flex-col gap-4 py-8 sm:py-12 md:py-16">
         <BoldCopy
           text="FAQ"
           textClassName="leading-none text-white"

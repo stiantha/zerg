@@ -25,9 +25,9 @@ export default function TabletSection() {
   });
 
   return (
-    <section id="tablet" className="flex flex-col overflow-hidden">
+    <section id="tablet" className="flex flex-col overflow-visible">
       <ContainerScroll titleComponent={<></>}>
-        <div className="relative w-full h-full">
+        <div className="relative w-full">
           <Image
             src={Zerg}
             alt="hero"
@@ -35,7 +35,7 @@ export default function TabletSection() {
             width={1400}
             priority={true}
             quality={100}
-            className="mx-auto rounded-2xl object-cover h-full object-left-top"
+            className="mx-auto rounded-2xl object-cover object-left-top"
             draggable={false}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1400px"
           />

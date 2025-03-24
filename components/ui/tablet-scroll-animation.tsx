@@ -25,38 +25,38 @@ export const ContainerScroll = ({
   }, [])
 
   const scaleDimensions = () => {
-    return isMobile ? [0.6, 0.95] : [0.8, 1.5]
+    return isMobile ? [0.5, 0.8] : [1, 1.8]
   }
 
   const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [30, 15, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.7, 0.9, 1], [...scaleDimensions(), 122, 1])
-  const translate = useTransform(scrollYProgress, [0, 0.5, 0.8, 1], [0, -30, -70, -50])
-  const opacity = useTransform(scrollYProgress, [0, 1, 1, 1], [0.3, 1, 1, 1])
+  const scale = useTransform(scrollYProgress, [0, 0.7, 0.85, 1], [...scaleDimensions(), 1.6, 1.6])
+  const translate = useTransform(scrollYProgress, [0, 0.5, 0.8, 1], [0, -20, -50, -50])
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 1])
   const glow = useTransform(
     scrollYProgress,
     [0, 0.5, 0.8, 1],
     [
-      "0 0 20px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1), 0 0 20px rgba(0, 255, 255, 0.05)",
-      "0 0 30px rgba(0, 255, 255, 0.3), 0 0 30px rgba(0, 255, 255, 0.2), 0 0 30px rgba(0, 255, 255, 0.1)",
-      "0 0 50px rgba(0, 255, 255, 0.5), 0 0 50px rgba(0, 255, 255, 0.3), 0 0 50px rgba(0, 255, 255, 0.2)",
-      "0 0 40px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 255, 0.2), 0 0 40px rgba(0, 255, 255, 0.1)",
+      "0 0 20px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1)",
+      "0 0 30px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.3), 0 0 30px rgba(0, 255, 255, 0.2)",
+      "0 0 40px rgba(0, 255, 255, 0.6), 0 0 40px rgba(0, 255, 255, 0.4), 0 0 40px rgba(0, 255, 255, 0.3)",
+      "0 0 40px rgba(0, 255, 255, 0.6), 0 0 40px rgba(0, 255, 255, 0.4), 0 0 40px rgba(0, 255, 255, 0.3)",
     ]
   )
   
-  const translateZ = useTransform(scrollYProgress, [0, 0.5, 1], [-100, 0, 50])
+  const translateZ = useTransform(scrollYProgress, [0, 0.5, 0.85, 1], [-50, 0, 10, 10])
 
   return (
     <motion.div 
       ref={containerRef}
-      className="h-[70rem] md:h-[90rem] flex items-center justify-center p-10 md:p-32"
+      className="flex items-center justify-center p-2 xs:p-4 sm:p-6 md:p-8 lg:p-10 xl:p-16 overflow-visible"
       style={{ 
         position: "relative",
       }}
     >
       <div
-        className="w-full"
+        className="w-full overflow-visible"
         style={{
-          perspective: "2000px",
+          perspective: isMobile ? "1000px" : "2000px",
         }}
       >
         <Header 
@@ -87,7 +87,7 @@ export const Header = ({ translate, opacity, titleComponent }: any) => {
         translateY: translate,
         opacity: opacity,
       }}
-      className="div max-w-5xl mx-auto text-center"
+      className="div max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8"
     >
       {titleComponent}
     </motion.div>
@@ -124,7 +124,7 @@ export const Card = ({
         translateZ: translateZ,
         transition: "all 0.1s cubic-bezier(0.17, 0.55, 0.55, 1)",
       }}
-      className="max-w-5xl -mt-12 mx-auto h-[40rem] md:h-[40rem] w-full border-4 border-[#00ffff] p-1 rounded-[30px]"
+      className="max-w-5xl -mt-4 xs:-mt-6 sm:-mt-8 md:-mt-12 mx-auto h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem] w-full border-4 border-[#00ffff] p-1 rounded-[15px] sm:rounded-[20px] md:rounded-[30px] overflow-visible"
       whileInView={{
         transition: {
           duration: 0.5,

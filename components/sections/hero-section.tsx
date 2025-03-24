@@ -10,17 +10,17 @@ export default function HeroSection() {
   return (
     <section id="hero" className={`${inter.className} min-h-[80vh] flex items-center justify-center`}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white uppercase">
+        <div className="space-y-6 sm:space-y-8">
+          <div className="space-y-3 sm:space-y-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase">
               Learn development
             </h1>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#00cfff] uppercase">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#00cfff] uppercase">
               The fun way
             </h2>
           </div>
           
-          <div className="max-w-2xl mx-auto space-y-2 text-gray-300 text-base sm:text-lg">
+          <div className="max-w-2xl mx-auto space-y-2 text-gray-300 text-sm sm:text-base md:text-lg">
             <p>
               Master coding through our innovative game-based learning platform.
             </p>
@@ -32,16 +32,16 @@ export default function HeroSection() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center pt-4">
             <Link
               href="#features"
-              className="w-full sm:w-auto bg-[white] text-black px-8 py-3 rounded-md hover:bg-[#00cfff]/90 transition-colors font-medium text-base"
+              className="w-full sm:w-auto bg-[white] text-black px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:bg-[#00cfff]/90 transition-colors font-medium text-sm sm:text-base"
             >
               Explore
             </Link>
             <Link
               href="#get-started"
-              className="w-full sm:w-auto bg-transparent border-2 border-[#00cfff] text-[#00cfff] px-8 py-3 rounded-md hover:bg-[#00cfff]/10 transition-colors font-medium text-base"
+              className="w-full sm:w-auto bg-transparent border-2 border-[#00cfff] text-[#00cfff] px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:bg-[#00cfff]/10 transition-colors font-medium text-sm sm:text-base"
             >
               Get Started
             </Link>
