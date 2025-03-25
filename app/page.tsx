@@ -26,12 +26,14 @@ export default function Home() {
             <FeaturesSection />
           </div>
         </section>
-        <section className="min-h-screen flex items-center justify-center py-16 md:py-50">
+        <section className="min-h-screen flex items-center justify-center">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <FAQSection />
           </div>
         </section>
+        <section className="min-h-screen flex items-center justify-center py-16">
         <Footer />
+        </section>
       </main>
   );
 }
