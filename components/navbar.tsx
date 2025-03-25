@@ -55,6 +55,12 @@ export default function Navbar() {
             FAQ
           </Link>
           <Link
+            href="#pricing"
+            className="text-white hover:text-[#00cfff] transition-colors"
+          >
+            Pricing
+          </Link>
+          <Link
             href="#"
             className="text-white hover:text-[#00cfff] transition-colors"
           >

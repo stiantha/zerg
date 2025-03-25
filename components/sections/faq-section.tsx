@@ -53,7 +53,7 @@ const faq = [
     return (
       <AccordionItem value={`question-${index}`} className="w-full border-b border-gray-800">
         <AccordionTrigger className="w-full py-3 sm:py-4 flex justify-between items-center text-left">
-          <span className="inline-block text-sm sm:text-base font-medium text-white">
+          <span className="inline-block text-xl sm:text-xl font-medium text-white">
             {item.question}
           </span>
         </AccordionTrigger>
@@ -62,7 +62,7 @@ const faq = [
         >
           <div 
             ref={contentRef}
-            className="text-gray-400 py-3 sm:py-4 text-sm sm:text-base"
+            className="text-gray-300 py-3 sm:py-4 text-sm sm:text-xl"
           >
             {item.answer}
           </div>
@@ -82,24 +82,20 @@ export default function FAQSection() {
       }}
     >
       <div className="absolute inset-0 left-1/2 z-0 aspect-square h-[120%] -translate-x-1/2 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 blur-3xl dark:from-gray-900 dark:to-teal-900" />
-      <section id="faq" className="mx-auto flex max-w-xl flex-col gap-4 py-8 sm:py-12 md:py-20">
+      <div className="mx-auto flex max-w-xl flex-col gap-4 py-8 sm:py-12 md:py-20 min-h-screen">
         <BoldCopy
           text="FAQ"
           textClassName="leading-none text-white"
           backgroundTextClassName="leading-none text-gray-800 dark:text-gray-700"
-          className="bg-transparent mb-8 sm:mb-12"
+          className="bg-transparent mb-8 sm:mb-12 cursor-default"
         />
-
-        <div className="relative z-10 -mt-2 block text-center text-xs leading-none text-muted-foreground md:-mt-4 md:text-base">
-          
-        </div>
 
         <Accordion collapsible type="single" className="relative">
           {faq.map((_, index) => {
             return <FaqItem key={`item-${index}`} index={index} />;
           })}
         </Accordion>
-      </section>
+      </div>
     </div>
   );
 }

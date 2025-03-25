@@ -1,0 +1,95 @@
+"use client"
+
+import { cn } from "@/lib/utils"
+
+const pricingPlans = [
+  {
+    title: "MONTHLY MEMBERSHIP",
+    price: "14 € ",
+    originalPrice: "",
+    period: "/ month",
+    yearlyPrice: "",
+    description: "You want to test the waters",
+    isPopular: false,
+  },
+  {
+    title: "LIFETIME MEMBERSHIP",
+    price: "39 €",
+    originalPrice: "",
+    period: "",
+    monthlyPrice: "",
+    description: "You're committed to starting a career in coding and getting hired",
+    savings: "",
+    isPopular: true,
+  },
+  {
+    title: "UNIVERSITY",
+    price: "1000 €",
+    period: " / month",
+    source: "",
+    description: "Its becoming more common to rely on experience and knowledge in job interviews rather than a degree.", 
+    isPopular: false,
+  },
+]
+
+export default function PricingSection() {
+  return (
+    <div className="w-full">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Become a member</h2>
+        <p className="text-gray-400 text-lg">
+          Invest in your career and become a zerg developer
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        {pricingPlans.map((plan, index) => (
+          <div
+            key={plan.title}
+            className={cn(
+              "relative rounded-lg p-8 border border-[#1E2D3D] ",
+              plan.isPopular && "border-[#00a2ff]"
+            )}
+          >
+            {plan.isPopular && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00a2ff] text-black px-4 py-1 rounded-full text-sm font-medium">
+                Most Popular
+              </div>
+            )}
+            <div className="text-center mb-8">
+              <h3 className="text-gray-400 text-sm font-medium mb-6">{plan.title}</h3>
+              <div className="mb-1">
+                {plan.originalPrice && (
+                  <span className="text-gray-500 line-through text-sm mr-2">{plan.originalPrice}</span>
+                )}
+                <span className="text-4xl font-bold text-white">{plan.price}</span>
+                <span className="text-gray-400 text-sm">{plan.period}</span>
+              </div>
+              {plan.monthlyPrice && (
+                <div className="text-gray-400 text-sm">{plan.monthlyPrice}</div>
+              )}
+              {plan.yearlyPrice && (
+                <div className="text-gray-400 text-sm">{plan.yearlyPrice}</div>
+              )}
+            </div>
+            <div className="text-gray-300 text-center mb-6">{plan.description}</div>
+            {plan.savings && (
+              <div className="text-[#00FFAA] text-sm text-center italic">{plan.savings}</div>
+            )}
+            {plan.source && (
+              <div className="text-gray-500 text-sm text-center mt-2">{plan.source}</div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="text-center mt-8">
+        <p className="text-gray-400">
+        </p>
+        <button className="mt-8 bg-[#00a2ff] text-black font-medium px-8 py-3 rounded-full hover:opacity-90 transition-opacity cursor-pointer">
+          Get Started
+        </button>
+      </div>
+    </div>
+  )
+} 

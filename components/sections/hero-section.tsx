@@ -8,7 +8,7 @@ const inter = Inter({
 
 export default function HeroSection() {
   return (
-    <section id="hero" className={`${inter.className} min-h-[80vh] flex items-center justify-center`}>
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
         <div className="space-y-6 sm:space-y-8">
           <div className="space-y-3 sm:space-y-4">
@@ -48,6 +48,5 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
   );
 }

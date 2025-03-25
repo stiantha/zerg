@@ -25,7 +25,7 @@ export default function TabletSection() {
   });
 
   return (
-    <section id="tablet" className="flex flex-col overflow-visible">
+    <div className="flex flex-col overflow-visible">
       <ContainerScroll titleComponent={<></>}>
         <div className="relative w-full">
           <Image
@@ -41,6 +41,6 @@ export default function TabletSection() {
           />
         </div>
       </ContainerScroll>
-    </section>
+    </div>
   );
 }
