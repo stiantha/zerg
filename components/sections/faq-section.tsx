@@ -82,16 +82,16 @@ export default function FAQSection() {
       }}
     >
       <div className="absolute inset-0 left-1/2 z-0 aspect-square h-[120%] -translate-x-1/2 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 blur-3xl dark:from-gray-900 dark:to-teal-900" />
-      <section id="faq" className="mx-auto flex max-w-xl flex-col gap-4 py-8 sm:py-12 md:py-16">
+      <section id="faq" className="mx-auto flex max-w-xl flex-col gap-4 py-8 sm:py-12 md:py-20">
         <BoldCopy
           text="FAQ"
           textClassName="leading-none text-white"
           backgroundTextClassName="leading-none text-gray-800 dark:text-gray-700"
-          className="bg-transparent"
+          className="bg-transparent mb-8 sm:mb-12"
         />
 
         <div className="relative z-10 -mt-2 block text-center text-xs leading-none text-muted-foreground md:-mt-4 md:text-base">
-          You ask. We answer.
+          
         </div>
 
         <Accordion collapsible type="single" className="relative">

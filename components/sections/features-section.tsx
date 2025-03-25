@@ -9,6 +9,7 @@ import BoldCopy from "@/components/ui/bold-copy";
 export default function FeaturesSection() {
   return (
     <section id="features" className="w-full px-4 sm:px-6 lg:px-8">
+      
       <BoldCopy
         text="FEATURES"
         textClassName="leading-none text-white"

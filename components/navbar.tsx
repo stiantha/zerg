@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 backdrop-blur-md ${
         scrolled ? "bg-transparent py-3" : "bg-transparent py-3"
       }`}
     >
@@ -25,19 +25,23 @@ export default function Navbar() {
         {/* Left column - Logo */}
         <div className="flex items-center justify-start">
           <div className="flex items-center gap-2">
-            <span className="text-white font-medium">zerg.dev</span>
+            <Link
+              href="#"
+              className="text-white text-sm hover:text-[#00cfff] transition-colors"
+            >
+              zerg.dev
+            </Link>
           </div>
         </div>
 
         {/* Middle column - Navigation */}
-        <nav className="hidden md:flex items-center justify-center gap-10">
-          <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">Blog</Link>
-          <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">News</Link>
-          <Link href="#features" className="text-white text-sm hover:text-[#00cfff] transition-colors">Features</Link>
-          <Link href="#faq" className="text-white text-sm hover:text-[#00cfff] transition-colors">FAQ</Link>
-          <Link href="#about" className="text-white text-sm hover:text-[#00cfff] transition-colors">About</Link>
-          <Link href="#contact" className="text-white text-sm hover:text-[#00cfff] transition-colors">Contact</Link>
-        </nav>
+        <nav className="max-w-2xl mx-auto hidden items-end justify-end md:inline-flex gap-10 backdrop-blur-md px-6 py-2">
+  <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">Blog</Link>
+  <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">News</Link>
+  <Link href="#features" className="text-white text-sm hover:text-[#00cfff] transition-colors">Features</Link>
+  <Link href="#faq" className="text-white text-sm hover:text-[#00cfff] transition-colors">FAQ</Link>
+</nav>
+
 
         {/* Right column - Social links and CTA */}
         <div className="flex items-center justify-end gap-4">

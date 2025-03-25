@@ -8,19 +8,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Humans */}
           <div>
-            <h3 className="footer-heading">Team</h3>
+            <h3 className="footer-heading">Recent posts</h3>
             <ul className="space-y-2">
               <li className="footer-text">
-                stiantha{" "}
                 <span className="accent-text">
-                  [ Founder & Lead Developer ]
+                  [ React Clean Architecture ]
                 </span>
               </li>
               <li className="footer-text">
-                claude <span className="accent-text">[ Content Creator]</span>
+                <span className="accent-text">[ 19 Open Source Tools You Can Self-Host ]</span>
               </li>
               <li className="footer-text">
-                perplexity <span className="accent-text">[ R&D ]</span>
+                <span className="accent-text">[ 11 best open source tools for Software Architects ]</span>
               </li>
             </ul>
           </div>
@@ -31,17 +30,17 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="#" className="footer-link">
-                  Wiki
+                  Blog
                 </Link>
               </li>
               <li>
                 <Link href="#" className="footer-link">
-                  Get started
+                  About
                 </Link>
               </li>
               <li>
                 <Link href="#" className="footer-link">
-                  Hall of fame
+                  Contact
                 </Link>
               </li>
             </ul>

@@ -3,7 +3,6 @@ import HeroSection from "@/components/sections/hero-section";
 import FeaturesSection from "@/components/sections/features-section";
 import TabletSection from "@/components/sections/tablet-section";
 import FAQSection from "@/components/sections/faq-section";
-import PreviewSection from "@/components/sections/preview-section";
 import { InfiniteMovingCardsSection } from "@/components/infinite-moving-cards";
 import Footer from "@/components/footer";
 
@@ -34,19 +33,9 @@ export default function Home() {
             <FeaturesSection />
           </div>
         </section>
-        <section className="min-h-screen w-full flex items-center justify-center py-20 md:py-50">
-          <div className="w-full">
-            <PreviewSection />
-          </div>
-        </section>
         <section className="min-h-screen flex items-center justify-center py-16 md:py-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <FAQSection />
-          </div>
-        </section>
-        <section className="h-screen -mt-[20vh]">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Empty section content */}
           </div>
         </section>
         <Footer />
