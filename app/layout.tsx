@@ -22,7 +22,7 @@ export default function RootLayout({
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
       </head>
       <body className={inter.className}>
-        <TracingBeam className="fixed right-0 top-0 h-full w-[2px] bg-accent-border z-50 opacity-100" />
+        <TracingBeam className="fixed right-0 top-0 h-full bg-accent-border z-50 opacity-100" />
         {children}
       </body>
     </html>

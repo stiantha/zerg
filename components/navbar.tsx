@@ -17,34 +17,43 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 backdrop-blur-md ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled ? "bg-transparent py-3" : "bg-transparent py-3"
       }`}
     >
-      <div className="container mx-auto px-4 grid grid-cols-[1fr_3fr_1fr]">
-        {/* Left column - Logo */}
-        <div className="flex items-center justify-start">
-          <div className="flex items-center gap-2">
-            <Link
-              href="#"
-              className="text-white text-sm hover:text-[#00cfff] transition-colors"
-            >
-              zerg.dev
-            </Link>
-          </div>
-        </div>
+      <div className="flex justify-end items-center w-full px-6">
+        <Link
+          href="#"
+          className="text-white text-xl hover:text-[#00cfff] transition-colors mr-auto mx-5"
+        >
+          zerg.dev
+        </Link>
 
-        {/* Middle column - Navigation */}
-        <nav className="max-w-2xl mx-auto hidden items-end justify-end md:inline-flex gap-10 backdrop-blur-md px-6 py-2">
-  <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">Blog</Link>
-  <Link href="#" className="text-white text-sm hover:text-[#00cfff] transition-colors">News</Link>
-  <Link href="#features" className="text-white text-sm hover:text-[#00cfff] transition-colors">Features</Link>
-  <Link href="#faq" className="text-white text-sm hover:text-[#00cfff] transition-colors">FAQ</Link>
-</nav>
-
-
-        {/* Right column - Social links and CTA */}
-        <div className="flex items-center justify-end gap-4">
+        <nav className="hidden md:flex space-x-10 items-center">
+          <Link
+            href="#"
+            className="text-white hover:text-[#00cfff] transition-colors"
+          >
+            Blog
+          </Link>
+          <Link
+            href="#"
+            className="text-white hover:text-[#00cfff] transition-colors"
+          >
+            News
+          </Link>
+          <Link
+            href="#features"
+            className="text-white hover:text-[#00cfff] transition-colors"
+          >
+            Features
+          </Link>
+          <Link
+            href="#faq"
+            className="text-white hover:text-[#00cfff] transition-colors"
+          >
+            FAQ
+          </Link>
           <Link
             href="#"
             className="text-white hover:text-[#00cfff] transition-colors"
@@ -53,11 +62,11 @@ export default function Navbar() {
           </Link>
           <Link
             href="#"
-            className="bg-[#00cfff] text-black text-xs font-medium px-4 py-1.5 rounded-full hover:bg-[#00b8e6] transition-colors"
+            className="bg-[#00cfff] text-black text-xs font-medium px-5 py-1.5 mx-5 rounded-full hover:bg-[#00b8e6] transition-colors"
           >
             LOGIN
           </Link>
-        </div>
+        </nav>
       </div>
     </header>
   );

@@ -3,14 +3,12 @@ import HeroSection from "@/components/sections/hero-section";
 import FeaturesSection from "@/components/sections/features-section";
 import TabletSection from "@/components/sections/tablet-section";
 import FAQSection from "@/components/sections/faq-section";
-import { InfiniteMovingCardsSection } from "@/components/infinite-moving-cards";
 import Footer from "@/components/footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      <Navbar />
       <main className="flex-1 flex flex-col">
+      <Navbar />
         <section className="min-h-screen flex items-center justify-center py-16 md:py-24">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <HeroSection />
@@ -23,11 +21,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-        {/* <section className="h-screen flex items-center justify-center -mt-[45vh]">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <InfiniteMovingCardsSection />
-          </div>
-        </section> */}
         <section className="min-h-screen flex items-center justify-center py-20 md:py-50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <FeaturesSection />
@@ -40,6 +33,5 @@ export default function Home() {
         </section>
         <Footer />
       </main>
-    </div>
   );
 }
