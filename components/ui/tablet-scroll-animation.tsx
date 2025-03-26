@@ -25,26 +25,33 @@ export const ContainerScroll = ({
   }, [])
 
   const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1, 1.8]
+    return isMobile ? [0.8, 0.9] : [1, 1.8]
   }
 
   const rotate = useTransform(scrollYProgress, [0, 0.5, 1], 
-    isMobile ? [15, 8, 0] : [30, 15, 0]
+    isMobile ? [10, 5, 0] : [30, 15, 0]
   )
   const scale = useTransform(
     scrollYProgress, 
     [0, 0.7, 0.85, 1], 
-    [...scaleDimensions(), isMobile ? 1.2 : 1.6, isMobile ? 1.2 : 1.6]
+    [...scaleDimensions(), isMobile ? 1.1 : 1.6, isMobile ? 1.1 : 1.6]
   )
   const translate = useTransform(
     scrollYProgress, 
     [0, 0.5, 0.8, 1], 
-    isMobile ? [0, -10, -30, -30] : [0, -20, -50, -50]
+    isMobile ? [0, -5, -15, -15] : [0, -20, -50, -50]
   )
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 1])
   const glow = useTransform(
     scrollYProgress,
     [0, 0.5, 0.8, 1],
+    isMobile ? 
+    [
+      "0 0 10px rgba(0, 255, 255, 0.2)",
+      "0 0 15px rgba(0, 255, 255, 0.3)",
+      "0 0 20px rgba(0, 255, 255, 0.4)",
+      "0 0 20px rgba(0, 255, 255, 0.4)",
+    ] :
     [
       "0 0 20px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.1)",
       "0 0 30px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.3), 0 0 30px rgba(0, 255, 255, 0.2)",
@@ -56,21 +63,22 @@ export const ContainerScroll = ({
   const translateZ = useTransform(
     scrollYProgress, 
     [0, 0.5, 0.85, 1], 
-    isMobile ? [-20, 0, 5, 5] : [-50, 0, 10, 10]
+    isMobile ? [-10, 0, 2, 2] : [-50, 0, 10, 10]
   )
 
   return (
     <motion.div 
       ref={containerRef}
-      className="flex items-center justify-center p-2 xs:p-4 sm:p-6 md:p-8 lg:p-10 xl:p-16 w-full max-w-full overflow-hidden"
+      className="flex items-center justify-center w-full max-w-full overflow-hidden"
       style={{ 
         position: "relative",
+        padding: isMobile ? "0.5rem" : "1rem",
       }}
     >
       <div
         className="w-full max-w-full overflow-hidden"
         style={{
-          perspective: isMobile ? "500px" : "2000px",
+          perspective: isMobile ? "400px" : "2000px",
         }}
       >
         <Header 
@@ -102,7 +110,7 @@ export const Header = ({ translate, opacity, titleComponent }: any) => {
         translateY: translate,
         opacity: opacity,
       }}
-      className="div max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8 w-full overflow-hidden"
+      className="div max-w-5xl mx-auto text-center px-2 w-full overflow-hidden"
     >
       {titleComponent}
     </motion.div>
@@ -142,11 +150,11 @@ export const Card = ({
         transition: "all 0.1s cubic-bezier(0.17, 0.55, 0.55, 1)",
         maxWidth: "100%",
       }}
-      className={`max-w-5xl mx-auto ${
+      className={`mx-auto ${
         isMobile 
-          ? "-mt-2 h-[20rem] sm:h-[25rem]" 
-          : "-mt-4 xs:-mt-6 sm:-mt-8 md:-mt-12 h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem]"
-      } w-full border-4 border-[#00ffff] p-1 rounded-[15px] sm:rounded-[20px] md:rounded-[30px] overflow-hidden`}
+          ? "h-[15rem] sm:h-[20rem]" 
+          : "h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem]"
+      } w-full border-2 sm:border-4 border-[#00ffff] p-0.5 sm:p-1 rounded-xl overflow-hidden`}
       whileInView={{
         transition: {
           duration: 0.5,
@@ -157,16 +165,18 @@ export const Card = ({
       }}
     >
       <motion.div 
-        className="h-full w-full overflow-hidden rounded-xl relative"
+        className="h-full w-full overflow-hidden rounded-lg sm:rounded-xl relative"
         style={{
           background: "linear-gradient(180deg, rgba(0,255,255,0.03) 0%, rgba(0,0,0,0) 100%)",
         }}
       >
-        {/* Glow overlay */}
+        {/* Glow overlay - simplified for mobile */}
         <motion.div
           className="absolute inset-0 pointer-events-none overflow-hidden"
           style={{
-            background: "radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 100%)",
+            background: isMobile 
+              ? "radial-gradient(circle at center, rgba(0, 255, 255, 0.05) 0%, transparent 70%)"
+              : "radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 100%)",
             opacity: 1,
           }}
         />

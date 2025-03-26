@@ -53,7 +53,7 @@ const faq = [
     return (
       <AccordionItem value={`question-${index}`} className="w-full border-b border-gray-800">
         <AccordionTrigger className="w-full py-3 sm:py-4 flex justify-between items-center text-left">
-          <span className="inline-block text-xl sm:text-xl font-medium text-white">
+          <span className="inline-block text-lg sm:text-xl font-medium text-white">
             {item.question}
           </span>
         </AccordionTrigger>
@@ -62,7 +62,7 @@ const faq = [
         >
           <div 
             ref={contentRef}
-            className="text-gray-300 py-3 sm:py-4 text-sm sm:text-xl"
+            className="text-gray-300 py-3 sm:py-4 text-sm sm:text-base"
           >
             {item.answer}
           </div>
@@ -76,21 +76,18 @@ const faq = [
 export default function FAQSection() {
   return (
     <div
-      className="relative"
-      style={{
-        backgroundSize: "calc(10px) calc(10px)",
-      }}
+      className="relative w-full overflow-hidden"
     >
-      <div className="absolute inset-0 left-1/2 z-0 aspect-square h-[120%] -translate-x-1/2 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 blur-3xl dark:from-gray-900 dark:to-teal-900" />
-      <div className="mx-auto flex max-w-xl flex-col gap-4 py-8 sm:py-12 md:py-20 min-h-screen">
+      <div className="absolute inset-0 left-1/2 z-0 aspect-square h-[120%] -translate-x-1/2 rounded-full bg-gradient-to-br from-gray-900 to-teal-900 blur-3xl opacity-50" />
+      <div className="relative z-10 mx-auto flex flex-col gap-4 py-4 w-full max-w-xl">
         <BoldCopy
           text="FAQ"
           textClassName="leading-none text-white"
           backgroundTextClassName="leading-none text-gray-800 dark:text-gray-700"
-          className="bg-transparent mb-8 sm:mb-12 cursor-default"
+          className="bg-transparent mb-6 sm:mb-8 cursor-default"
         />
 
-        <Accordion collapsible type="single" className="relative">
+        <Accordion collapsible type="single" className="relative w-full">
           {faq.map((_, index) => {
             return <FaqItem key={`item-${index}`} index={index} />;
           })}
