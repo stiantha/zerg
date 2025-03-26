@@ -27,8 +27,8 @@ export default function Home() {
           <FeaturesSection />
         </div>
       </section>
-      <section id="faq" className="w-full flex items-center justify-center min-h-[85vh] md:h-screen py-16 md:py-0 relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-6xl w-full">
+      <section id="faq" className="w-full h-screen flex items-start justify-center md:pt-50 relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-7xl w-full">
           <FAQSection />
         </div>
       </section>
