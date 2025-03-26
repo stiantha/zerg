@@ -14,11 +14,18 @@ export const TracingBeam = ({
     offset: ["start start", "end end"]
   })
   const [height, setHeight] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setHeight(window.innerHeight)
-      const handleResize = () => setHeight(window.innerHeight)
+      setIsMobile(window.innerWidth <= 768)
+      
+      const handleResize = () => {
+        setHeight(window.innerHeight)
+        setIsMobile(window.innerWidth <= 768)
+      }
+      
       window.addEventListener('resize', handleResize)
       return () => window.removeEventListener('resize', handleResize)
     }
@@ -32,6 +39,25 @@ export const TracingBeam = ({
     stiffness: 500,
     damping: 90,
   })
+
+  if (isMobile) {
+    // Simplified version for mobile
+    return (
+      <motion.div 
+        ref={ref} 
+        className={cn("fixed right-0 top-0 opacity-50", className)}
+        style={{ width: 10, height: '100%' }}
+      >
+        <div 
+          className="h-full w-full" 
+          style={{ 
+            background: "linear-gradient(to bottom, rgba(24, 204, 252, 0.2), rgba(125, 75, 255, 0.2))",
+            borderLeft: "1px solid rgba(24, 204, 252, 0.3)" 
+          }}
+        />
+      </motion.div>
+    )
+  }
 
   return (
     <motion.div ref={ref} className={cn("fixed right-0 top-0", className)}>

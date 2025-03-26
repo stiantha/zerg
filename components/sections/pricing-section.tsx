@@ -5,29 +5,30 @@ import { cn } from "@/lib/utils"
 const pricingPlans = [
   {
     title: "MONTHLY MEMBERSHIP",
-    price: "14 € ",
+    price: "14 €",
     originalPrice: "",
-    period: "/ month",
+    period: " / month",
     yearlyPrice: "",
-    description: "You want to test the waters",
+    description: "Perfect for beginners who want to explore our platform and test the waters before making a long-term commitment.",
     isPopular: false,
-  },
-  {
+},
+{
     title: "LIFETIME MEMBERSHIP",
-    price: "39 €",
+    price: "48 €",
     originalPrice: "",
     period: "",
     monthlyPrice: "",
-    description: "You're committed to starting a career in coding and getting hired",
-    savings: "",
+    description: "Our best value option for those committed to building a career in coding. Includes all future updates with no recurring fees.",
+    savings: "Save over 120€ compared to 1 year of monthly payments",
     isPopular: true,
-  },
+},
+
   {
     title: "UNIVERSITY",
-    price: "1000 €",
-    period: " / month",
+    price: "10 000 €",
+    period: " / year",
     source: "",
-    description: "Its becoming more common to rely on experience and knowledge in job interviews rather than a degree.", 
+    description: "While official degrees remain valuable, many employers now place greater emphasis on practical experience and demonstrated knowledge when hiring candidates.",
     isPopular: false,
   },
 ]
@@ -36,7 +37,7 @@ export default function PricingSection() {
   return (
     <div className="w-full">
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Become a member</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Join the hive!</h2>
         <p className="text-gray-400 text-lg">
           Invest in your career and become a zerg developer
         </p>

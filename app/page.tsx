@@ -8,36 +8,36 @@ import Footer from "@/components/footer";
 
 export default function Home() {
   return (
-    <main className="flex-1 flex flex-col">
+    <main className="flex-1 flex flex-col w-full overflow-hidden">
       <Navbar />
-      <section id="hero" className="min-h-screen flex items-center justify-center py-16 md:py-24">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="hero" className="min-h-screen w-full flex items-center justify-center py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <HeroSection />
         </div>
       </section>
-      <section id="tablet" className="min-h-screen -mt-[20vh] md:-mt-[20vh] lg:-mt-[25vh] flex items-center justify-center py-16 md:py-24 overflow-visible relative z-10">
-        <div className="container-xl mx-auto px-12 sm:px-16 lg:px-24 overflow-visible">
-          <div className="max-w-[140%] w-[140%] -mx-[20%] overflow-visible">
+      <section id="tablet" className="min-h-screen w-full md:-mt-[20vh] lg:-mt-[25vh] flex items-center justify-center py-16 md:py-24 relative z-10 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="w-full md:max-w-full">
             <TabletSection />
           </div>
         </div>
       </section>
-      <section id="features" className="min-h-screen flex items-center justify-center py-20 md:py-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="features" className="min-h-screen w-full flex items-center justify-center py-10 md:py-0 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <FeaturesSection />
         </div>
       </section>
-      <section id="faq" className="min-h-screen flex items-center justify-center py-10 md:py-30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="faq" className="min-h-screen w-full flex items-center justify-center py-10 md:py-30 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <FAQSection />
         </div>
       </section>
-      <section id="pricing" className="min-h-screen flex items-center justify-center py-20 md:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="pricing" className="min-h-screen w-full flex items-center justify-center py-20 md:py-0 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <PricingSection />
         </div>
       </section>
-      <section className="min-h-screen flex items-center justify-center py-16">
+      <section className="min-h-screen w-full flex items-center justify-center py-16 overflow-hidden">
         <Footer />
       </section>
     </main>

@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ["latin"], display: "swap" })
 export const metadata: Metadata = {
   title: "Zerg Development",
   description: "Supercharge development learning speed",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 }
 
 export default function RootLayout({
@@ -17,12 +18,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <head>
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
-      <body className={inter.className}>
-        <TracingBeam className="fixed right-0 top-0 h-full bg-accent-border z-50 opacity-100" />
+      <body className={`${inter.className} min-h-screen overflow-x-hidden`}>
+        <TracingBeam className="fixed right-0 top-0 h-full bg-accent-border z-40 opacity-100" />
         {children}
       </body>
     </html>
