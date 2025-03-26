@@ -6,7 +6,7 @@ import PricingSection from "@/components/_landing/pricing-section";
 import FAQSection from "@/components/_landing/faq-section";
 import Footer from "@/components/footer";
 
-export default function Home() {
+export default function LandingPage() {
   return (
     <main className="flex-1 flex flex-col w-full overflow-x-hidden">
       <Navbar />

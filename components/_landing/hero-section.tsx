@@ -94,7 +94,7 @@ export default function HeroSection() {
             animate="visible"
             custom={1}
           >
-            The fun way
+            The ZERG way
           </motion.h2>
         </div>
         
@@ -107,9 +107,6 @@ export default function HeroSection() {
         >
           <p>
             Master coding through our innovative game-based learning platform.
-          </p>
-          <p>
-            Experience rapid skill acquisition inspired by the Zerg mentality.
           </p>
           <p>
             Join our growing hive of successful zerg developers!
@@ -146,7 +143,7 @@ export default function HeroSection() {
               href="#get-started"
               className="w-full sm:w-auto bg-transparent border-2 border-[#00cfff] text-[#00cfff] px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:bg-[#00cfff]/10 transition-colors font-medium text-sm sm:text-base block"
             >
-              Get Started
+              DEMO
             </Link>
           </motion.div>
         </motion.div>

@@ -53,7 +53,7 @@ export default function PricingSection() {
             )}
           >
             {plan.isPopular && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#00a2ff] text-black px-4 py-1 rounded-full text-sm font-medium">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0e1b22] text-[#00a2ff] px-4 py-1 rounded-lg text-sm font-medium">
                 Most Popular
               </div>
             )}
@@ -84,12 +84,14 @@ export default function PricingSection() {
         ))}
       </div>
 
-      <div className="px-4 py-1.5 text-center mt-8 sm:mt-10">
-      <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x inline-block">
-            <button className="px-6 py-1.5 bg-[#042f3d]/90 backdrop-blur-md rounded-full text-white text-sm font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
-              Get Started
+      <div className="px-4 py-1.5 text-center mt-8 sm:mt-25">
+      <div className="p-[2px] rounded-lg bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x inline-block">
+            <button className="px-15 py-4 bg-[#092f3d]/90 backdrop-blur-md rounded-lg text-white text-sm font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
+              ENTER HIVE
             </button>
+            
           </div>
+          
       </div>
     </div>
   )

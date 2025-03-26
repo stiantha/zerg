@@ -21,6 +21,29 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  reactStrictMode: true,
+  async rewrites() {
+    return [
+      // Rewrite section URLs to the homepage
+      {
+        source: '/features',
+        destination: '/',
+      },
+      {
+        source: '/pricing',
+        destination: '/',
+      },
+      {
+        source: '/faq',
+        destination: '/',
+      },
+      {
+        source: '/news',
+        destination: '/',
+      },
+      // Add any other section URLs you have
+    ];
+  },
 }
 
 mergeConfig(nextConfig, userConfig)

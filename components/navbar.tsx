@@ -5,29 +5,21 @@ import Link from "next/link";
 import { Github } from "lucide-react";
 import { 
   FaHome, 
-  FaLaptopCode, 
-  FaUser, 
-  FaBriefcase, 
-  FaGraduationCap, 
   FaCode,
   FaDollarSign, 
-  FaEnvelope, 
   FaBars,
   FaExclamation,
   FaQuestion,
   FaPaperPlane,
-  FaMoneyBill,
   FaTimes
 } from "react-icons/fa";
 import { useRoute } from '@/hooks/use-route';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("hero");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { handleRouteChange, currentPath } = useRoute();
+  const { handleRouteChange, activeSection } = useRoute();
 
-  // Navigation links (without GitHub)
   const navLinks = [
     { id: "hero", icon: FaHome, text: "Home", path: "/" },
     { id: "features", icon: FaCode, text: "Features", path: "/features" },
@@ -62,7 +54,14 @@ export default function Navbar() {
       <div className="hidden md:flex items-center justify-between px-8 py-3">
         {/* Left Section - Logo */}
         <div className="flex-none w-[180px]">
-          <Link href="#" className="text-[var(--text-primary)] font-bold text-xl hover:text-[var(--accent-color)] transition-colors">
+          <Link 
+            href="/" 
+            onClick={(e) => {
+              e.preventDefault();
+              handleRouteChange('/');
+            }}
+            className="text-[var(--text-primary)] font-bold text-xl hover:text-[var(--accent-color)] transition-colors"
+          >
             zerg.dev
           </Link>
         </div>
@@ -79,22 +78,13 @@ export default function Navbar() {
                     onClick={(e) => {
                       e.preventDefault();
                       handleRouteChange(path);
-                      setActiveLink(id);
                     }}
                     className={`px-4 py-1.5 rounded-md text-sm font-medium
                       transition-all duration-300 flex items-center gap-2 
-                      ${
-                        activeLink === id
-                          ? "text-[var(--text-primary)]"
-                          : "text-[var(--text-secondary)] hover:text-[var(--accent-color)]"
-                      }
+                      ${activeSection === id ? "text-[var(--accent-color)]" : "text-[var(--text-secondary)]"}
                     `}
                   >
-                    <Icon
-                      className={`text-base ${
-                        activeLink === id ? "scale-110 text-[var(--accent-color)]" : ""
-                      }`}
-                    />
+                    <Icon className={`text-base${activeSection === id ? " scale-110" : ""}`} />
                     <span className="inline">{text}</span>
                   </Link>
                 ))}
@@ -103,7 +93,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right Section - GitHub + Login */}
+        {/* Right Section - Login */}
         <div className="flex-none w-[180px] flex justify-end gap-6">
           <button className="px-6 py-3 bg-none rounded-md text-[var(--text-primary)] text-sm font-medium transition-all duration-300 hover:text-[var(--accent-color)]">
             LOGIN
@@ -114,18 +104,23 @@ export default function Navbar() {
       {/* Mobile Navigation */}
       <div className="md:hidden">
         <div className={`flex justify-between items-center px-5 py-3 ${scrolled ? 'bg-[var(--background-end)]/80 backdrop-blur-md shadow-lg' : ''} transition-all duration-300`}>
-          <Link href="#" className="text-[var(--text-primary)] font-bold text-xl">
+          <Link 
+            href="/" 
+            onClick={(e) => {
+              e.preventDefault();
+              handleRouteChange('/');
+            }}
+            className="text-[var(--text-primary)] font-bold text-xl"
+          >
             zerg.dev
           </Link>
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative z-50 text-[var(--text-primary)] p-2 rounded-md hover:bg-[var(--accent-color-transparent)] hover:text-[var(--accent-color)] transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <FaTimes className="text-lg" /> : <FaBars className="text-lg" />}
-            </button>
-          </div>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="relative z-50 text-[var(--text-primary)] p-2 rounded-md hover:bg-[var(--accent-color-transparent)] hover:text-[var(--accent-color)] transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <FaTimes className="text-lg" /> : <FaBars className="text-lg" />}
+          </button>
         </div>
 
         {/* Mobile Menu - Fullscreen overlay */}
@@ -140,18 +135,14 @@ export default function Navbar() {
                     onClick={(e) => {
                       e.preventDefault();
                       handleRouteChange(path);
-                      setActiveLink(id);
+                      setIsMenuOpen(false);
                     }}
                     className={`px-4 py-3 rounded-lg text-base font-medium
                       transition-all duration-300 flex items-center gap-3
-                      ${
-                        activeLink === id
-                          ? "bg-[var(--accent-color-transparent)] text-[var(--text-primary)]"
-                          : "text-[var(--text-secondary)] hover:text-[var(--accent-color)] hover:bg-[var(--accent-color-transparent)]"
-                      }
+                      ${activeSection === id ? "text-[var(--accent-color)]" : "text-[var(--text-secondary)]"}
                     `}
                   >
-                    <Icon className={`text-xl ${activeLink === id ? "text-[var(--accent-color)]" : ""}`} />
+                    <Icon className={`text-xl ${activeSection === id ? "text-[var(--accent-color)]" : ""}`} />
                     <span>{text}</span>
                   </Link>
                 ))}

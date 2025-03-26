@@ -66,7 +66,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-4 border-t border-[#0c7068] text-center text-xs text-text-secondary">
+        <div className="mt-12 pt-4 border-t border-[#ffffff] text-center text-xs text-text-secondary">
           <p>© Zerg Development 2025.</p>
         </div>
       </div>

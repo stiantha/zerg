@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { TracingBeam } from "@/components/ui/tracing-beam"
@@ -9,7 +9,12 @@ const inter = Inter({ subsets: ["latin"], display: "swap" })
 export const metadata: Metadata = {
   title: "Zerg Development",
   description: "Supercharge development learning speed",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({
@@ -21,7 +26,6 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
       <body className={`${inter.className} min-h-screen overflow-x-hidden`}>
         <TracingBeam className="fixed right-0 top-0 h-full bg-accent-border z-40 opacity-100" />

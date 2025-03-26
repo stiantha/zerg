@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import Navbar from "@/components/navbar";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import type { Metadata, Viewport } from 'next'
 
 interface BlogPost {
   title: string;
@@ -21,11 +22,8 @@ export default function BlogPage() {
   const posts: BlogPost[] = []; 
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="fixed inset-x-0 top-0 z-50">
-        <Navbar/>
-      </div>
-      <main className="flex-1 flex flex-col w-full mt-20">
+    <main className="flex-1 flex flex-col w-full overflow-x-hidden">
+      <Navbar />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-6xl w-full py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -91,6 +89,5 @@ export default function BlogPage() {
           </motion.div>
         </div>
       </main>
-    </div>
   );
 } 
