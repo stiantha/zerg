@@ -19,7 +19,7 @@ const pricingPlans = [
     period: "",
     monthlyPrice: "",
     description: "Our best value option for those committed to building a career in coding. Includes all future updates with no recurring fees.",
-    savings: "Save over 120€ compared to 1 year of monthly payments",
+    savings: "Save 120€ compared to one year of monthly payments",
     isPopular: true,
 },
 
@@ -28,7 +28,7 @@ const pricingPlans = [
     price: "10 000 €",
     period: " / year",
     source: "",
-    description: "While official degrees remain valuable, many employers now place greater emphasis on practical experience and demonstrated knowledge when hiring candidates.",
+    description: "While official degrees remain valuable, many employers now place greater emphasis on practical experience and knowledge.",
     isPopular: false,
   },
 ]
@@ -84,10 +84,12 @@ export default function PricingSection() {
         ))}
       </div>
 
-      <div className="text-center mt-8 sm:mt-10">
-        <button className="mt-4 sm:mt-8 bg-[#00a2ff] text-black font-medium px-6 sm:px-8 py-2.5 sm:py-3 rounded-full hover:opacity-90 transition-opacity cursor-pointer">
-          Get Started
-        </button>
+      <div className="px-4 py-1.5 text-center mt-8 sm:mt-10">
+      <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x inline-block">
+            <button className="px-6 py-1.5 bg-[#042f3d]/90 backdrop-blur-md rounded-full text-white text-sm font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
+              Get Started
+            </button>
+          </div>
       </div>
     </div>
   )

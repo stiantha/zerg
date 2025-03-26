@@ -20,8 +20,18 @@ import {
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("home");
+  const [activeLink, setActiveLink] = useState("hero");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Navigation links (without GitHub)
+  const navLinks = [
+    { id: "hero", icon: FaHome, text: "Home", path: "#hero" },
+    { id: "features", icon: FaCode, text: "Features", path: "#features" },
+    { id: "faq", icon: FaQuestion, text: "FAQ", path: "#faq" },
+    { id: "pricing", icon: FaMoneyBill, text: "Pricing", path: "#pricing" },
+    { id: "blog", icon: FaLaptopCode, text: "Blog", path: "#" },
+    { id: "news", icon: FaNewspaper, text: "News", path: "#" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +39,53 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Setup intersection observer to track visible sections
+  useEffect(() => {
+    const sectionIds = ["hero", "tablet", "features", "faq", "pricing"];
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.35, // At least 35% of the section must be visible
+    };
+    
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Get the section id and update active link
+          const sectionId = entry.target.getAttribute("id");
+          
+          // Only update if it's a section we track in the navbar
+          if (sectionId && navLinks.some(link => link.id === sectionId)) {
+            setActiveLink(sectionId);
+          } else if (sectionId === "tablet") {
+            // If tablet section is visible, keep Hero active
+            setActiveLink("hero");
+          }
+        }
+      });
+    };
+    
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    
+    // Observe each section
+    sectionIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+    
+    return () => {
+      sectionIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          observer.unobserve(element);
+        }
+      });
+    };
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -42,16 +99,6 @@ export default function Navbar() {
       document.body.style.overflow = 'unset';
     };
   }, [isMenuOpen]);
-
-  // Navigation links (without GitHub)
-  const navLinks = [
-    { id: "home", icon: FaHome, text: "Home", path: "#" },
-    { id: "features", icon: FaCode, text: "Features", path: "#features" },
-    { id: "faq", icon: FaQuestion, text: "FAQ", path: "#faq" },
-    { id: "pricing", icon: FaMoneyBill, text: "Pricing", path: "#pricing" },
-    { id: "blog", icon: FaLaptopCode, text: "Blog", path: "#" },
-    { id: "news", icon: FaNewspaper, text: "News", path: "#" },
-  ];
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50`}>
@@ -79,14 +126,14 @@ export default function Navbar() {
                       hover:bg-white/10 
                       ${
                         activeLink === id
-                          ? "bg-white/15 text-white"
+                          ? " text-white"
                           : "text-gray-300 hover:text-[#00cfff]"
                       }
                     `}
                   >
                     <Icon
                       className={`text-base ${
-                        activeLink === id ? "scale-110" : ""
+                        activeLink === id ? "scale-110 text-[#00cfff]" : ""
                       }`}
                     />
                     <span className="inline">{text}</span>
@@ -100,14 +147,16 @@ export default function Navbar() {
         {/* Right Section - GitHub + Login */}
         <div className="flex-none w-[180px] flex items-center justify-end gap-6">
           <Link 
-            href="#" 
+            href="https://github.com/stiantha/zerg" 
             className="text-white hover:text-[#00cfff] transition-colors"
           >
             <Github className="h-5 w-5" />
           </Link>
-          <button className="relative box-border inline-flex h-12 cursor-pointer touch-manipulation items-center justify-center overflow-hidden whitespace-nowrap rounded-md border-0 bg-gradient-to-r from-sky-500 to-blue-600 px-4 font-mono leading-none text-white no-underline shadow-[rgba(45,35,66,0.4)_0_2px_4px,rgba(45,35,66,0.3)_0_7px_13px_-3px,rgba(58,65,111,0.5)_0_-3px_0_inset] transition-all duration-150 ease-in-out hover:-translate-y-0.5 hover:shadow-[rgba(45,35,66,0.4)_0_4px_8px,rgba(45,35,66,0.3)_0_7px_13px_-3px,#3c4fe0_0_-3px_0_inset] focus:shadow-[#3c4fe0_0_0_0_1.5px_inset,rgba(45,35,66,0.4)_0_2px_4px,rgba(45,35,66,0.3)_0_7px_13px_-3px,#3c4fe0_0_-3px_0_inset] active:translate-y-0.5 active:shadow-[#3c4fe0_0_3px_7px_inset]" role="button">
-            LOGIN
-          </button>
+          <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x">
+            <button className="px-4 py-1.5 bg-[#042f3d]/90 backdrop-blur-md rounded-full text-white text-sm font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
+              LOGIN
+            </button>
+          </div>
         </div>
       </div>
 
@@ -156,9 +205,11 @@ export default function Navbar() {
                 ))}
               </div>
               <div className="mt-auto pt-6 border-t border-white/10">
-                <button className="w-full relative box-border inline-flex h-14 cursor-pointer touch-manipulation items-center justify-center overflow-hidden whitespace-nowrap rounded-md border-0 bg-gradient-to-r from-sky-500 to-blue-600 px-4 font-mono text-base leading-none text-white no-underline shadow-[rgba(45,35,66,0.4)_0_2px_4px,rgba(45,35,66,0.3)_0_7px_13px_-3px,rgba(58,65,111,0.5)_0_-3px_0_inset] transition-all duration-150 ease-in-out hover:-translate-y-0.5 hover:shadow-[rgba(45,35,66,0.4)_0_4px_8px,rgba(45,35,66,0.3)_0_7px_13px_-3px,#3c4fe0_0_-3px_0_inset] focus:shadow-[#3c4fe0_0_0_0_1.5px_inset,rgba(45,35,66,0.4)_0_2px_4px,rgba(45,35,66,0.3)_0_7px_13px_-3px,#3c4fe0_0_-3px_0_inset] active:translate-y-0.5 active:shadow-[#3c4fe0_0_3px_7px_inset]" role="button">
-                  LOGIN
-                </button>
+                <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x">
+                  <button className="w-full h-12 bg-[#042f3d]/90 backdrop-blur-md rounded-full px-4 text-white text-base font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
+                    LOGIN
+                  </button>
+                </div>
               </div>
             </nav>
           </div>
