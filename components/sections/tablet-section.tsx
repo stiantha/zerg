@@ -20,7 +20,6 @@ export default function TabletSection() {
     };
   }, []);
 
-  // Preload the image manually
   const imageProps = {
     src: Zerg,
     alt: "Zerg Hero Image",
@@ -50,7 +49,7 @@ export default function TabletSection() {
               width={isMobile ? 900 : 1400}
               priority={true}
               quality={90}
-              className="mx-auto object-cover w-full h-full"
+              className="mx-auto object-cover w-full h-full rounded-xl"
               draggable={false}
               sizes="(max-width: 640px) 95vw, (max-width: 768px) 95vw, (max-width: 1200px) 80vw, 1400px"
               style={{ 

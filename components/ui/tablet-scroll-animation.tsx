@@ -161,7 +161,7 @@ export const Card = ({
         isMobile 
           ? "h-[22rem]" 
           : "h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem]"
-      } w-full border-2 sm:border-4 border-[#00ffff] p-0.5 sm:p-1 rounded-xl`}
+      } w-full border-2 sm:border-4 border-[#00ffff] rounded-xl`}
       whileInView={{
         transition: {
           duration: 0.5,

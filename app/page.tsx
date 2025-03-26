@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <main className="flex-1 flex flex-col w-full overflow-x-hidden">
       <Navbar />
-      <section id="hero" className="w-full flex items-center justify-center min-h-[95vh] py-16 md:py-20 xl:py-20">
+      <section id="hero" className="w-full flex items-center justify-center min-h-[93vh] py-16 md:py-20 xl:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-6xl w-full">
           <HeroSection />
         </div>

@@ -9,11 +9,13 @@ import {
   FaUser, 
   FaBriefcase, 
   FaGraduationCap, 
-  FaCode, 
+  FaCode,
+  FaDollarSign, 
   FaEnvelope, 
   FaBars,
-  FaNewspaper,
+  FaExclamation,
   FaQuestion,
+  FaPaperPlane,
   FaMoneyBill,
   FaTimes
 } from "react-icons/fa";
@@ -28,9 +30,9 @@ export default function Navbar() {
     { id: "hero", icon: FaHome, text: "Home", path: "#hero" },
     { id: "features", icon: FaCode, text: "Features", path: "#features" },
     { id: "faq", icon: FaQuestion, text: "FAQ", path: "#faq" },
-    { id: "pricing", icon: FaMoneyBill, text: "Pricing", path: "#pricing" },
-    { id: "blog", icon: FaLaptopCode, text: "Blog", path: "#" },
-    { id: "news", icon: FaNewspaper, text: "News", path: "#" },
+    { id: "pricing", icon: FaDollarSign, text: "Pricing", path: "#pricing" },
+    { id: "blog", icon: FaPaperPlane, text: "Blog", path: "#" },
+    { id: "news", icon: FaExclamation, text: "News", path: "#" },
   ];
 
   useEffect(() => {
@@ -41,27 +43,24 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Setup intersection observer to track visible sections
   useEffect(() => {
     const sectionIds = ["hero", "tablet", "features", "faq", "pricing"];
     
     const observerOptions = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.35, // At least 35% of the section must be visible
+      threshold: 0.35, 
     };
     
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Get the section id and update active link
+
           const sectionId = entry.target.getAttribute("id");
           
-          // Only update if it's a section we track in the navbar
           if (sectionId && navLinks.some(link => link.id === sectionId)) {
             setActiveLink(sectionId);
           } else if (sectionId === "tablet") {
-            // If tablet section is visible, keep Hero active
             setActiveLink("hero");
           }
         }
@@ -70,7 +69,6 @@ export default function Navbar() {
     
     const observer = new IntersectionObserver(observerCallback, observerOptions);
     
-    // Observe each section
     sectionIds.forEach(id => {
       const element = document.getElementById(id);
       if (element) {
@@ -88,7 +86,6 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -103,7 +100,7 @@ export default function Navbar() {
   return (
     <header className={`fixed top-0 left-0 w-full z-50`}>
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center justify-between px-8 py-4">
+      <div className="hidden md:flex items-center justify-between px-8 py-2.6">
         {/* Left Section - Logo */}
         <div className="flex-none w-[180px]">
           <Link href="#" className="text-white font-bold text-xl hover:text-[#00cfff] transition-colors">
@@ -113,8 +110,8 @@ export default function Navbar() {
 
         {/* Middle Section - Navigation (absolute positioning to ensure it's always centered) */}
         <div className="absolute left-1/2 -translate-x-1/2">
-          <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x">
-            <nav className="bg-[#042f3d]/90 backdrop-blur-md rounded-full px-6 py-2">
+          <div className="p-[2px] bg-gradient-to-r from-[#045a4e] via-[#093d3f] to-[#035c54] animate-gradient-x">
+            <nav className="bg-[#042f3d]/90 backdrop-blur-md px-6 py-2">
               <div className="flex items-center gap-1">
                 {navLinks.map(({ id, icon: Icon, text, path }) => (
                   <Link
@@ -122,18 +119,17 @@ export default function Navbar() {
                     href={path}
                     onClick={() => setActiveLink(id)}
                     className={`px-3 py-1.5 rounded-full text-sm font-medium
-                      transition-all duration-300 flex items-center gap-2
-                      hover:bg-white/10 
+                      transition-all duration-300 flex items-center gap-2 
                       ${
                         activeLink === id
                           ? " text-white"
-                          : "text-gray-300 hover:text-[#00cfff]"
+                          : "text-gray-300 hover:text-[#07d9e0]"
                       }
                     `}
                   >
                     <Icon
                       className={`text-base ${
-                        activeLink === id ? "scale-110 text-[#00cfff]" : ""
+                        activeLink === id ? "scale-110 text-[#07d9e0]" : ""
                       }`}
                     />
                     <span className="inline">{text}</span>
@@ -146,16 +142,12 @@ export default function Navbar() {
 
         {/* Right Section - GitHub + Login */}
         <div className="flex-none w-[180px] flex items-center justify-end gap-6">
-          <Link 
-            href="https://github.com/stiantha/zerg" 
-            className="text-white hover:text-[#00cfff] transition-colors"
-          >
-            <Github className="h-5 w-5" />
-          </Link>
-          <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x">
-            <button className="px-4 py-1.5 bg-[#042f3d]/90 backdrop-blur-md rounded-full text-white text-sm font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
-              LOGIN
-            </button>
+          <div className="p-[2px] bg-gradient-to-r from-[#045a4e] via-[#093d3f] to-[#035c54] animate-gradient-x">
+            <div className="bg-[#042f3d]/90 backdrop-blur-md px-6 py-1.5">
+              <span className="text-white text-sm font-medium hover:text-[#07d9e0] cursor-pointer transition-all duration-300">
+                LOGIN
+              </span>
+            </div>
           </div>
         </div>
       </div>
