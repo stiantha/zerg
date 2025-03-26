@@ -72,7 +72,6 @@ body {
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
-  overflow-x: hidden;
 }
 
 .section {
@@ -80,7 +79,11 @@ body {
   padding-bottom: var(--section-spacing);
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+}
+
+/* Preserve 3D transformations for animation components */
+.preserve-3d {
+  transform-style: preserve-3d;
 }
 
 .grid-background {
@@ -140,7 +143,7 @@ body {
   }
 
   .accent-text {
-    @apply text-[var(--accent-color)];
+    @apply text-[var(--accent-color)] text-sm;
   }
 }
 

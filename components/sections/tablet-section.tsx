@@ -24,7 +24,7 @@ export default function TabletSection() {
   const imageProps = {
     src: Zerg,
     alt: "Zerg Hero Image",
-    height: 720,
+    height: 1020,
     width: 1400,
     priority: true,
   };
@@ -39,15 +39,15 @@ export default function TabletSection() {
   });
 
   return (
-    <div className="flex flex-col w-full overflow-hidden max-w-full">
-      <div className="w-full max-w-full overflow-hidden">
+    <div className="flex flex-col w-full max-w-full">
+      <div className="w-full max-w-full">
         <ContainerScroll titleComponent={<></>}>
-          <div className="relative w-full h-full overflow-hidden rounded-xl">
+          <div className="relative w-full h-full rounded-xl">
             <Image
               src={Zerg}
               alt="Zerg Hero Image"
-              height={isMobile ? 400 : 720}
-              width={isMobile ? 800 : 1400}
+              height={isMobile ? 800 : 1200}
+              width={isMobile ? 900 : 1400}
               priority={true}
               quality={90}
               className="mx-auto object-cover w-full h-full"
@@ -57,7 +57,7 @@ export default function TabletSection() {
                 objectFit: 'cover', 
                 objectPosition: isMobile ? 'center' : 'left top',
                 maxWidth: '100%',
-                maxHeight: isMobile ? '300px' : '100%',
+                maxHeight: '100%',
                 borderRadius: '0.75rem'
               }}
             />

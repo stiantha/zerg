@@ -57,9 +57,7 @@ const faq = [
             {item.question}
           </span>
         </AccordionTrigger>
-        <AccordionContent 
-          className="overflow-hidden transition-all duration-300 ease-in-out"
-        >
+        <AccordionContent>
           <div 
             ref={contentRef}
             className="text-gray-300 py-3 sm:py-4 text-sm sm:text-base"
@@ -75,9 +73,7 @@ const faq = [
 
 export default function FAQSection() {
   return (
-    <div
-      className="relative w-full overflow-hidden"
-    >
+    <div className="relative w-full">
       <div className="absolute inset-0 left-1/2 z-0 aspect-square h-[120%] -translate-x-1/2 rounded-full bg-gradient-to-br from-gray-900 to-teal-900 blur-3xl opacity-50" />
       <div className="relative z-10 mx-auto flex flex-col gap-4 py-4 w-full max-w-xl">
         <BoldCopy
@@ -87,7 +83,11 @@ export default function FAQSection() {
           className="bg-transparent mb-6 sm:mb-8 cursor-default"
         />
 
-        <Accordion collapsible type="single" className="relative w-full">
+        <Accordion 
+          collapsible 
+          type="single" 
+          className="relative w-full"
+        >
           {faq.map((_, index) => {
             return <FaqItem key={`item-${index}`} index={index} />;
           })}

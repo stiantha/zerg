@@ -57,7 +57,7 @@ export default function FeaturesSection() {
           />
         </motion.div>
         
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 lg:grid-rows-[repeat(8,minmax(5rem,auto))]">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 lg:grid-rows-[repeat(6,minmax(5rem,auto))]">
         <motion.div 
           className="lg:col-span-5 lg:row-span-3"
           variants={itemVariants}

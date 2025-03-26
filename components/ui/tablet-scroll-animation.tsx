@@ -29,17 +29,17 @@ export const ContainerScroll = ({
   }
 
   const rotate = useTransform(scrollYProgress, [0, 0.5, 1], 
-    isMobile ? [10, 5, 0] : [30, 15, 0]
+    isMobile ? [5, 2, 0] : [20, 10, 0]
   )
   const scale = useTransform(
     scrollYProgress, 
     [0, 0.7, 0.85, 1], 
-    [...scaleDimensions(), isMobile ? 1.1 : 1.6, isMobile ? 1.1 : 1.6]
+    [...scaleDimensions(), isMobile ? 1.05 : 1.4, isMobile ? 1.05 : 1.4]
   )
   const translate = useTransform(
     scrollYProgress, 
     [0, 0.5, 0.8, 1], 
-    isMobile ? [0, -5, -15, -15] : [0, -20, -50, -50]
+    isMobile ? [0, -5, -10, -10] : [0, -15, -30, -30]
   )
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 1])
   const glow = useTransform(
@@ -63,43 +63,47 @@ export const ContainerScroll = ({
   const translateZ = useTransform(
     scrollYProgress, 
     [0, 0.5, 0.85, 1], 
-    isMobile ? [-10, 0, 2, 2] : [-50, 0, 10, 10]
+    isMobile ? [-5, 0, 2, 2] : [-30, 0, 10, 10]
   )
 
   return (
-    <motion.div 
-      ref={containerRef}
-      className="flex items-center justify-center w-full max-w-full overflow-hidden"
-      style={{ 
-        position: "relative",
-        padding: isMobile ? "0.5rem" : "1rem",
-      }}
-    >
-      <div
-        className="w-full max-w-full overflow-hidden"
-        style={{
-          perspective: isMobile ? "400px" : "2000px",
+    <div className="w-full flex justify-center" style={{ margin: "0 auto", transformStyle: "preserve-3d" }}>
+      <motion.div 
+        ref={containerRef}
+        className="w-full flex items-center justify-center"
+        style={{ 
+          position: "relative",
+          padding: isMobile ? "0.5rem" : "1rem",
+          transformStyle: "preserve-3d"
         }}
       >
-        <Header 
-          translate={translate} 
-          opacity={opacity} 
-          titleComponent={titleComponent} 
-        />
-        <Card 
-          rotate={rotate} 
-          translate={translate} 
-          translateZ={translateZ}
-          scale={scale} 
-          opacity={opacity}
-          glow={glow}
-          scrollYProgress={scrollYProgress}
-          isMobile={isMobile}
+        <div
+          className="w-full"
+          style={{
+            perspective: isMobile ? "400px" : "2000px",
+            transformStyle: "preserve-3d"
+          }}
         >
-          {children}
-        </Card>
-      </div>
-    </motion.div>
+          <Header 
+            translate={translate} 
+            opacity={opacity} 
+            titleComponent={titleComponent} 
+          />
+          <Card 
+            rotate={rotate} 
+            translate={translate} 
+            translateZ={translateZ}
+            scale={scale} 
+            opacity={opacity}
+            glow={glow}
+            scrollYProgress={scrollYProgress}
+            isMobile={isMobile}
+          >
+            {children}
+          </Card>
+        </div>
+      </motion.div>
+    </div>
   )
 }
 
@@ -109,8 +113,9 @@ export const Header = ({ translate, opacity, titleComponent }: any) => {
       style={{
         translateY: translate,
         opacity: opacity,
+        transformStyle: "preserve-3d"
       }}
-      className="div max-w-5xl mx-auto text-center px-2 w-full overflow-hidden"
+      className="div max-w-5xl mx-auto text-center px-2 w-full"
     >
       {titleComponent}
     </motion.div>
@@ -149,12 +154,14 @@ export const Card = ({
         translateZ: translateZ,
         transition: "all 0.1s cubic-bezier(0.17, 0.55, 0.55, 1)",
         maxWidth: "100%",
+        willChange: "transform",
+        transformStyle: "preserve-3d"
       }}
       className={`mx-auto ${
         isMobile 
-          ? "h-[15rem] sm:h-[20rem]" 
+          ? "h-[22rem]" 
           : "h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem]"
-      } w-full border-2 sm:border-4 border-[#00ffff] p-0.5 sm:p-1 rounded-xl overflow-hidden`}
+      } w-full border-2 sm:border-4 border-[#00ffff] p-0.5 sm:p-1 rounded-xl`}
       whileInView={{
         transition: {
           duration: 0.5,
@@ -165,14 +172,15 @@ export const Card = ({
       }}
     >
       <motion.div 
-        className="h-full w-full overflow-hidden rounded-lg sm:rounded-xl relative"
+        className="h-full w-full rounded-lg sm:rounded-xl relative"
         style={{
           background: "linear-gradient(180deg, rgba(0,255,255,0.03) 0%, rgba(0,0,0,0) 100%)",
+          transformStyle: "preserve-3d"
         }}
       >
         {/* Glow overlay - simplified for mobile */}
         <motion.div
-          className="absolute inset-0 pointer-events-none overflow-hidden"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background: isMobile 
               ? "radial-gradient(circle at center, rgba(0, 255, 255, 0.05) 0%, transparent 70%)"
