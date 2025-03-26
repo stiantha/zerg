@@ -100,36 +100,36 @@ export default function Navbar() {
   return (
     <header className={`fixed top-0 left-0 w-full z-50`}>
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center justify-between px-8 py-2.6">
+      <div className="hidden md:flex items-center justify-between px-8 py-3">
         {/* Left Section - Logo */}
         <div className="flex-none w-[180px]">
-          <Link href="#" className="text-white font-bold text-xl hover:text-[#00cfff] transition-colors">
+          <Link href="#" className="text-[var(--text-primary)] font-bold text-xl hover:text-[var(--accent-color)] transition-colors">
             zerg.dev
           </Link>
         </div>
 
         {/* Middle Section - Navigation (absolute positioning to ensure it's always centered) */}
         <div className="absolute left-1/2 -translate-x-1/2">
-          <div className="p-[2px] bg-gradient-to-r from-[#045a4e] via-[#093d3f] to-[#035c54] animate-gradient-x">
-            <nav className="bg-[#042f3d]/90 backdrop-blur-md px-6 py-2">
-              <div className="flex items-center gap-1">
+          <div className="p-[2px] rounded-md">
+            <nav className="bg-black/30 backdrop-blur-md px-6 py-2 rounded-md">
+              <div className="flex items-center gap-2">
                 {navLinks.map(({ id, icon: Icon, text, path }) => (
                   <Link
                     key={id}
                     href={path}
                     onClick={() => setActiveLink(id)}
-                    className={`px-3 py-1.5 rounded-full text-sm font-medium
+                    className={`px-4 py-1.5 rounded-md text-sm font-medium
                       transition-all duration-300 flex items-center gap-2 
                       ${
                         activeLink === id
-                          ? " text-white"
-                          : "text-gray-300 hover:text-[#07d9e0]"
+                          ? "text-[var(--text-primary)]"
+                          : "text-[var(--text-secondary)] hover:text-[var(--accent-color)]"
                       }
                     `}
                   >
                     <Icon
                       className={`text-base ${
-                        activeLink === id ? "scale-110 text-[#07d9e0]" : ""
+                        activeLink === id ? "scale-110 text-[var(--accent-color)]" : ""
                       }`}
                     />
                     <span className="inline">{text}</span>
@@ -141,27 +141,23 @@ export default function Navbar() {
         </div>
 
         {/* Right Section - GitHub + Login */}
-        <div className="flex-none w-[180px] flex items-center justify-end gap-6">
-          <div className="p-[2px] bg-gradient-to-r from-[#045a4e] via-[#093d3f] to-[#035c54] animate-gradient-x">
-            <div className="bg-[#042f3d]/90 backdrop-blur-md px-6 py-1.5">
-              <span className="text-white text-sm font-medium hover:text-[#07d9e0] cursor-pointer transition-all duration-300">
-                LOGIN
-              </span>
-            </div>
-          </div>
+        <div className="flex-none w-[180px] flex justify-end gap-6">
+          <button className="px-6 py-3 bg-none rounded-md text-[var(--text-primary)] text-sm font-medium transition-all duration-300 hover:text-[var(--accent-color)]">
+            LOGIN
+          </button>
         </div>
       </div>
 
       {/* Mobile Navigation */}
       <div className="md:hidden">
-        <div className={`flex justify-between items-center px-4 py-3 `}>
-          <Link href="#" className="text-white font-bold text-xl">
+        <div className={`flex justify-between items-center px-5 py-3 ${scrolled ? 'bg-[var(--background-end)]/80 backdrop-blur-md shadow-lg' : ''} transition-all duration-300`}>
+          <Link href="#" className="text-[var(--text-primary)] font-bold text-xl">
             zerg.dev
           </Link>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative z-50 text-white p-2 rounded-md hover:bg-white/10 transition-colors"
+              className="relative z-50 text-[var(--text-primary)] p-2 rounded-md hover:bg-[var(--accent-color-transparent)] hover:text-[var(--accent-color)] transition-colors"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <FaTimes className="text-lg" /> : <FaBars className="text-lg" />}
@@ -171,7 +167,7 @@ export default function Navbar() {
 
         {/* Mobile Menu - Fullscreen overlay */}
         {isMenuOpen && (
-          <div className="fixed inset-0 z-40 bg-[#021a24]/95 backdrop-blur-md flex flex-col pt-20 pb-8 px-6 overflow-y-auto">
+          <div className="fixed inset-0 z-40 bg-[var(--background-end)]/95 backdrop-blur-md flex flex-col pt-20 pb-8 px-6 overflow-y-auto">
             <nav>
               <div className="flex flex-col gap-3 mb-6">
                 {navLinks.map(({ id, icon: Icon, text, path }) => (
@@ -186,42 +182,25 @@ export default function Navbar() {
                       transition-all duration-300 flex items-center gap-3
                       ${
                         activeLink === id
-                          ? "bg-white/15 text-white"
-                          : "text-gray-300 hover:text-[#00cfff] hover:bg-white/5"
+                          ? "bg-[var(--accent-color-transparent)] text-[var(--text-primary)]"
+                          : "text-[var(--text-secondary)] hover:text-[var(--accent-color)] hover:bg-[var(--accent-color-transparent)]"
                       }
                     `}
                   >
-                    <Icon className={`text-xl ${activeLink === id ? "text-[#00cfff]" : ""}`} />
+                    <Icon className={`text-xl ${activeLink === id ? "text-[var(--accent-color)]" : ""}`} />
                     <span>{text}</span>
                   </Link>
                 ))}
               </div>
-              <div className="mt-auto pt-6 border-t border-white/10">
-                <div className="p-[2px] rounded-full bg-gradient-to-r from-[#00cfff] via-[#00b8e6] to-[#0099cc] animate-gradient-x">
-                  <button className="w-full h-12 bg-[#042f3d]/90 backdrop-blur-md rounded-full px-4 text-white text-base font-medium transition-all duration-300 hover:bg-[#042f3d]/70 hover:text-[#00cfff]">
-                    LOGIN
-                  </button>
-                </div>
+              <div className="mt-auto pt-6 border-t border-[var(--border-subtle)]">
+                <button className="w-full py-2 px-4 bg-black/30 backdrop-blur-md rounded-md text-[var(--text-primary)] text-base font-medium transition-all duration-300 hover:bg-[var(--accent-color-transparent)] hover:text-[var(--accent-color)]">
+                  LOGIN
+                </button>
               </div>
             </nav>
           </div>
         )}
       </div>
-
-      <style jsx>{`
-        @keyframes gradient-x {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-        .animate-gradient-x {
-          animation: gradient-x 3s linear infinite;
-          background-size: 200% 200%;
-        }
-      `}</style>
     </header>
   );
 }

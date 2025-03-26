@@ -25,7 +25,7 @@ export const ContainerScroll = ({
   }, [])
 
   const scaleDimensions = () => {
-    return isMobile ? [0.8, 0.9] : [1, 1.8]
+    return isMobile ? [0.8, 0.9] : [1, 1.4]
   }
 
   const rotate = useTransform(scrollYProgress, [0, 0.5, 1], 
@@ -34,7 +34,7 @@ export const ContainerScroll = ({
   const scale = useTransform(
     scrollYProgress, 
     [0, 0.7, 0.85, 1], 
-    [...scaleDimensions(), isMobile ? 1.05 : 1.4, isMobile ? 1.05 : 1.4]
+    [...scaleDimensions(), isMobile ? 1.05 : 1.2, isMobile ? 1.05 : 1.2]
   )
   const translate = useTransform(
     scrollYProgress, 
@@ -159,8 +159,8 @@ export const Card = ({
       }}
       className={`mx-auto ${
         isMobile 
-          ? "h-[22rem]" 
-          : "h-[25rem] sm:h-[30rem] md:h-[35rem] lg:h-[40rem]"
+          ? "h-[26rem]" 
+          : "h-[30rem] sm:h-[35rem] md:h-[40rem] lg:h-[45rem]"
       } w-full border-2 sm:border-4 border-[#00ffff] rounded-xl`}
       whileInView={{
         transition: {

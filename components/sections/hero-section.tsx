@@ -1,5 +1,11 @@
 "use client";
+"use client";
 
+import { ContainerScroll } from "@/components/ui/tablet-scroll-animation";
+import { preload } from "react-dom";
+import Image, { getImageProps } from "next/image";
+import Zerg from "../../public/zerg-splash.jpeg";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -38,8 +44,38 @@ export default function HeroSection() {
     }
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  const imageProps = {
+    src: Zerg,
+    alt: "Zerg Hero Image",
+    height: 1020,
+    width: 1400,
+    priority: true,
+  };
+
+  const { props: transformedProps } = getImageProps(imageProps);
+
+  preload(transformedProps.src, {
+    as: "image",
+    imageSrcSet: transformedProps.srcSet,
+    imageSizes: transformedProps.sizes,
+    fetchPriority: transformedProps.fetchPriority,
+  });
+
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center items-center justify-center">
       <div className="space-y-6 sm:space-y-8">
         <div className="space-y-3 sm:space-y-4">
           <motion.h1 

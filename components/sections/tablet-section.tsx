@@ -23,8 +23,6 @@ export default function TabletSection() {
   const imageProps = {
     src: Zerg,
     alt: "Zerg Hero Image",
-    height: 1020,
-    width: 1400,
     priority: true,
   };
 
@@ -38,7 +36,7 @@ export default function TabletSection() {
   });
 
   return (
-    <div className="flex flex-col w-full max-w-full">
+    <div className="flex flex-col w-full max-w-full items-end justify-end mx-0">
       <div className="w-full max-w-full">
         <ContainerScroll titleComponent={<></>}>
           <div className="relative w-full h-full rounded-xl">
