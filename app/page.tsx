@@ -1,9 +1,9 @@
 import Navbar from "@/components/navbar";
-import HeroSection from "@/components/sections/hero-section";
-import FeaturesSection from "@/components/sections/features-section";
-import TabletSection from "@/components/sections/tablet-section";
-import PricingSection from "@/components/sections/pricing-section";
-import FAQSection from "@/components/sections/faq-section";
+import HeroSection from "@/components/_landing/hero-section";
+import FeaturesSection from "@/components/_landing/features-section";
+import TabletSection from "@/components/_landing/tablet-section";
+import PricingSection from "@/components/_landing/pricing-section";
+import FAQSection from "@/components/_landing/faq-section";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
           <FeaturesSection />
         </div>
       </section>
-      <section id="faq" className="w-full h-screen flex items-start justify-center md:pt-50 relative">
+      <section id="faq" className="w-full h-screen flex items-center justify-center relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-7xl w-full">
           <FAQSection />
         </div>
@@ -44,4 +44,4 @@ export default function Home() {
       </section>
     </main>
   );
-}
+} 

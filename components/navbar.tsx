@@ -19,20 +19,22 @@ import {
   FaMoneyBill,
   FaTimes
 } from "react-icons/fa";
+import { useRoute } from '@/hooks/use-route';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState("hero");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { handleRouteChange, currentPath } = useRoute();
 
   // Navigation links (without GitHub)
   const navLinks = [
-    { id: "hero", icon: FaHome, text: "Home", path: "#hero" },
-    { id: "features", icon: FaCode, text: "Features", path: "#features" },
-    { id: "faq", icon: FaQuestion, text: "FAQ", path: "#faq" },
-    { id: "pricing", icon: FaDollarSign, text: "Pricing", path: "#pricing" },
-    { id: "blog", icon: FaPaperPlane, text: "Blog", path: "#" },
-    { id: "news", icon: FaExclamation, text: "News", path: "#" },
+    { id: "hero", icon: FaHome, text: "Home", path: "/" },
+    { id: "features", icon: FaCode, text: "Features", path: "/features" },
+    { id: "faq", icon: FaQuestion, text: "FAQ", path: "/faq" },
+    { id: "pricing", icon: FaDollarSign, text: "Pricing", path: "/pricing" },
+    { id: "blog", icon: FaPaperPlane, text: "Blog", path: "/blog" },
+    { id: "news", icon: FaExclamation, text: "News", path: "/news" },
   ];
 
   useEffect(() => {
@@ -41,49 +43,6 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const sectionIds = ["hero", "tablet", "features", "faq", "pricing"];
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.35, 
-    };
-    
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-
-          const sectionId = entry.target.getAttribute("id");
-          
-          if (sectionId && navLinks.some(link => link.id === sectionId)) {
-            setActiveLink(sectionId);
-          } else if (sectionId === "tablet") {
-            setActiveLink("hero");
-          }
-        }
-      });
-    };
-    
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    
-    sectionIds.forEach(id => {
-      const element = document.getElementById(id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-    
-    return () => {
-      sectionIds.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-          observer.unobserve(element);
-        }
-      });
-    };
   }, []);
 
   useEffect(() => {
@@ -117,7 +76,11 @@ export default function Navbar() {
                   <Link
                     key={id}
                     href={path}
-                    onClick={() => setActiveLink(id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleRouteChange(path);
+                      setActiveLink(id);
+                    }}
                     className={`px-4 py-1.5 rounded-md text-sm font-medium
                       transition-all duration-300 flex items-center gap-2 
                       ${
@@ -174,9 +137,10 @@ export default function Navbar() {
                   <Link
                     key={id}
                     href={path}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleRouteChange(path);
                       setActiveLink(id);
-                      setIsMenuOpen(false);
                     }}
                     className={`px-4 py-3 rounded-lg text-base font-medium
                       transition-all duration-300 flex items-center gap-3
